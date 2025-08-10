@@ -21,7 +21,8 @@ Dentro de la carpeta donde clonen el repositorio, ejecuten:
 
 Cada vez que realicen cambios en la estructura de datos, hay que ejecutar:
 
-- python manage.py runserver
+- python manage.py makemigrations
+- python manage.py migrate
 
 
 
