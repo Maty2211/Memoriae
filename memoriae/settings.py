@@ -37,7 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app',
+    'calendario',
+    'evento',
+    'flashcard',
+    'login',
+    'mascota',
+    'perfil',
+    'pomodoro',
+    'to_do_list',
 ]
 
 MIDDLEWARE = [
