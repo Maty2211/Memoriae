@@ -6,19 +6,20 @@ Dentro de la carpeta donde clonen el repositorio, ejecuten:
 
 2) Luego de crearlo:
 
-- .\env\Scripts\activate
+- .\env\Scripts\activate (Windows)
+- source env/bin/activate (Linux)
 
 
 3) Ahora instalar Django:
 
 - pip install Django
-
+- py -m pip Django
 
 4) Para correr la aplicación:
 
 - python manage.py runserver
 
-
+python manage.py runserver
 Cada vez que realicen cambios en la estructura de datos, hay que ejecutar:
 
 - python manage.py runserver
