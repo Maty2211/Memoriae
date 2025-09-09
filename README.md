@@ -10,15 +10,25 @@ Dentro de la carpeta donde clonen el repositorio, ejecuten:
 - source env/bin/activate (Linux)
 
 
-3) Ahora instalar Django:
+3) Ahora instalar Django y django rest framework:
 
-- pip install Django
+- pip install Django djangorestframework
 
+verifico la instalacion
+- python -m django --version
+- pip show djangorestframework
 
 4) Para correr la aplicación:
 
 - python manage.py runserver
 
+5) Instalar react y dependencias:
+
+- sudo apt install nodejs npm -y
+
+6) Ejecucion del front con vite:
+
+- npm run dev
 
 Cada vez que realicen cambios en la estructura de datos, hay que ejecutar:
 
