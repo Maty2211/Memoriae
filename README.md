@@ -22,9 +22,10 @@ verifico la instalacion
 
 - python manage.py runserver
 
-5) Instalar react y dependencias: (instalarlo dentro de la carpeta del front)
+5) Instalar react y dependencias: (instalarlo dentro de la carpeta del frontend)
 
 - sudo apt install nodejs npm -y
+_ npm install 
 
 6) Ejecucion del front con vite:
 
