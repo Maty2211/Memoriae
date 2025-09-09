@@ -25,7 +25,7 @@ verifico la instalacion
 5) Instalar react y dependencias: (instalarlo dentro de la carpeta del frontend)
 
 - sudo apt install nodejs npm -y
-_ npm install 
+- npm install 
 
 6) Ejecucion del front con vite:
 
