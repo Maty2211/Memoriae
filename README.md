@@ -6,7 +6,8 @@ Dentro de la carpeta donde clonen el repositorio, ejecuten:
 
 2) Luego de crearlo:
 
-- .\env\Scripts\activate
+- .\env\Scripts\activate (Windows)
+- source env/bin/activate (Linux)
 
 
 3) Ahora instalar Django:
