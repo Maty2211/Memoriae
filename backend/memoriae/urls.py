@@ -20,13 +20,13 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('home.urls')),
-    path('calendario/', include('calendario.urls')),
-    path('evento/', include('evento.urls')),
-    path('flashcard/', include('flashcard.urls')),
-    path('login/', include('login.urls')),
-    path('mascota/', include('mascota.urls')),
-    path('perfil/', include('perfil.urls')),
-    path('pomodoro/', include('pomodoro.urls')),
-    path('to_do_list/', include('to_do_list.urls')),
+    path('', include('apps.home.urls')),
+    path('calendario/', include('apps.calendario.urls')),
+    path('evento/', include('apps.evento.urls')),
+    path('flashcard/', include('apps.flashcard.urls')),
+    path('login/', include('apps.login.urls')),
+    path('mascota/', include('apps.mascota.urls')),
+    path('perfil/', include('apps.perfil.urls')),
+    path('pomodoro/', include('apps.pomodoro.urls')),
+    path('to_do_list/', include('apps.to_do_list.urls')),
 ]
