@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+from decouple import config
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,15 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'home',
-    'calendario',
-    'evento',
-    'flashcard',
-    'login',
-    'mascota',
-    'perfil',
-    'pomodoro',
-    'to_do_list',
+    'apps.home.apps.HomeConfig',
+    'apps.calendario.apps.CalendarioConfig',
+    'apps.evento.apps.EventosConfig',
+    'apps.flashcard.apps.FlashcardConfig',
+    'apps.login.apps.AppConfig',
+    'apps.mascota.apps.MascotaConfig',
+    'apps.perfil.apps.PerfilConfig',
+    'apps.pomodoro.apps.PomodoroConfig',
+    'apps.to_do_list.apps.ToDoListConfig',
 ]
 
 MIDDLEWARE = [
@@ -82,9 +83,13 @@ WSGI_APPLICATION = 'memoriae.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config('DB_NAME'),
+        "USER": config('DB_USER'),
+        "PASSWORD": config('DB_PASSWORD'),
+        "HOST": config('DB_HOST', default='localhost'),
+        "PORT": config('DB_PORT', default='5432'),
     }
 }
 

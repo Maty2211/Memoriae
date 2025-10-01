@@ -36,5 +36,14 @@ Cada vez que realicen cambios en la estructura de datos, hay que ejecutar:
 - python manage.py makemigrations
 - python manage.py migrate
 
+7) Luego de instalar postgreSQL, instalar el conector de python dentro del entorno virtual:
 
+- pip install psycopg2-binary
+
+8)Instalar la librería para leer datos de entorno:
+
+- pip install python-decouple
+- pip show python-decouple
+
+9) Incluir un archivo llamado .env, a la altura de README.md, con la misma estructura de env.example. Reemplazar los valores de las variables por los datos de conexión de la base de datos local.
 

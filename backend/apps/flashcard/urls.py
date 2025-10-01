@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
-from . import views
+from .views import GrupoFlashcardList
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('groups/', GrupoFlashcardList.as_view(), name='flashcard-groups'),
 ]
