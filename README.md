@@ -46,6 +46,3 @@ Cada vez que realicen cambios en la estructura de datos, hay que ejecutar:
 
 9) Incluir un archivo llamado .env, a la altura de README.md, con la misma estructura de env.example. Reemplazar los valores de las variables por los datos de conexión de la base de datos local.
 
-
-
-
