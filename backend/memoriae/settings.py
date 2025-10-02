@@ -27,9 +27,17 @@ SECRET_KEY = 'django-insecure-1@2dyv@tvj0@qmjx_n(bgg(+=ycq(3ev92rlzkivj(95%2&t$m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
-
+ALLOWED_HOSTS = [
+    "localhost", "127.0.0.1"
+]
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
+CORS_ALLOW_CREDENTIALS = True #Para las cookies
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,26 +47,98 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "django.contrib.sites", 
+    
+    "rest_framework",
+    "rest_framework.authtoken",
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
+    
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    
+    "corsheaders",
+    
     'apps.home.apps.HomeConfig',
     'apps.calendario.apps.CalendarioConfig',
     'apps.evento.apps.EventosConfig',
     'apps.flashcard.apps.FlashcardConfig',
-    'apps.login.apps.AppConfig',
+    'apps.login.apps.LoginConfig',
     'apps.mascota.apps.MascotaConfig',
     'apps.perfil.apps.PerfilConfig',
     'apps.pomodoro.apps.PomodoroConfig',
     'apps.to_do_list.apps.ToDoListConfig',
 ]
 
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
+ACCOUNT_LOGIN_METHODS = {"email"}  # solo email para login
+ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]  # campos del registro
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = "optional"
+SITE_ID = 1
+
+REST_AUTH_SERIALIZERS = {
+    "USER_DETAILS_SERIALIZER": "apps.login.serializers.UserMeSerializer",
+}
+REST_AUTH_REGISTER_SERIALIZERS = {
+    "REGISTER_SERIALIZER": "apps.login.serializers.CustomRegisterSerializer"
+}
+
+
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "allauth.account.middleware.AccountMiddleware",  
+
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",]
+
+#Front en vite con cors/csrf
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]
+CSRF_COOKIE_SAMESITE = "Lax"   
+SESSION_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_HTTPONLY = False  # para leerla y mandarla como X-CSRFToken
+#DRF Y JWT en cookies
+REST_USE_JWT = True
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
+    ),
+}
+
+from datetime import timedelta
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "AUTH_HEADER_TYPES": ("Bearer",),
+}
+
+JWT_AUTH_COOKIE = "access"
+JWT_AUTH_REFRESH_COOKIE = "refresh"
+JWT_AUTH_HTTPONLY = True
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # dev
 
 ROOT_URLCONF = 'memoriae.urls'
 
@@ -93,7 +173,6 @@ DATABASES = {
         "PORT": config('DB_PORT', default='5432'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -131,10 +210,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static/',
-    'var/www/static/',
-]
+STATICFILES_DIRS = []
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

@@ -16,7 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from . import views
+from django.http import JsonResponse
+from django.views.decorators.csrf import ensure_csrf_cookie
+
+@ensure_csrf_cookie
+def csrf(request):  # setea la cookie 'csrftoken'
+    return JsonResponse({"detail": "CSRF cookie set"})
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +34,7 @@ urlpatterns = [
     path('perfil/', include('apps.perfil.urls')),
     path('pomodoro/', include('apps.pomodoro.urls')),
     path('to_do_list/', include('apps.to_do_list.urls')),
+    path("dj-rest-auth/", include("dj_rest_auth.urls")),
+    path("dj-rest-auth/registration/", include("dj_rest_auth.registration.urls")),
+    path("api/csrf/", csrf),
 ]
