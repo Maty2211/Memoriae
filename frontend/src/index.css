@@ -66,3 +66,17 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.grid-stack {
+  width: 100%;
+  min-height: 80vh; /* Dale una altura mínima para que ocupe espacio */
+  background-color: #252222; /* Ayuda visual */
+}

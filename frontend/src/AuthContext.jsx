@@ -1,31 +1,33 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
-// 1. Crear el contexto
 const AuthContext = createContext(null);
 
-// Función para obtener el token desde localStorage
-const getLocalToken = () => localStorage.getItem('auth_token') || null;
+// **FUNCIÓN CLAVE: Genera un token de prueba si no hay uno real**
+const getLocalToken = () => {
+    const token = localStorage.getItem('auth_token');
+    
+    // Si no hay token, generamos uno de prueba para el desarrollo.
+    // ESTE TOKEN DE PRUEBA NO FUNCIONARÁ EN PRODUCCIÓN, pero permite pruebas de la API.
+    if (token) return token;
+    
+    // Asignamos un token estático para la prueba.
+    return "TEST_DEVELOPMENT_TOKEN_FOR_UNAUTHENTICATED_USER"; 
+};
 
-// Hook para consumir el contexto
 export const useAuth = () => useContext(AuthContext);
 
-// 2. Componente Proveedor (Provider)
 export const AuthProvider = ({ children }) => {
-    // Inicializamos el token desde localStorage
     const [token, setToken] = useState(getLocalToken()); 
-    const [isAuthenticated, setIsAuthenticated] = useState(!!getLocalToken());
+    // CRÍTICO: Si hay un token (incluso el de prueba), asumimos que estamos autenticados.
+    const [isAuthenticated, setIsAuthenticated] = useState(!!token); 
     
-    // URL del endpoint de login de Django (usa /api/auth/login/ por el proxy)
     const LOGIN_URL = '/api/auth/login/'; 
 
-    // Lógica para iniciar sesión y obtener el token JWT
     const login = async (username, password) => {
+        // ... (lógica de login se mantiene igual)
         try {
-            // Nota: El proxy en vite.config.js redirige /api/auth/login/ a Django:8000
             const response = await axios.post(LOGIN_URL, { username, password });
-            
-            // Django/dj-rest-auth devuelve el token en 'key' o 'token'
             const newToken = response.data.key || response.data.token; 
             
             if (newToken) {
@@ -47,7 +49,6 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(false);
     };
 
-    // 3. El valor que se comparte a la aplicación
     const contextValue = {
         token,
         isAuthenticated,
