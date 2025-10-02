@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   
   // 1. Fuerza la ruta base a la ubicación actual (./) para evitar errores 404 de enrutamiento.
-  base: './', 
+  //base: './', 
 
   server: {
     port: 3000, // Aseguramos que se use el puerto 3000
