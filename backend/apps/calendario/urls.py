@@ -1,7 +1,10 @@
-from django.contrib import admin
-from django.urls import path
-from . import views
+from django.urls import path, include
+from rest_framework import routers
+from calendario import views
+
+router = routers.DefaultRouter()
+router.register(r'calendario', views.EventView, 'calendario')
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('api/v1/', include(router.urls))
 ]

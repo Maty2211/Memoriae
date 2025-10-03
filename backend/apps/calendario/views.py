@@ -1,4 +1,9 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .serializer import TaskSerializer
+from .models import Event
 
-def home(request):
-    return render(request, 'index.html', {})
+# Create your views here.
+
+class EventView(viewsets.ModelViewSet):
+    serializer_class = TaskSerializer
+    queryset = Event.objects.all()
