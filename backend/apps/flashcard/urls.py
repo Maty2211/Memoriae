@@ -1,7 +1,10 @@
-from django.contrib import admin
-from django.urls import path
-from .views import GrupoFlashcardList
+from rest_framework.routers import DefaultRouter
+from .views import GrupoFlashcardsList , Flashcard , FlashcardViewSet
 
-urlpatterns = [
-    path('groups/', GrupoFlashcardList.as_view(), name='flashcard-groups'),
-]
+router = DefaultRouter()
+router.register(r'grupoFlashcards', GrupoFlashcardsList)
+#router.register(r'flashcard', Flashcard)
+router.register(r'grupoFlashcards/(?P<grupo_id>\d+)/flashcards', FlashcardViewSet, basename='grupo-flashcards-flashcards'
+)
+
+urlpatterns = router.urls

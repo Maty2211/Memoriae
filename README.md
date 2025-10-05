@@ -39,7 +39,7 @@ Cada vez que realicen cambios en la estructura de datos, hay que ejecutar:
 
 - pip install psycopg2-binary
 
-8)Instalar la librería para leer datos de entorno:
+8) Instalar la librería para leer datos de entorno:
 
 - pip install python-decouple
 - pip show python-decouple

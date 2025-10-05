@@ -1,0 +1,44 @@
+.listaGrupos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columnas */
+  gap: 20px; /* espacio entre cuadros */
+  justify-items: start; /* alineados a la izquierda */
+}
+
+.grupoFlashcard {
+  position: relative;           /* Necesario para ubicar los íconos */
+  background-color: white;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+  font-family: sans-serif;
+  font-size: 14px;
+  width: 250px;
+  height: 120px;
+  padding: 10px;
+  box-sizing: border-box;
+  padding: 15px;
+}
+
+.texto{
+  height: 80%;                  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.icono {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  display: flex;
+  gap: 8px;
+  font-size: 16px;
+  color: #555;
+  cursor: pointer;
+}
+
+.icono i:hover button:hover{
+  border-color: 4px solid black;
+}
