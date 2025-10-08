@@ -48,15 +48,15 @@ Cada vez que realicen cambios en la estructura de datos, hay que ejecutar:
 
 10)Instalar librerías para front en la carpeta frontend
 
-npm install react-bootstrap bootstrap
-npm install dayjs
-npm install gridstack
-npm install @fullcalendar/react @fullcalendar/daygrid @fullcalendar/timegrid @fullcalendar/interaction
-npm install @fullcalendar/list
-npm install @fullcalendar/core @fullcalendar/multimonth
-npm install @mui/material @emotion/react @emotion/styled
-npm install @mui/icons-materia
-npm install @mui/x-date-pickers
+- npm install react-bootstrap bootstrap
+- npm install dayjs
+- npm install gridstack
+- npm install @fullcalendar/react @fullcalendar/daygrid @fullcalendar/timegrid @fullcalendar/interaction
+- npm install @fullcalendar/list
+- npm install @fullcalendar/core @fullcalendar/multimonth
+- npm install @mui/material @emotion/react @emotion/styled
+- npm install @mui/icons-materia
+- npm install @mui/x-date-pickers
 
 
 
