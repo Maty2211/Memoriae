@@ -1,7 +1,8 @@
-from django.contrib import admin
 from django.urls import path
-from . import views
+from .views import VistaEstadisticasPerfil
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    # Esta URL (ej: /api/profile/stats/) conectará con tu vista de estadísticas.
+    path('stats/', VistaEstadisticasPerfil.as_view(), name='perfil-estadisticas'),
 ]
+

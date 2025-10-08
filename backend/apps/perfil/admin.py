@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import PomodoroSettings, PomodoroHistory
 
-# Register your models here.
+admin.site.register(PomodoroSettings)
+admin.site.register(PomodoroHistory)
