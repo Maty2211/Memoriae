@@ -1,0 +1,28 @@
+
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+
+
+.main-content {
+  flex: 1;
+  margin-top: 60px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+
+
+body {
+    background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3');
+    background-size: cover;
+}
