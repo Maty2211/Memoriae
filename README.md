@@ -56,7 +56,7 @@ Cada vez que realicen cambios en la estructura de datos, hay que ejecutar:
 - npm install @fullcalendar/list
 - npm install @fullcalendar/core @fullcalendar/multimonth
 - npm install @mui/material @emotion/react @emotion/styled
-- npm install @mui/icons-materia
+- npm install @mui/icons-material
 - npm install @mui/x-date-pickers
 
 
