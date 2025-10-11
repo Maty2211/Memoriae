@@ -46,6 +46,17 @@ Cada vez que realicen cambios en la estructura de datos, hay que ejecutar:
 
 9) Incluir un archivo llamado .env, a la altura de README.md, con la misma estructura de env.example. Reemplazar los valores de las variables por los datos de conexión de la base de datos local.
 
+10)Instalar librerías para front en la carpeta frontend
+
+- npm install react-bootstrap bootstrap
+- npm install dayjs
+- npm install gridstack
+- npm install @fullcalendar/react @fullcalendar/daygrid @fullcalendar/timegrid @fullcalendar/interaction
+- npm install @fullcalendar/list
+- npm install @fullcalendar/core @fullcalendar/multimonth
+- npm install @mui/material @emotion/react @emotion/styled
+- npm install @mui/icons-material
+- npm install @mui/x-date-pickers
 
 
 

@@ -1,0 +1,335 @@
+/* Para los números de días y cabeceras dentro de tu calendario */
+.my-calendar-container a {
+  color: inherit;        /* hereda el color del contenedor */
+  text-decoration: none; /* quita subrayado */
+  cursor: default;       /* opcional: quita cursor de link */
+}
+
+/* Para eventos */
+.my-calendar-container .fc-event a {
+  color: inherit !important;        
+  text-decoration: none !important;
+}
+
+
+
+
+
+
+/* Contenedor del calendario con efecto glass */
+.my-calendar-container {
+  background: rgba(217, 35, 35, 0);
+  backdrop-filter: blur(6px);
+  padding: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.065);
+  border-radius: 20px;
+  box-shadow: 
+    0 6px 24px rgba(0, 0, 0, 0.334),
+    inset 0 0 0 1px rgba(248, 245, 245, 0);
+}
+
+.fc-day-today {
+  background-color: #c7b3d1 !important;
+  color: black !important;
+}
+
+.fc-daygrid-day {
+  background-color: rgb(255, 255, 255);
+}
+
+.my-calendar-container .fc-button {
+    background-color: #261ac500;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    font-size: 9.4px;
+  }
+
+.fc .fc-button:hover {
+  background-color: #22284528;
+}
+
+
+.fc-event {
+  border-radius: 1px;
+}
+
+.my-calendar-container .fc .fc-toolbar {
+    background: rgba(229, 12, 12, 0);
+    margin: -10px -10px 10px -10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0);
+  }
+
+.my-calendar-container .fc-toolbar-title {
+  font-size: 20px;
+  font-family: Arial, sans-serif ;
+  color: rgb(255, 255, 255);
+  text-transform: capitalize;
+}
+
+.my-calendar-container .fc-daygrid-day-number {
+    font-size: 10px;
+    padding: 1px;
+}
+
+.my-calendar-container {
+    font-size: 12.5px; /* Aumenta todo proporcionalmente */
+}
+
+.my-calendar-container .fc-col-header-cell {
+    font-size: 0,9em; /* Días de la semana */
+    background-color: white;
+    color: #0000005e;
+    text-align: left;
+  }
+
+/* Mantiene consistencia de altura en todas las filas */
+.my-calendar-container .fc-daygrid-day-frame {
+  display: flex;
+  flex-direction: column;
+  height: 92px;
+}
+
+.my-calendar-container .fc-daygrid-more-link {
+  display: block;
+  background: white;
+  color: #474973;
+  font-size: 0.75rem;
+  text-align: center;
+  margin-top: 2px;
+  border-radius: 4px;
+}
+
+
+
+
+
+
+
+
+
+@media (max-width: 600px) {
+    /* Contenedor del calendario con efecto glass */
+  .my-calendar-container {
+    width: 95%;       /* Ocupa casi todo el ancho de la pantalla */
+    margin: 0 auto; 
+    background: rgba(217, 35, 35, 0.809);
+    backdrop-filter: blur(6px);
+    padding: 13px;
+    border: 1px solid rgba(255, 255, 255, 0.065);
+    border-radius: 20px;
+    box-shadow: 
+      0 6px 24px rgba(0, 0, 0, 0.334),
+      inset 0 0 0 1px rgba(248, 245, 245, 0);
+  }
+
+  
+
+  .my-calendar-container .fc-daygrid-day {
+    background-color: rgb(255, 255, 255);
+    border-color: rgba(0, 0, 0, 0.092);
+  }
+
+  .my-calendar-container .fc-col-header-cell {
+    border-color: rgba(0, 0, 0, 0.092);
+  }
+
+  .fc .fc-button {
+    background-color: #0d0c1d00;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    font-size: 8px;
+  }
+
+  .my-calendar-container .fc .fc-toolbar {
+      background: rgba(44, 12, 229, 0.901);
+      margin: -5px -5px 5px -5px;
+    }
+
+  .my-calendar-container .fc-toolbar-title {
+    font-size: 13px;
+    font-family: Arial, sans-serif ;
+    color: rgb(255, 255, 255);
+    text-transform: capitalize;
+  }
+
+  .my-calendar-container .fc-daygrid-day-number {
+      font-size: 10px;
+      padding: 1px;
+  }
+
+  .my-calendar-container {
+      font-size: 10px; /* Aumenta todo proporcionalmente */
+  }
+
+  /* Mantiene consistencia de altura en todas las filas */
+  .my-calendar-container .fc-daygrid-day-frame {
+    display: flex;
+    flex-direction: column;
+    height: 77px;
+  }
+
+  .my-calendar-container .fc-daygrid-more-link {
+    display: block;
+    background: white;
+    color: #47497351;
+    font-size: 0.75rem;
+    text-align: center;
+    margin-top: 2px;
+    border-radius: 4px;
+  }
+
+}
+ 
+
+
+
+
+
+
+/* Modo mini: celdas y texto más chicos */
+  .my-calendar-container.mini-mode {
+    width: 95%;       /* Ocupa casi todo el ancho de la pantalla */
+    margin: 0 auto; 
+    background: rgba(217, 35, 35, 0);
+    backdrop-filter: blur(6px);
+    padding: 13px;
+    border: 1px solid rgba(255, 255, 255, 0.065);
+    border-radius: 10px;
+    box-shadow: 
+      0 6px 24px rgba(0, 0, 0, 0.334),
+      inset 0 0 0 1px rgba(248, 245, 245, 0);
+  }
+
+  
+  .my-calendar-container.mini-mode .fc .fc-button {
+    background-color: #0d0c1d00;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    font-size: 9.4px;
+  }
+
+  .my-calendar-container.mini-mode .fc .fc-toolbar {
+      background: rgba(229, 229, 229, 0);
+      margin: 0px;
+    }
+
+  .my-calendar-container.mini-mode .fc-toolbar-title {
+    font-size: 13px;
+    font-family: Arial, sans-serif ;
+    color: rgb(255, 255, 255);
+    text-transform: capitalize;
+  }
+
+.my-calendar-container.mini-mode {
+  font-size: 9px;
+  padding: 5px;
+}
+
+.my-calendar-container.mini-mode .fc-daygrid-day-frame {
+  height: 40px; /* más bajo */
+}
+
+.my-calendar-container.mini-mode .fc-toolbar-title {
+  font-size: 10px;
+}
+
+.my-calendar-container.mini-mode .fc-daygrid-day-number {
+  font-size: 8px;
+}
+
+.my-calendar-container.mini-mode .fc-daygrid-more-link {
+    font-size: 0.4rem;
+  }
+
+
+
+
+
+
+.my-calendar-container.mini-mode .fc-daygrid-event {
+  font-size: 0.52rem;
+  padding: 0.05px;      
+  line-height: 0.9;  
+}
+
+/* Día (sección que agrupa eventos) LISTA AGENDA */
+.my-calendar-container.mini-mode .fc .fc-list-day {
+  background: transparent !important;
+  border: none !important;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #161b33;
+}
+
+
+  /* Fondo de los títulos de días */
+  .my-calendar-container.mini-mode .fc-theme-standard .fc-list-day-cushion {
+    background-color: #EADDFF !important; /* Violeta */
+    font-size: 10px;
+    padding: 2%;
+    text-transform: capitalize;
+    
+  }
+
+  /* Fondo de los eventos en la vista de lista */
+  .my-calendar-container.mini-mode .fc-theme-standard .fc-list-event td {
+    background-color: #EADDFF !important; /* Violeta más claro */
+    color: black; /* Texto en negro para que sea legible */
+    
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Día (sección que agrupa eventos) */
+.fc .fc-list-day {
+  background: transparent !important;
+  border: none !important;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #161b33;
+}
+
+
+  /* Fondo de los títulos de días */
+  .fc-theme-standard .fc-list-day-cushion {
+    background-color: #EADDFF !important; /* Violeta */
+    text-transform: capitalize;
+    
+  }
+
+  /* Fondo de los eventos en la vista de lista */
+  .fc-theme-standard .fc-list-event td {
+    background-color: #EADDFF !important; /* Violeta más claro */
+    color: black; /* Texto en negro para que sea legible */
+  }
+
+
+
+
+
+
+
+
+
+
+
+
