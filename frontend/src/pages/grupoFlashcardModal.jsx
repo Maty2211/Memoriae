@@ -85,7 +85,7 @@ export function NuevoGrupoFlashcardModal({ onSave }) {
                 <input
                   type="text"
                   className="form-control"
-                  value={nombre}
+                  value={nombre || ""}
                   onChange={(e) => setNombre(e.target.value)}
                   required
                 />
@@ -96,7 +96,7 @@ export function NuevoGrupoFlashcardModal({ onSave }) {
                 <input
                   type="text"
                   className="form-control"
-                  value={tema}
+                  value={tema || ""}
                   onChange={(e) => setTema(e.target.value)}
                   required
                 />
@@ -108,7 +108,7 @@ export function NuevoGrupoFlashcardModal({ onSave }) {
                     <input
                     type="text"
                     className="form-control"
-                    value={fc.pregunta}
+                    value={fc.pregunta || ""}
                     onChange={(e) => handleFlashcardChange(index, "pregunta", e.target.value)}
                     />
 
@@ -116,7 +116,7 @@ export function NuevoGrupoFlashcardModal({ onSave }) {
                     <input
                     type="text"
                     className="form-control"
-                    value={fc.respuesta}
+                    value={fc.respuesta || ""}
                     onChange={(e) => handleFlashcardChange(index, "respuesta", e.target.value)}
                     />
                 </div>
@@ -141,29 +141,49 @@ export function NuevoGrupoFlashcardModal({ onSave }) {
   );
 }
 
-export function EditarGrupoFlashcardModal({ grupo, onSave }) {
+export function EditarGrupoFlashcardModal({ grupo, onUpdate }) {
   const [nombre, setNombre] = useState("");
   const [tema, setTema] = useState("");
   const [flashcards, setFlashcards] = useState([]);
+
 
   useEffect(() => {
     if (grupo) {
       setNombre(grupo.nombre);
       setTema(grupo.tema);
       setFlashcards(grupo.flashcards || []);
+      console.log("Flashc", flashcards);
     }
   }, [grupo]);
 
-  const handleFlashcardChange = (index, field, value) => {
-    const updated = [...flashcards];
-    updated[index][field] = value;
+  const handleFlashcardChange = (id, field, value) => {
+    const updated = flashcards.map(fc =>
+      fc.id === id ? { ...fc, [field]: value } : fc
+    );
     setFlashcards(updated);
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const updatedGroup = { id: grupo.id, nombre, tema, flashcards };
-    if (onSave) onSave(updatedGroup);
+
+    const updatedGroup = { nombre, tema, flashcards };
+
+    try {
+      const data = await updateGrupoFlashcards(grupo.id, updatedGroup);
+      if (onUpdate) onUpdate(data); 
+    } catch (err) {
+      console.error("Error al actualizar grupo:", err);
+      alert("No se pudo guardar los cambios");
+    }
+  };
+
+  const addFlashcardField = () => {
+    const newFlashcard = { 
+      id: Date.now(),
+      respuesta: "" 
+    };
+    setFlashcards([...flashcards, newFlashcard]);
   };
 
   return (
@@ -172,7 +192,6 @@ export function EditarGrupoFlashcardModal({ grupo, onSave }) {
       id="editarGrupoModal"
       tabIndex="-1"
       aria-labelledby="editarGrupoModalLabel"
-      aria-hidden="true"
     >
       <div className="modal-dialog">
         <div className="modal-content">
@@ -190,7 +209,7 @@ export function EditarGrupoFlashcardModal({ grupo, onSave }) {
                 <input
                   type="text"
                   className="form-control"
-                  value={nombre}
+                  value={nombre || ""}
                   onChange={(e) => setNombre(e.target.value)}
                 />
               </div>
@@ -200,30 +219,35 @@ export function EditarGrupoFlashcardModal({ grupo, onSave }) {
                 <input
                   type="text"
                   className="form-control"
-                  value={tema}
+                  value={tema || ""}
                   onChange={(e) => setTema(e.target.value)}
                 />
               </div>
 
               <h6>Flashcards</h6>
               {flashcards.map((fc, index) => (
-                <div key={fc.id || index} className="mb-2">
+                <div key={fc.id} className="mb-2">
                   <input
                     type="text"
                     className="form-control mb-1"
                     placeholder="Pregunta"
-                    value={fc.pregunta}
-                    onChange={(e) => handleFlashcardChange(index, "pregunta", e.target.value)}
+                    value={fc.pregunta || ""}
+                    onChange={(e) => handleFlashcardChange(fc.id, "pregunta", e.target.value)}
                   />
                   <input
                     type="text"
                     className="form-control"
                     placeholder="Respuesta"
-                    value={fc.respuesta}
-                    onChange={(e) => handleFlashcardChange(index, "respuesta", e.target.value)}
+                    value={fc.respuesta || ""}
+                    onChange={(e) => handleFlashcardChange(fc.id, "respuesta", e.target.value)}
                   />
                 </div>
               ))}
+
+              
+              <button type="button" className="btn btn-secondary" onClick={addFlashcardField}>
+                + Agregar otra pregunta
+              </button>
 
               <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">
                 Guardar Cambios

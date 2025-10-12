@@ -28,7 +28,7 @@ export const deleteGrupoFlashcards = async (id) => {
 };
 
 export const getFlashcards = async (grupoId) => {
-  const res = await API.get(`/grupoFlashcards/${grupoId}/flashcards/`);
+  const res = await API.get(`/grupoFlashcards/${grupoId}/flashcard/`);
   return res.data;
 };
 

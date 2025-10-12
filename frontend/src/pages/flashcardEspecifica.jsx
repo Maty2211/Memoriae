@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { getFlashcards } from "../api/flashcard.api";
 import { useParams } from "react-router-dom";
-import ReactCardFlip from "react-card-flip";
-import { Button } from "react-bootstrap";
+import "../estilos/flashcardEspecifica.css";
 
 export function UsarFlashcard() {
   const [flashcards, setFlashcards] = useState([]);
@@ -16,14 +15,18 @@ export function UsarFlashcard() {
     mostrarFlashcard(idGrupoFlashcards);
   }, [idGrupoFlashcards]);
 
+  useEffect(() => {
+    console.log("Flashcards cargadas:", flashcards);
+  }, [flashcards]);
+
   const mostrarFlashcard = async () => {
     try {
       const data = await getFlashcards(idGrupoFlashcards);
-      setFlashcards(data.flashcard || []);
+      setFlashcards(data || []);
       setCurrentIndex(0); // reset al abrir grupo
       setIsFlipped(false);
       console.log(flashcards);
-      console.log(data);
+      console.log("Data: ", data);
     } catch (err) {
       console.error("Error cargando flashcards:", err.response?.data ?? err.message);
       alert("Error cargando grupos: " + JSON.stringify(err.response?.data ?? err.message));
@@ -55,46 +58,32 @@ export function UsarFlashcard() {
   const flashcard = flashcards[currentIndex];
 
   return (
-    <div className="d-flex flex-column align-items-center mt-5">
-      <h2 className="mb-4">{nombreDecod}</h2>
+    <div className="mainContainer">
+      <div className="d-flex flex-column align-items-center mt-5"> 
+          <h2 className="mb-4">{nombreDecod}</h2> 
+          <div className="flashcard-container" onClick={handleFlip}>
+              <button variant="secondary" onClick={handlePrev} disabled={currentIndex === 0}> 
+                  <i class="bi bi-arrow-left"></i> Anterior 
+              </button> 
+              <div className={`flashcard-inner ${isFlipped ? "flashcard-flipped" : ""}`}>
+              <div className="flashcard-front">
+                  {flashcard.pregunta}
+              </div>
+              <div className="flashcard-back">
+                  {flashcard.respuesta}
+              </div>
+              </div>
+              <button variant="secondary" onClick={handleNext} disabled={currentIndex === flashcards.length - 1} > 
+                  Siguiente <i class="bi bi-arrow-right"></i> 
+              </button> 
+          </div>
 
-      <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
-        <div
-          key="front"
-          className="card p-5 text-center shadow"
-          style={{ width: "400px", height: "250px", cursor: "pointer" }}
-          onClick={handleFlip}
-        >
-          <h4>{flashcard.pregunta}</h4>
-        </div>
-
-        <div
-          key="back"
-          className="card p-5 text-center shadow bg-light"
-          style={{ width: "400px", height: "250px", cursor: "pointer" }}
-          onClick={handleFlip}
-        >
-          <h4>{flashcard.respuesta}</h4>
-        </div>
-      </ReactCardFlip>
-
-      <div className="d-flex justify-content-between w-50 mt-4">
-        <Button variant="secondary" onClick={handlePrev} disabled={currentIndex === 0}>
-          ⬅️ Anterior
-        </Button>
-        <Button
-          variant="secondary"
-          onClick={handleNext}
-          disabled={currentIndex === flashcards.length - 1}
-        >
-          Siguiente ➡️
-        </Button>
-      </div>
-
-      <p className="mt-3">
-        Flashcard {currentIndex + 1} de {flashcards.length}
-      </p>
+          <div>
+            <p className="mt-3">  {currentIndex + 1} / {flashcards.length} </p> 
+          </div>
+      </div> 
     </div>
+
   );
 }
 

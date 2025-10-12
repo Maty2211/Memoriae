@@ -14,7 +14,7 @@ function App() {
     
       <Routes>
         <Route path="/" element={<Navigate to="/home"/>}/>
-        <Route path="/home" element={<MostrarHome/>}/>
+        <Route path="/home" element={<MostrarHome />}/>
         <Route path="/flashcards" element={<ListarGrupoFlashcards/>}/>
         <Route path="/flashcards/:idGrupoFlashcards/:nombreGrupoFlashcards" element={<UsarFlashcard />}/>
       </Routes>

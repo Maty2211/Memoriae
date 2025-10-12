@@ -12,11 +12,15 @@ export function ListarGrupoFlashcards() {
     loadGrupoFlashcards();
   }, []);
 
+    useEffect(() => {
+    console.log("Nuevo estado grupoFlashcards:", grupoFlashcards);
+  }, [grupoFlashcards]);
+
   const loadGrupoFlashcards = async () => {
     try {
       const data = await getGrupoFlashcards();
       setGrupoFlashcards(data);
-      console.log(data)
+      console.log(data);
     } catch (err) {
       console.error("Error cargando flashcards:", err.response?.data ?? err.message);
       alert("Error cargando grupos: " + JSON.stringify(err.response?.data ?? err.message));
@@ -45,44 +49,61 @@ export function ListarGrupoFlashcards() {
 };
 
   return (
-    <div>
-      <div className='listaGrupos'>
-        {grupoFlashcards.map((gf, index) => (
+      <div className="mainContainer">
+        <div className="botonContainer">
+          <button className="nuevoGrupoBoton" data-bs-toggle="modal" data-bs-target="#flashcardModal">
+            Nueva Flashcard
+            <i class="bi bi-plus-lg"></i>
+          </button>
+        </div>
+        
+        <div className='listaGrupos'>
+          {grupoFlashcards.map((gf) => (
+            <Link key={gf.id} to={`/flashcards/${gf.id}/${encodeURIComponent(gf.nombre)}`}>
+              <div className='grupoFlashcard'>
+                <div className='texto'>
+                  {gf.nombre} <br/> {gf.tema}
+                </div>
+                <div className='icono'>
+                  <button 
+                    className="botonesFC" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleDelete(gf.id);
+                    }}
+                  >
+                    <i class="bi bi-trash3"></i>
+                  </button>
+                  <button 
+                    className="botonesFC" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#editarGrupoModal" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setGrupoSeleccionado(gf);
+                    }}
+                  >
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
 
-        <Link to={`/flashcards/${gf.id}/${encodeURIComponent(gf.nombre)}`}>
-          <div key={index} className='grupoFlashcard'>
-            <div className='texto'>
-            {gf.nombre} <br/> {gf.tema}
-            </div>
-            <div className='icono'>
-              <button className="btn btn-danger btn-sm ms-2" onClick={() => handleDelete(gf.id)}>
-                🗑️
-              </button>
-              <button className="btn btn-warning btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#editarGrupoModal" onClick={() => setGrupoSeleccionado(gf)}>
-                ✏️
-              </button>
-            </div>
-          </div>
-        </Link>
-        ))}
+      <div className="modales">
+          <NuevoGrupoFlashcardModal onSave={handleSave} />
+          <EditarGrupoFlashcardModal
+            grupo={grupoSeleccionado}
+            onUpdate={(updated) => {
+              setGrupoFlashcards((prev) =>
+                prev.map((gf) => (gf.id === updated.id ? updated : gf))
+              );
+            }}
+          />
       </div>
 
-      <div className="container mt-4">
-        <button className="btn btn-success" data-bs-toggle="modal" data-bs-target="#flashcardModal">
-          Crear nuevo grupo
-        </button>
-
-        <NuevoGrupoFlashcardModal onSave={handleSave} />
-        <EditarGrupoFlashcardModal 
-          grupo={grupoSeleccionado} 
-          onUpdate={(updated) => {
-            setGrupoFlashcards(grupoFlashcards.map(gf => 
-              gf.id === updated.id ? updated : gf
-            ));
-          }}
-        />
       </div>
-    </div>
   );
 }
 
