@@ -1,85 +1,107 @@
-import React, { useState, useEffect } from 'react';
-import PomodoroUI from './PomodoroUI';
+import React, { useState, useEffect, useCallback } from 'react';
+import PomodoroUI from './PomodoroUI.jsx';
+import { getPomodoroSettings, updatePomodoroSettings, logPomodoroSession } from '../../api/pomodoro.api.js';
 
 const alertSound = new Audio('/alerta.mp3'); 
 
 const PomodoroWidget = () => {
 
-  const [workDuration, setWorkDuration] = useState(25 * 60);
-  const [breakDuration, setBreakDuration] = useState(5 * 60);
-  
-  const [timeLeft, setTimeLeft] = useState(workDuration);
+  const [settings, setSettings] = useState({
+    focus_time: 25,
+    break_time: 5,
+    long_break_time: 15,
+    sessions_completed: 0,
+    sessions_until_long_break: 4,
+  });
+  const [timeLeft, setTimeLeft] = useState(settings.focus_time * 60);
   const [isActive, setIsActive] = useState(false);
-  const [sessionType, setSessionType] = useState('work');
+  const [sessionType, setSessionType] = useState('work'); // 'work', 'break', o 'long_break'
+  const [sessionStartTime, setSessionStartTime] = useState(null);
+
+  const loadSettings = useCallback(async () => {
+    try {
+      const response = await getPomodoroSettings();
+      setSettings(response.data);
+      if (!isActive) {
+        setTimeLeft(response.data.focus_time * 60); // Inicia con el tiempo de Focus.
+        setSessionType('work');
+      }
+    } catch (error) {
+      console.error("No se pudieron cargar las configuraciones.", error);
+    }
+  }, [isActive]);
+
+  useEffect(() => {
+    loadSettings();
+  }, [loadSettings]);
+
+
+  const handleSessionEnd = useCallback(async () => {
+    setIsActive(false);
+
+    //Loguea la sesión que acaba de terminar
+    await logPomodoroSession({
+      session_type: sessionType === 'work' ? 'focus' : (sessionType === 'break' ? 'short_break' : 'long_break'),
+      start_time: sessionStartTime,
+      end_time: new Date().toISOString(), // Reinicia el tiempo de inicio para la nueva sesión
+      was_successful: true
+    });
+
+    alertSound.play(); //Suena para alertar del cambio de tipo de sesión
+
+    const updatedSettings = await getPomodoroSettings().then(res => res.data);
+    
+    if (sessionType === 'work') {
+      if (updatedSettings.sessions_completed === 0) {
+        setSessionType('long_break');
+        setTimeLeft(updatedSettings.long_break_time * 60);
+      } else {
+        setSessionType('break');
+        setTimeLeft(updatedSettings.break_time * 60);
+      }
+    } else {
+      setSessionType('work');
+      setTimeLeft(updatedSettings.focus_time * 60);
+    }
+    setSettings(updatedSettings);
+
+  }, [sessionType, sessionStartTime]);
+
 
   useEffect(() => {
     let interval = null;
-
-    if (isActive && (timeLeft > 0)) {
+    if (isActive && timeLeft > 0) {
       interval = setInterval(() => {
         setTimeLeft(prevTime => prevTime - 1);
       }, 1000); //Actualiza el temporizador cada 1000 mseg, es decir, 1 seg.
-    } else if (timeLeft === 0) {
-      const nextSession = sessionType === 'work' ? 'break' : 'work';
-      const nextDuration = nextSession === 'work' ? workDuration : breakDuration;
-      
-      setSessionType(nextSession);
-      setTimeLeft(nextDuration);
-      setIsActive(true);
-      alertSound.play(); //Suena para alertar del cambio de tipo de sesión
+    } else if (timeLeft === 0 && isActive) {
+      handleSessionEnd();
     }
-    
     return () => clearInterval(interval);
-  }, [isActive, timeLeft, sessionType, workDuration, breakDuration]);
+  }, [isActive, timeLeft, handleSessionEnd]);
 
-  const handleSettingsSave = (newSettings) => {
+  const handleSettingsSave = async (newSettings) => {
     if (isActive) return;
-
-    let newWorkSeconds = workDuration;
-    let newBreakSeconds = breakDuration;
-
-    if (newSettings.work && newSettings.work > 0) {
-      newWorkSeconds = newSettings.work * 60;
-    }
-
-    if (newSettings.break && newSettings.break > 0) {
-      newBreakSeconds = newSettings.break * 60;
-    }
-
-    setWorkDuration(newWorkSeconds);
-    setBreakDuration(newBreakSeconds);
-
-    if (sessionType === 'work') {
-      setTimeLeft(newWorkSeconds);
-    } else {
-      setTimeLeft(newBreakSeconds);
+    try {   
+      await updatePomodoroSettings(newSettings);
+      alert("Configuración guardada");
+      await loadSettings();
+    } catch (error) {
+      console.error("Error al guardar la configuración:", error);
+      alert("No se pudo guardar la configuración");
     }
   };
 
-  const handleStartPause = () => {
+const handleStartPause = () => {
+    if (!isActive) {
+      setSessionStartTime(new Date().toISOString());
+    }
     setIsActive(!isActive);
   };
 
   const handleReset = () => {
     setIsActive(false);
-    setSessionType('work');
-    setTimeLeft(workDuration);
-  };
-
-  const handleDurationChange = (type, value) => {
-    const newDurationInSeconds = value * 60;
-
-    if (type === 'work') {
-        setWorkDuration(newDurationInSeconds);
-        if (sessionType === 'work' && !isActive) {
-            setTimeLeft(newDurationInSeconds);
-        }
-    } else if (type === 'break') {
-        setBreakDuration(newDurationInSeconds);
-        if (sessionType === 'break' && !isActive) {
-          setTimeLeft(newDurationInSeconds);
-        };
-    };
+    loadSettings();
   };
 
   return (
@@ -90,8 +112,8 @@ const PomodoroWidget = () => {
       sessionType={sessionType}
       onStartPause={handleStartPause}
       onReset={handleReset}
-      workDuration={workDuration / 60}
-      breakDuration={breakDuration / 60}
+      workDuration={settings.focus_time}
+      breakDuration={settings.break_time}
       onSave={handleSettingsSave} 
     />
     </div>

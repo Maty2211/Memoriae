@@ -1,56 +1,69 @@
-.pomodoro-card {
-    transition: background 0.5s ease-in-out;
+/* Contenedor principal del widget con efecto de cristal */
+.pomodoro-container {
+  background: rgba(255, 255, 255, 0.1) !important; /* Fondo semi-transparente */
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 16px !important;
+  color: white !important; /* Hacemos todo el texto blanco por defecto */
+  padding: 5px;
 }
 
-.pomodoro-card.focus-session {
-    background: linear-gradient(135deg, #D32F2F, #FF5252);
-    color: white;
+/* Estilo para el contador de tiempo grande */
+.display-timer {
+  font-size: 7rem;
+  font-weight: 200;
+  line-height: 1;
+  color: white;
 }
 
-.pomodoro-card.break-session {
-    background: linear-gradient(135deg, #388E3C, #66BB6A);
-    color: white;
+/* Ajustes para los inputs y sus etiquetas */
+.pomodoro-container .input-group-text {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
-.pomodoro-timer {
-    font-size: 5.5rem;
-    font-weight: 700;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+.pomodoro-container .form-control {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
-.pomodoro-badge {
-    font-size: 1rem;
-    padding: 0.5em 1em;
-    background-color: rgba(0, 0, 0, 0.15);
-    border-radius: 50px;
+.pomodoro-container .form-control:focus {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
 }
 
-.pomodoro-controls .btn {
-    margin: 0 5px;
+/* Quitamos las flechas de los inputs numéricos para un look más limpio */
+.pomodoro-container input[type="number"]::-webkit-inner-spin-button,
+.pomodoro-container input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.pomodoro-container input[type="number"] {
+  -moz-appearance: textfield;
 }
 
-.pomodoro-settings {
-    background-color: rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    padding: 15px;
-    margin-top: 20px;
+/* Botones de control principales */
+.pomodoro-container .btn-success {
+  background-color: #198754 !important;
+  border-color: #198754 !important;
 }
 
-.pomodoro-settings .input-group-text {
-    background-color: rgba(0, 0, 0, 0.2);
-    border: none;
-    color: white;
+.pomodoro-container .btn-secondary {
+  background-color: #6c757d !important;
+  border-color: #6c757d !important;
 }
 
-.pomodoro-settings .form-control {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: none;
-    color: white;
+/* Botón de guardar */
+.pomodoro-container .btn-outline-light {
+  color: #f8f9fa !important;
+  border-color: #f8f9fa !important;
 }
 
-.pomodoro-settings .form-control:focus {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: white;
-    box-shadow: none;
+.pomodoro-container .btn-outline-light:hover {
+  background-color: #f8f9fa !important;
+  color: #212529 !important;
 }
 

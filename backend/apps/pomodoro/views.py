@@ -14,7 +14,7 @@ class PomodoroSettingsView(generics.RetrieveUpdateAPIView):
     para el usuario autenticado.
     """
     serializer_class = PomodoroSettingsSerializer
-    permission_classes = [permissions.IsAuthenticated] # Solo usuarios logueados
+    #permission_classes = [permissions.IsAuthenticated] # Solo usuarios logueados
 
     def get_object(self):
         # Sobrescribe get_object para obtener la configuración del usuario actual.
