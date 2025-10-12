@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.home.apps.HomeConfig',
-    'apps.calendario.apps.CalendarioConfig',
     'apps.evento.apps.EventosConfig',
     'apps.flashcard.apps.FlashcardConfig',
     'apps.login.apps.AppConfig',
@@ -47,6 +46,7 @@ INSTALLED_APPS = [
     'apps.perfil.apps.PerfilConfig',
     'apps.pomodoro.apps.PomodoroConfig',
     'apps.to_do_list.apps.ToDoListConfig',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
