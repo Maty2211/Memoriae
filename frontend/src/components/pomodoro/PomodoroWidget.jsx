@@ -43,7 +43,7 @@ const PomodoroWidget = () => {
     await logPomodoroSession({
       session_type: sessionType === 'work' ? 'focus' : (sessionType === 'break' ? 'short_break' : 'long_break'),
       start_time: sessionStartTime,
-      end_time: new Date().toISOString(), // Reinicia el tiempo de inicio para la nueva sesión
+      end_time: new Date().toISOString(), //Reinicia el tiempo de inicio para la nueva sesión
       was_successful: true
     });
 

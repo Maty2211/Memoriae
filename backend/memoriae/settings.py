@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.pomodoro.apps.PomodoroConfig',
     'corsheaders',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
