@@ -4,14 +4,15 @@ import { getAllEvents, getEvent } from '../../api/evento.api'
 import DateModal from '../utils/Modal'
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { Link } from "react-router-dom";
 
 dayjs.extend(utc); 
 
-const Calendar1 = ({ mini = false }) => {
+const Calendar1 = ({ mini = false, mini2 = false, onNavigate }) => {
 
     const handleEventClick = (info) => {
 
-        if (mini) return;
+        if (mini || mini2) return;
 
         getEvent(info.event.id).then((res) => {
             const eventData = res.data;
@@ -52,7 +53,7 @@ const Calendar1 = ({ mini = false }) => {
     const [open, setOpen] = useState(false);
 
     const handleOpen = (info) => {
-        if (mini) return;
+        if (mini || mini2) return;
 
         const clickedDay = dayjs(info.dateStr)
         setSelectedDate(info.dateStr)
@@ -111,14 +112,53 @@ const Calendar1 = ({ mini = false }) => {
                 handleChange={handleChange}
             />
 
+            <div className={`my-calendar-container ${mini ? 'mini-mode' : mini2 ? 'mini-mode' : ''}`}>
+                
 
-            <div className={`my-calendar-container ${mini ? 'mini-mode' : ''}`}>
             <MyCalendar1
                 myEvents={events}
                 dayClick={handleOpen}
                 eventClick={handleEventClick}
                 mini={mini}
+                mini2={mini2}
             />
+            {mini && (
+                <div>
+                    <div
+                    onClick={onNavigate} 
+                    style={{
+                        backgroundColor: 'transparent',
+                        color: 'white',
+                        cursor: 'pointer',
+                        fontSize: '15px',
+                        textAlign: 'right',
+                        marginRight: '10px',
+                        marginTop: "1px",
+                    }}
+                    >
+                   <i class="bi bi-textarea-resize"></i>
+                    </div>
+                </div>
+                    )}
+            {mini2 && (
+                <div>
+                    <div
+                    onClick={onNavigate} 
+                    style={{
+                        backgroundColor: 'transparent',
+                        color: 'white',
+                        cursor: 'pointer',
+                        fontSize: '15px',
+                        textAlign: 'right',
+                        marginRight: '10px',
+                        marginTop: "1px",
+                    }}
+                    >
+                   <i class="bi bi-textarea-resize"></i>
+                    </div>
+                </div>
+                    )}
+
             </div>
         </div>
     )
