@@ -14,7 +14,7 @@ class PomodoroSettingsView(generics.RetrieveUpdateAPIView):
     para el usuario autenticado.
     """
     serializer_class = PomodoroSettingsSerializer
-    permission_classes = [permissions.IsAuthenticated] # Solo usuarios logueados
+    #permission_classes = [permissions.IsAuthenticated] # Solo usuarios logueados
 
     def get_object(self):
         # Sobrescribe get_object para obtener la configuración del usuario actual.
@@ -45,18 +45,21 @@ class PomodoroSessionAPIView(APIView):
         start_time = datetime.datetime.fromisoformat(start_time_str.replace('Z', '+00:00'))
         end_time = datetime.datetime.fromisoformat(end_time_str.replace('Z', '+00:00'))
         
+
+        was_successful = request.data.get('was_successful', False) # Leer el valor del frontend
+
         # 1. Crear el registro de historial
         session = PomodoroHistory.objects.create(
             user=request.user,
             session_type=session_type,
             start_time=start_time,
             end_time=end_time,
-            was_successful=True, # Asumimos que si llega aquí, se completó
+            was_successful=was_successful,
             duration_minutes=(end_time - start_time).seconds // 60 
         )
 
         # 2. Actualizar el contador de sesiones completadas (solo si es una sesión de 'focus')
-        if session_type == 'focus':
+        if session_type == 'focus' and was_successful:
             settings = PomodoroSettings.objects.get(user=request.user)
             settings.sessions_completed += 1
             # Lógica para reiniciar el contador si se alcanza el descanso largo:

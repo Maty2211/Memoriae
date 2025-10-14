@@ -33,7 +33,8 @@ verifico la instalacion
 
 Cada vez que realicen cambios en la estructura de datos, hay que ejecutar:
 
-- python manage.py runserver
+- python manage.py makemigrations
+- python manage.py migrate
 
 7) Luego de instalar postgreSQL, instalar el conector de python dentro del entorno virtual:
 

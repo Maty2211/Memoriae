@@ -29,7 +29,6 @@
     "gridstack": "^12.3.3",
     "normalize.css": "^8.0.1",
     "react": "^19.1.1",
-    "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.65.0",
     "react-hot-toast": "^2.6.0",
