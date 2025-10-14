@@ -12,10 +12,6 @@
 }
 
 
-
-
-
-
 /* Contenedor del calendario con efecto glass */
 .my-calendar-container {
   background: rgba(217, 35, 35, 0);
@@ -58,6 +54,7 @@
     background: rgba(229, 12, 12, 0);
     margin: -10px -10px 10px -10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0);
+  
   }
 
 .my-calendar-container .fc-toolbar-title {

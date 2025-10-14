@@ -9,14 +9,14 @@ body, html {
 
 .app-container {
   display: flex;
-  height: 100vh;
+  
 }
 
 
 .main-content {
   flex: 1;
   margin-top: 60px;
-  padding: 20px;
+  padding: 10px;
   overflow-y: auto;
 }
 

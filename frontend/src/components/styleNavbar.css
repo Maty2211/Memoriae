@@ -1,22 +1,4 @@
-/* Ancho del sidebar */
-.custom-offcanvas {
-  width: 120px !important; /* ajusta el ancho que quieras */
-  max-width: 180px !important; /* asegura que no se expanda */
-    background-color: rgba(255, 255, 255, 0) !important; /* semi-transparente */
-  backdrop-filter: blur(5px); /* opcional, efecto blur */
-  box-shadow: none !important;
-  margin-top: 73px;
-}
 
-.custom-offcanvas.show {
-  left: 70px;
-}
-
-/* Opcional: reducir padding de los links dentro del sidebar */
-.custom-offcanvas .nav-link {
-  padding: 12px 10px;
-  font-size: 12px;
-}
 /* Navbar general */
 .custom-navbar {
   border-radius: 10px;
@@ -24,3 +6,19 @@
   padding: 0.5rem 1rem;
   height: 60px !important;
 }
+
+.memoriae-logo {
+  font-size: 1.6rem !important;   /* fuerza el tamaño */
+  font-family: 'Playfair Display', serif;
+  margin-left: 75px;
+}
+
+/* Fondo blanco y alineado a la derecha cuando colapsa en móvil */
+.custom-collapse {
+  background-color: transparent;   /* Fondo blanco */
+  text-align: right;         /* Texto alineado a la derecha */
+  padding: 0.5rem 1rem;      /* Espaciado interno */
+  font-family: 'Pixelify Sans', sans-serif;
+}
+
+
