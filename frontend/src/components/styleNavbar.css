@@ -24,3 +24,18 @@
   padding: 0.5rem 1rem;
   height: 60px !important;
 }
+
+.offcanvas-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Permite que el cuerpo se expanda */
+  padding: 1rem;
+}
+
+.sidebar-footer {
+  /* Esta es la magia: empuja el contenedor y su contenido (el botón) 
+     hacia la parte inferior del menú lateral. */
+  margin-top: auto; 
+  padding-top: 1rem; /* Un poco de espacio arriba del botón */
+  border-top: 1px solid rgba(0, 0, 0, 0.1); /* Una línea sutil de separación */
+}
