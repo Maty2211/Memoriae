@@ -33,9 +33,6 @@ function MemoriaeNavbar({ onChangeBackground }) {
             onHide={handleClose}
             backdrop={false}
           >
-            <Offcanvas.Header closeButton>
-              <Offcanvas.Title id="offcanvasNavbarLabel">Módulos</Offcanvas.Title>
-            </Offcanvas.Header>
 
             <Offcanvas.Body>
               <Nav className="flex-grow-1 pe-3">
