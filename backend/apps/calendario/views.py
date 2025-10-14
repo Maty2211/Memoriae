@@ -5,5 +5,5 @@ from .models import Event
 # Create your views here.
 
 class EventView(viewsets.ModelViewSet):
-    serializer_class = TaskSerializer
     queryset = Event.objects.all()
+    serializer_class = TaskSerializer

@@ -7,8 +7,8 @@ Dentro de la carpeta donde clonen el repositorio, ejecuten:
 2) Luego de crearlo:
 
 - .\env\Scripts\activate (Windows)
-- source env/bin/activate (Linux)
-
+- source env/bin/activate (Linu
+-.\venv\Scripts\activate (Windows)
 
 3) Ahora instalar Django y django rest framework:
 
@@ -43,6 +43,8 @@ Cada vez que realicen cambios en la estructura de datos, hay que ejecutar:
 
 - pip install python-decouple
 - pip show python-decouple
+-python -m pip install --upgrade pip setuptools wheel
+-python -m pip install --only-binary :all: "cryptography>=43.0.0"
 
 9) Incluir un archivo llamado .env, a la altura de README.md, con la misma estructura de env.example. Reemplazar los valores de las variables por los datos de conexión de la base de datos local.
 
@@ -57,6 +59,8 @@ Cada vez que realicen cambios en la estructura de datos, hay que ejecutar:
 - npm install @mui/material @emotion/react @emotion/styled
 - npm install @mui/icons-material
 - npm install @mui/x-date-pickers
-
-
+- npm install react-router-dom
+- npm install react-hot-toast
+- npm install axios
+- npm install react-hook-form 
 

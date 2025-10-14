@@ -1,26 +1,49 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
+import ForgotPasswordPage from "./auth/ForgotPasswordPage";
+import ResetPassword from "./auth/ResetPassword";
 import Navbar from "./components/Navbar";
 import Calendar1 from "./components/calendar/Calendar1";
 import HomePage from "./components/HomePage";
+import LoginPage from "./auth/LoginPage";
+import RegistroPage from "./auth/RegistroPage";
+import ToDoList from "./components/toDoList/TaskPage";
+import PrivateRoute from "./auth/PrivateRoute";
+import TaskFormPage from "./components/toDoList/TaskFormPage";
 
-import './App.css'
+import "./App.css";
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="app-container">
-        <Navbar />
-        <div className="main-content">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/calendar1" element={<Calendar1 />} />
-          </Routes>
-        </div>
-      </div>
-    </BrowserRouter>
+    <Routes>
+      {/* Rutas públicas */}
+      <Route path="/login" element={<LoginPage />} caseSensitive />
+      <Route path="/register" element={<RegistroPage />} caseSensitive />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} caseSensitive />
+      <Route path="/reset-password/confirm/:uid/:token/" element={<ResetPassword />} caseSensitive />
+      {/* Rutas protegidas (el narvar incluido!!) */}
+      <Route element={<PrivateRoute />}>
+        <Route
+          element={
+            <div className="app-container">
+              <Navbar />
+              <div className="main-content">
+                <Outlet />
+              </div>
+            </div>
+          }
+        >
+          <Route index element={<HomePage />} />
+          <Route path="/calendar1" element={<Calendar1 />} />
+          <Route path="/toDoList" element={<ToDoList />} caseSensitive />
+          <Route path="/task-create" element={<TaskFormPage />} caseSensitive />
+          <Route path="/task/:id" element={<TaskFormPage />} caseSensitive />
+        </Route>
+      </Route>
+
+      {/* Cualquier otra ruta: a /login */}
+      <Route path="*" element={<Navigate to="/login" replace />} />
+    </Routes>
   );
 }
 
 export default App;
-
-
