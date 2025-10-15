@@ -9,8 +9,8 @@ import RegistroPage from "./auth/RegistroPage";
 import ToDoList from "./components/toDoList/TaskPage";
 import PrivateRoute from "./auth/PrivateRoute";
 import TaskFormPage from "./components/toDoList/TaskFormPage";
-import ListarGrupoFlashcards from "./flashcard/flashcards";
-import UsarFlashcard from "./flashcard/flashcardEspecifica";
+import ListarGrupoFlashcards from "./components/flashcard/flashcards";
+import UsarFlashcard from "./components/flashcard/flashcardEspecifica";
 
 import "./App.css";
 

@@ -94,5 +94,6 @@ export function UsarFlashcard() {
     </div>
 
   );
-}
+};
 
+export default UsarFlashcard

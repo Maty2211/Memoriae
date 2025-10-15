@@ -52,7 +52,6 @@ const PomodoroWidget = () => {
     alertSound.play();
     
     const updatedSettings = await getPomodoroSettings().then(res => res.data);
-    
     if (sessionType === 'work') {
       if (updatedSettings.sessions_completed === 0) {
         setSessionType('long_break');

@@ -104,6 +104,6 @@ export function ListarGrupoFlashcards() {
 
       
   );
-}
+};
 
-
+export default ListarGrupoFlashcards;

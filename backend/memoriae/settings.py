@@ -61,7 +61,6 @@ INSTALLED_APPS = [
     'apps.perfil.apps.PerfilConfig',
     'apps.pomodoro.apps.PomodoroConfig',
     'apps.to_do_list.apps.ToDoListConfig',
-    'rest_framework',
 ]
 SITE_ID = 1
 

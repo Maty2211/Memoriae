@@ -58,4 +58,8 @@ export function FlashcardWidget() {
       </button>
     </div>
   );
-}
+};
+
+export default FlashcardWidget;
+
+
