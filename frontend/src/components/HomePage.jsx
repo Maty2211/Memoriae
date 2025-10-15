@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import BackgroundCarousel from "./background/BackgroundCarousel";
 import { Button } from 'react-bootstrap'; 
 import FlashcardWidget from "./flashcard/flashcardWidget"
+import MiniTaskWidget from "./toDoList/TaskWidget";
+
 
 import bg1 from './background/img/background1.jpeg';
 import bg2 from './background/img/background2.jpg';
@@ -47,7 +49,7 @@ const HomePage = () => {
     calendar: { w: 3.2, h: 32.7, x: 12, y: 15 },
     pomodoro: { w: 2.5, h: 20, x: 12, y: 0 },
     evento: { w: 2.6, h: 20.1, x: 1, y: 28 },
-    todolist: { w: 2.6, h: 1.1, x: 0, y: 0 },
+    todolist: { w: 3.2, h: 30, x: 0, y: 0 },
     flashcard: { w: 2.6, h: 14, x: 5, y: 0 },
   };
 
@@ -99,6 +101,10 @@ const HomePage = () => {
     }else if (type === "flashcard") {
 
       root.render(<FlashcardWidget navigate={navigate} />);
+
+    }else if (type === "todolist") {
+
+      root.render(<MiniTaskWidget navigate={navigate} />);
 
     }
 
