@@ -7,7 +7,12 @@ const API = axios.create({
   },
 });
 
-export const getMascota = async () => {
+export const getMensaje = async () => {
   const mascota = await API.get("/mascota/");
-  return mascota.data;
+  return mascota.data.mensajes;
+};
+
+export const getEstado = async (mascotaId) => {
+  const mascota = await API.get("/mascota/", mascotaId);
+  return mascota.data.estado;
 };
