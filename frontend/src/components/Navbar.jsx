@@ -11,7 +11,7 @@ function MemoriaeNavbar() {
 
   return (
     <>
-      <Navbar bg="light" fixed="top" expand={false} className="custom-navbar shadow-sm p-2">
+      <Navbar bg="light" expand={false} className="custom-navbar shadow-sm p-2">
         <Container fluid>
           {/* Botón hamburguesa */}
           <Navbar.Toggle 

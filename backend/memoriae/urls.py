@@ -28,4 +28,5 @@ urlpatterns = [
     path('api/perfil/', include('apps.perfil.urls')),
     path('pomodoro/', include('apps.pomodoro.urls')),
     path('to_do_list/', include('apps.to_do_list.urls')),
+    path('api-auth/', include('rest_framework.urls')) 
 ]

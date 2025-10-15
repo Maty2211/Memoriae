@@ -5,25 +5,19 @@ from django.db.models import Sum
 from django.db.models.functions import TruncDay
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 
 from .serializers import EstadisticasPerfilSerializer
 from apps.pomodoro.models import PomodoroHistory
 
 
 class VistaEstadisticasPerfil(APIView):
-    """
-    Endpoint que recopila y calcula todas las estadísticas del perfil.
-    """
-    permission_classes = [IsAuthenticated]
+    permission_classes = []  # Sin autenticación por ahora
 
     def get(self, request, *args, **kwargs):
-        usuario = request.user
         hoy = timezone.now().date()
 
-        # Obtenemos todas las sesiones exitosas de tipo 'focus' del usuario
+        # Obtenemos todas las sesiones exitosas
         sesiones_enfoque = PomodoroHistory.objects.filter(
-            user=usuario,
             session_type='focus',
             was_successful=True
         )
@@ -47,12 +41,11 @@ class VistaEstadisticasPerfil(APIView):
             dia_actual = hoy
             if hoy not in fechas_de_estudio:
                 dia_actual -= timedelta(days=1)
-
             while dia_actual in fechas_de_estudio:
                 racha_de_dias += 1
                 dia_actual -= timedelta(days=1)
 
-        # 3. Meta diaria (120 min)
+        # 3. Meta diaria
         meta_diaria_minutos = 120
         inicio_de_semana = hoy - timedelta(days=hoy.weekday())
         fin_de_semana = inicio_de_semana + timedelta(days=6)
@@ -61,7 +54,7 @@ class VistaEstadisticasPerfil(APIView):
             end_time__date__range=[inicio_de_semana, fin_de_semana]
         )
 
-        estado_meta_diaria = {dia: False for dia in range(7)}  # 0=Lunes, 6=Domingo
+        estado_meta_diaria = {dia: False for dia in range(7)}
         resumen_diario = (
             sesiones_esta_semana.annotate(fecha=TruncDay('end_time'))
             .values('fecha')
@@ -84,8 +77,7 @@ class VistaEstadisticasPerfil(APIView):
         total_semana_anterior = (
             sesiones_enfoque.filter(
                 end_time__date__range=[inicio_semana_pasada, fin_semana_pasada]
-            ).aggregate(total=Sum('duration_minutes'))['total']
-            or 0
+            ).aggregate(total=Sum('duration_minutes'))['total'] or 0
         )
 
         if total_semana_anterior > 0:
@@ -99,25 +91,23 @@ class VistaEstadisticasPerfil(APIView):
         else:
             cambio_porcentual = 0.0
 
-        # 5. Resumen mensual (últimos 12 meses)
+        # 5. Resumen mensual
         resumen_mensual = []
         for i in range(12):
             fecha_mes = hoy - relativedelta(months=i)
-            nombre_mes = fecha_mes.strftime("%b")  # Ej: 'Oct'
+            nombre_mes = fecha_mes.strftime("%b")
             minutos_totales_en_mes = (
                 sesiones_enfoque.filter(
                     end_time__month=fecha_mes.month,
                     end_time__year=fecha_mes.year,
-                ).aggregate(total=Sum('duration_minutes'))['total']
-                or 0
+                ).aggregate(total=Sum('duration_minutes'))['total'] or 0
             )
             resumen_mensual.append(
                 {"mes": nombre_mes, "minutos_totales": minutos_totales_en_mes}
             )
 
-        resumen_mensual.reverse()  # Mes más antiguo primero
+        resumen_mensual.reverse()
 
-        # --- Respuesta final ---
         datos_respuesta = {
             "datos_heatmap": list(datos_heatmap),
             "racha_de_dias": racha_de_dias,

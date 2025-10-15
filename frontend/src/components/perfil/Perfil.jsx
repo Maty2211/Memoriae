@@ -1,66 +1,71 @@
-import React from "react";
-import { Container, Row, Col, Button, Card } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
 import { Avatar } from "@mui/material";
-import { Edit } from "@mui/icons-material";
-import Heatmap from "./Heatmap";
-import DailyGoal from "./DailyGoal";
-import WeeklyStats from "./WeeklyStats";
-import MonthlyChart from "./MonthlyChart";
+import Heatmap from "./Heatmap.jsx";
+import DailyGoal from "./MetaDiaria.jsx";
+import WeeklyStats from "./StatsSemanales.jsx";
+import MonthlyChart from "./ChartsMensuales.jsx";
+import { obtenerEstadisticasPerfil } from "../../api/perfil.api.js";
 import "./perfil.css";
 
 const Perfil = () => {
-  // Datos simulados (más adelante vendrán del back)
-  const usuario = {
+  const [usuario, setUsuario] = useState({
     username: "@usuario01",
     nombre: "Nombre Apellido",
-    streak: 12,
-  };
+    streak: 0,
+  });
+
+  const [datosPerfil, setDatosPerfil] = useState(null);
+
+  useEffect(() => {
+    obtenerEstadisticasPerfil().then(data => {
+      if (data) {
+        setDatosPerfil(data);
+        setUsuario(prev => ({ ...prev, streak: data.racha_de_dias }));
+      }
+    });
+  }, []);
+
+  if (!datosPerfil) return <p>Cargando estadísticas...</p>;
 
   return (
-    <Container fluid className="perfil-container">
-      <Row className="justify-content-center mt-4">
-        <Col md={8} className="perfil-card">
-          <div className="perfil-header text-center">
-            <Avatar sx={{ width: 80, height: 80, bgcolor: "#b3a6f6" }} />
-            <h5 className="mt-2 text-muted">{usuario.username}</h5>
-            <h4>{usuario.nombre}</h4>
-            <Button
-              variant="outline-secondary"
-              size="sm"
-              className="mt-2"
-              style={{ borderRadius: "20px" }}
-            >
-              <Edit fontSize="small" /> Editar perfil
-            </Button>
-          </div>
+    <div className="perfil-grid-container">
+      <div className="grid-header">
+        <Avatar sx={{ width: 60, height: 60, bgcolor: "#b3a6f6" }} />
+        <h5 className="mt-1 text-muted">{usuario.username}</h5>
+        <h4>{usuario.nombre}</h4>
+      </div>
 
-          {/* Sección de estadísticas */}
-          <div className="perfil-stats mt-5">
-            <h6 className="text-center text-muted">Estadísticas diarias</h6>
-            <Heatmap />
+      <div className="grid-heatmap">
+        <div className="card-effect">
+          <Heatmap datos={datosPerfil.datos_heatmap} />
+        </div>
+      </div>
 
-            <Row className="mt-4 text-center">
-        <Col md={6}>
-        <Card className="p-3 shadow-sm border-0">
-        <h6 className="text-muted mb-3">Meta diaria</h6>
-        <DailyGoal />
-        </Card>
-    </Col>
+      <div className="grid-meta-diaria">
+        <div className="card-effect">
+          <DailyGoal estadoMeta={datosPerfil.estado_meta_diaria} />
+        </div>
+      </div>
 
-    <Col md={6}>
-        <Card className="p-3 shadow-sm border-0">
-        <h5 style={{ color: "#7a5cf2" }}>{usuario.streak}</h5>
-        <p className="text-muted">day streak</p>
-        </Card>
-    </Col>
-    </Row>
+      <div className="grid-racha-dias">
+        <div className="card-effect centered-content">
+          <h5 className="racha-numero">{usuario.streak}</h5>
+          <p className="text-muted mb-0">day streak</p>
+        </div>
+      </div>
 
-            <WeeklyStats />
-            <MonthlyChart />
-          </div>
-        </Col>
-      </Row>
-    </Container>
+      <div className="grid-semanal">
+        <div className="card-effect">
+          <WeeklyStats estadisticas={datosPerfil.estadisticas_semanales} />
+        </div>
+      </div>
+
+      <div className="grid-mensual">
+        <div className="card-effect">
+          <MonthlyChart resumen={datosPerfil.resumen_mensual} />
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -1,55 +1,144 @@
-.perfil-container {
-  background: transparent;
-  min-height: 100vh;
-  padding-bottom: 40px;
-}
+/* --- Contenedor Principal con CSS Grid --- */
+.perfil-grid-container {
+  height: 100%;
+  width: 100%;
+  padding: 1.5rem;
+  box-sizing: border-box;
 
-.perfil-card {
-  border-radius: 20px;
-  box-shadow:
-    0 6px 24px rgba(0, 0, 0, 0.199),
+  background: rgba(217, 35, 35, 0);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 20px;  
+  border: 1px solid rgba(255, 255, 255, 0.065); /* borde suave oscuro */
+  color: #000000; /* texto principal negro */
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.334),
     inset 0 0 0 1px rgba(248, 245, 245, 0);
-  padding: 30px;
-  background: rgba(217, 35, 35, 0); /* fondo semitransparente */
-  backdrop-filter: blur(6px); /* desenfoque */
-  -webkit-backdrop-filter: blur(6px); /* compatibilidad Safari */
-  border: 1px solid rgba(255, 255, 255, 0.065); /* borde sutil */ 
-  border-radius: 20px; /* bordes redondeados */
-  transform: scale(0.9); /* reduce el tamaño un 10% */
-  transform-origin: top center; /* escala desde el centro superior */
+
+  display: grid;
+  grid-template-columns: 1.5fr 1fr; 
+  grid-template-rows: auto auto 1fr auto; 
+  gap: 0.8rem;
+
+  grid-template-areas:
+    "header   header"
+    "heatmap  meta"
+    "heatmap  racha"
+    "semanal  mensual";
 }
 
-.perfil-header h4 {
-  color: #333;
-  font-weight: 600;
-  font-size: 1.1rem;
-}
+/* --- Áreas asignadas correctamente --- */
+.grid-header        { grid-area: header; }
+.grid-heatmap       { grid-area: heatmap; }
+.grid-meta-diaria   { grid-area: meta; }
+.grid-racha-dias    { grid-area: racha; }
+.grid-semanal       { grid-area: semanal; }
+.grid-mensual       { grid-area: mensual; }
 
-.perfil-header h5 {
-  font-size: 0.9rem;
-}
-
-.perfil-card h6, .perfil-card p {
-  font-size: 0.85rem;
-}
-
-.perfil-header {
+/* --- Estilo del header (centrado) --- */
+.grid-header {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Esto centrará horizontalmente la imagen y el texto */
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  text-align: center;
+  margin-bottom: -0.5rem;
 }
 
-.perfil-card .card {
-  background: rgba(255, 255, 255, 0.564) !important; /* Mismo fondo semitransparente */
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  border: none !important; /* Quitamos el borde por defecto de las tarjetas */
-  box-shadow: none !important; /* Quitamos la sombra por defecto para un look más limpio */
-  border-radius: 15px !important; /* Bordes redondeados consistentes */
-  padding: 15px !important; /* Espaciado interno */
-  margin-bottom: 10px !important; /* Espacio entre tarjetas */
+.grid-header .MuiAvatar-root {
+  width: 55px !important;
+  height: 55px !important;
+  background-color: #6c63ff !important; /* color destacado sobre claro */
+  margin-bottom: 0.2rem;
 }
 
-.recharts-wrapper {
-  height: 200px !important;
+.grid-header h4 { 
+  font-size: 1rem; 
+  margin: 0.2rem 0 0 0; 
+  color: #000000; 
+}
+
+.grid-header h5 { 
+  font-size: 0.75rem; 
+  margin: 0; 
+  color: #555555; 
+}
+
+/* --- Tarjetas cristalizadas --- */
+.card-effect {
+  background: rgba(255, 255, 255, 0.292); /* más claro */
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 14px; 
+  padding: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Tipografía general --- */
+.text-muted { 
+  color: #666666 !important; 
+  font-size: 0.7rem; 
+}
+
+.card-title {
+  font-size: 0.8rem;
+  color: #4b4b4b; /* título más oscuro */
+  margin-bottom: 0.5rem;
+  text-align: left;
+  width: 100%;
+  font-weight: 500;
+}
+
+/* --- Racha de días --- */
+.racha-numero {
+  color: #4b4b4b; /* número en gris oscuro */
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0;
+  line-height: 1;
+}
+
+.centered-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Meta Diaria (para ajustar el stack interno de MUI) --- */
+.grid-meta-diaria .card-effect {
+  align-items: stretch;
+}
+
+/* --- Gráfico mensual --- */
+.grid-mensual .card-effect {
+  width: 100%;
+  height: 200px; /* más compacto */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.stats-card {
+  width: 100%;
+  height: 100%;
+}
+
+/* --- Responsividad --- */
+@media (max-width: 900px) {
+  .perfil-grid-container {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "heatmap"
+      "meta"
+      "racha"
+      "semanal"
+      "mensual";
+    padding: 1rem;
+  }
 }

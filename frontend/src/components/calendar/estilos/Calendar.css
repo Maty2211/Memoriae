@@ -18,6 +18,8 @@
 
 /* Contenedor del calendario con efecto glass */
 .my-calendar-container {
+  display: flex;
+  flex-direction: column;
   background: rgba(217, 35, 35, 0);
   backdrop-filter: blur(6px);
   padding: 40px;
@@ -26,6 +28,7 @@
   box-shadow: 
     0 6px 24px rgba(0, 0, 0, 0.334),
     inset 0 0 0 1px rgba(248, 245, 245, 0);
+   height: calc(95vh - 90px);
 }
 
 .fc-day-today {
@@ -87,7 +90,7 @@
 .my-calendar-container .fc-daygrid-day-frame {
   display: flex;
   flex-direction: column;
-  height: 92px;
+  height: 72px;
 }
 
 .my-calendar-container .fc-daygrid-more-link {
@@ -99,8 +102,6 @@
   margin-top: 2px;
   border-radius: 4px;
 }
-
-
 
 
 
