@@ -15,7 +15,7 @@ const PomodoroWidget = () => {
   });
   const [timeLeft, setTimeLeft] = useState(settings.work_time * 60);
   const [isActive, setIsActive] = useState(false);
-  const [sessionType, setSessionType] = useState('work'); // 'work', 'break', o 'long_break'
+  const [sessionType, setSessionType] = useState(null);
   const [sessionStartTime, setSessionStartTime] = useState(null);
   const intervalRef = useRef(null);
 
@@ -24,7 +24,7 @@ const PomodoroWidget = () => {
       await getCsrfToken(); 
       const response = await getPomodoroSettings();
       setSettings(response.data);
-      if (!isActive) {
+      if (sessionType === null) {
         setTimeLeft(response.data.work_time * 60); // Inicia con el tiempo de Focus.
         setSessionType('work');
       }
@@ -104,15 +104,17 @@ const PomodoroWidget = () => {
 
   const handleStartPause = () => {
     if (!isActive) {
-      setSessionStartTime(new Date().toISOString());
+      if (!sessionStartTime) {
+        setSessionStartTime(new Date().toISOString());
+      }
     }
-    setIsActive(!isActive);
+    setIsActive(prev => !prev);
   };
 
-  const handleReset = () => {
+  const handleReset = async () => {
     setIsActive(false);   
-    clearInterval(intervalRef.current);
-    loadSettings();
+    setSessionStartTime(null);
+    await loadSettings();
   };
 
   return (
