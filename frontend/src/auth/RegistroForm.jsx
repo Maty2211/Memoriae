@@ -43,16 +43,9 @@ export default function RegistroForm() {
       <h2 className="saludo">¡Bienvenido!</h2>
       <div className="login-before-form">
         <img className="img-masc" src={mascota} alt="Mascota virtual"/>
-      <div className="login-container">
-    <div className="login-all">
-      <h2 className="saludo">¡Bienvenido!</h2>
-      <div className="login-before-form">
-        <img className="img-masc" src={mascota} alt="Mascota virtual"/>
-      <div className="login-container">
+      <div/>
         <h2>Crear una cuenta</h2>
       <form className="login-form" onSubmit={onSubmit}>
-      <form className="login-form" onSubmit={onSubmit}>
-        
         <label htmlFor="id_user">Nombre de usuario</label>
         <input type="text" name="username" id="id_user" required />
         <label htmlFor="id_nombre">Nombre</label>
@@ -81,9 +74,6 @@ export default function RegistroForm() {
           </a>
         </div>
       </form>
-    </div>
-    </div>
-    </div>
     </div>
     </div>
   );
