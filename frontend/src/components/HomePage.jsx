@@ -113,7 +113,7 @@ const HomePage = () => {
           cursor: "pointer"
         }}
         onClick={() => addWidget("pomodoro")}>
-          <i class="bi bi-clock"></i> <br />
+          <i className="bi bi-clock"></i> <br />
           Pomodoro
         </div>
 
@@ -122,7 +122,7 @@ const HomePage = () => {
           cursor: "pointer"
         }}
         onClick={() => addWidget("pomodoro")}>
-          <i class="bi bi-wallet2"></i> <br />
+          <i className="bi bi-wallet2"></i> <br />
           Flashcards
         </div>
 
@@ -131,7 +131,7 @@ const HomePage = () => {
           cursor: "pointer"
         }}
         onClick={() => addWidget("pomodoro")}>
-          <i class="bi bi-check2-all"></i> <br />
+          <i className="bi bi-check2-all"></i> <br />
           To do list
         </div>
 
@@ -149,7 +149,7 @@ const HomePage = () => {
           cursor: "pointer"
         }}
         onClick={() => addWidget("evento")}>
-          <i class="bi bi-bell"></i> <br />
+          <i className="bi bi-bell"></i> <br />
           Eventos
         </div>
 
