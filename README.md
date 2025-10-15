@@ -57,6 +57,8 @@ Cada vez que realicen cambios en la estructura de datos, hay que ejecutar:
 - npm install @mui/material @emotion/react @emotion/styled
 - npm install @mui/icons-materia
 - npm install @mui/x-date-pickers
+- npm install recharts
+
 
 
 
