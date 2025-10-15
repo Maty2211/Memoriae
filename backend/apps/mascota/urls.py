@@ -1,7 +1,7 @@
-from django.contrib import admin
-from django.urls import path
-from . import views
+from rest_framework.routers import DefaultRouter
+from .views import mascotaViewSet
 
-urlpatterns = [
-    path('', views.home, name='home'),
-]
+router = DefaultRouter()
+router.register(r'mascota', mascotaViewSet, basename="mascota")
+
+urlpatterns = router.urls

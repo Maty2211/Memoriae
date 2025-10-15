@@ -1,4 +1,8 @@
-from django.shortcuts import render
+from rest_framework.viewsets import ModelViewSet
+from rest_framework import viewsets
+from .models import Mascota
+from .serializer import MascotaSerializer
 
-def home(request):
-    return render(request, 'index.html', {})
+class mascotaViewSet(ModelViewSet):
+    queryset = Mascota.objects.all()
+    serializer_class = MascotaSerializer
