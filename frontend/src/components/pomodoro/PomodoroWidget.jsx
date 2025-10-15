@@ -114,6 +114,7 @@ const handleStartPause = () => {
       onReset={handleReset}
       workDuration={settings.focus_time}
       breakDuration={settings.break_time}
+      longBreakDuration={settings.long_break_time} 
       onSave={handleSettingsSave} 
     />
     </div>

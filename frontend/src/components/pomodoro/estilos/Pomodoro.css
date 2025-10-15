@@ -1,32 +1,71 @@
-/* Contenedor principal del widget con efecto de cristal */
 .pomodoro-container {
-  background: rgba(255, 255, 255, 0.1) !important; /* Fondo semi-transparente */
-  backdrop-filter: blur(10px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  border-radius: 16px !important;
-  color: white !important; /* Hacemos todo el texto blanco por defecto */
-  padding: 5px;
+  /* Esencia y colores del nuevo diseño */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px; /* Bordes más redondeados */
+  color: white; /* Texto blanco */
+  
+  /* Proporciones compactas que ya teníamos */
+  padding: 0.75rem; /* Padding reducido aún más */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+
+  width: fit-content; 
+  margin: auto; 
 }
 
-/* Estilo para el contador de tiempo grande */
+/* --- CAMBIOS AQUÍ --- */
+
+/* Forzamos a la fila de Bootstrap a ocupar toda la altura del contenedor */
+.pomodoro-container .row {
+  height: 100%;
+}
+
+/* Hacemos que ambas columnas sean contenedores flex verticales */
+.settings-column, .timer-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribuye el contenido verticalmente */
+  height: 100%; /* Asegura que la columna ocupe toda la altura */
+}
+
+.timer-column {
+  text-align: center;
+}
+
 .display-timer {
-  font-size: 7rem;
+  /* Tamaño de fuente más pequeño */
+  font-size: 2.2rem; 
   font-weight: 200;
   line-height: 1;
-  color: white;
 }
 
-/* Ajustes para los inputs y sus etiquetas */
+.session-title {
+  /* Título más pequeño */
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-bottom: 1rem;
+
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* Estilos para inputs con fondo oscuro y texto blanco */
 .pomodoro-container .input-group-text {
   background-color: rgba(0, 0, 0, 0.2);
   color: white;
   border-color: rgba(255, 255, 255, 0.2);
+  font-size: 0.7rem; /* Reducido */
+  padding: 0.25rem 0.5rem; /* Reducido */
 }
 
 .pomodoro-container .form-control {
   background-color: rgba(255, 255, 255, 0.1);
   color: white;
   border-color: rgba(255, 255, 255, 0.2);
+  font-size: 0.75rem; /* Reducido */
+  text-align: center;
 }
 
 .pomodoro-container .form-control:focus {
@@ -35,7 +74,7 @@
   box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
 }
 
-/* Quitamos las flechas de los inputs numéricos para un look más limpio */
+/* Quitamos flechas de los inputs numéricos */
 .pomodoro-container input[type="number"]::-webkit-inner-spin-button,
 .pomodoro-container input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -46,24 +85,25 @@
   -moz-appearance: textfield;
 }
 
-/* Botones de control principales */
-.pomodoro-container .btn-success {
-  background-color: #198754 !important;
-  border-color: #198754 !important;
+/* Botones más pequeños */
+.pomodoro-container .btn {
+  font-size: 0.75rem; /* Reducido */
 }
 
-.pomodoro-container .btn-secondary {
-  background-color: #6c757d !important;
-  border-color: #6c757d !important;
+.pomodoro-container .btn-lg {
+  padding: 0.3rem 0.6rem; /* Reducido */
+  font-size: 0.9rem; /* Reducido */
+  margin-left: 1rem;
+  margin-top: 1rem;
 }
 
-/* Botón de guardar */
-.pomodoro-container .btn-outline-light {
-  color: #f8f9fa !important;
-  border-color: #f8f9fa !important;
-}
-
+/* Efecto hover para el botón de guardar */
 .pomodoro-container .btn-outline-light:hover {
-  background-color: #f8f9fa !important;
-  color: #212529 !important;
+  background-color: #f8f9fa;
+  color: #212529;
 }
+
+.pomodoro-container .btn-success {
+  margin-left: 2rem;
+}
+
