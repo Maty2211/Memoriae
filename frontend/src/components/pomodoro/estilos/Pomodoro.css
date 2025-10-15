@@ -23,14 +23,21 @@
 
 /* Hacemos que ambas columnas sean contenedores flex verticales */
 .settings-column, .timer-column {
-  display: flex;
+
   flex-direction: column;
+  margin-left: 0.7rem;
   justify-content: space-between; /* Distribuye el contenido verticalmente */
   height: 100%; /* Asegura que la columna ocupe toda la altura */
 }
 
+.settings-column {
+  margin-left: 3rem;
+}
+
+
 .timer-column {
   text-align: center;
+
 }
 
 .display-timer {
@@ -38,25 +45,28 @@
   font-size: 2.2rem; 
   font-weight: 200;
   line-height: 1;
+  margin-top: 0.5rem;
 }
 
 .session-title {
   /* Título más pequeño */
   font-size: 1.2rem;
   font-weight: 300;
-  margin-bottom: 1rem;
+  margin-left: -0.9rem;
   text-transform: uppercase;
-  text-align: center;
   letter-spacing: 1px;
 }
 
+.session-counter {
+  margin-left: 0.2rem;
+}
 /* Estilos para inputs con fondo oscuro y texto blanco */
 .pomodoro-container .input-group-text {
   background-color: rgba(0, 0, 0, 0.2);
   color: white;
   border-color: rgba(255, 255, 255, 0.2);
   font-size: 0.7rem; /* Reducido */
-  padding: 0.25rem 0.5rem; /* Reducido */
+  padding: 0.25rem 0.25rem; /* Reducido */
 }
 
 .pomodoro-container .form-control {
@@ -90,19 +100,19 @@
 }
 
 .pomodoro-container .btn-lg {
-  padding: 0.3rem 0.6rem; /* Reducido */
-  font-size: 0.9rem; /* Reducido */
-  margin-left: 1rem;
-  margin-top: 1rem;
+  padding: 0.4rem 0.7rem; /* Reducido */
+  font-size: 1rem; /* Reducido */
+  margin-left: 0.2rem;
+  margin-top: -0.7rem;
+}
+
+.pomodoro-container .btn-success {
+  margin-left: 3rem;
 }
 
 /* Efecto hover para el botón de guardar */
 .pomodoro-container .btn-outline-light:hover {
   background-color: #f8f9fa;
   color: #212529;
+  margin-bottom: -1rem;
 }
-
-.pomodoro-container .btn-success {
-  margin-left: 2rem;
-}
-

@@ -56,7 +56,7 @@ class PomodoroSessionAPIView(APIView):
         )
 
         # 2. Actualizar el contador de sesiones completadas (solo si es una sesión de 'focus')
-        if session_type == 'focus':
+        if session_type == 'work':
             settings = PomodoroSettings.objects.get(user=request.user)
             settings.sessions_completed += 1
             # Lógica para reiniciar el contador si se alcanza el descanso largo:
