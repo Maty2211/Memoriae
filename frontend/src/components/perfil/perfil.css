@@ -15,11 +15,22 @@
   -webkit-backdrop-filter: blur(6px); /* compatibilidad Safari */
   border: 1px solid rgba(255, 255, 255, 0.065); /* borde sutil */ 
   border-radius: 20px; /* bordes redondeados */
+  transform: scale(0.9); /* reduce el tamaño un 10% */
+  transform-origin: top center; /* escala desde el centro superior */
 }
 
 .perfil-header h4 {
   color: #333;
   font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.perfil-header h5 {
+  font-size: 0.9rem;
+}
+
+.perfil-card h6, .perfil-card p {
+  font-size: 0.85rem;
 }
 
 .perfil-header {
@@ -35,4 +46,10 @@
   border: none !important; /* Quitamos el borde por defecto de las tarjetas */
   box-shadow: none !important; /* Quitamos la sombra por defecto para un look más limpio */
   border-radius: 15px !important; /* Bordes redondeados consistentes */
+  padding: 15px !important; /* Espaciado interno */
+  margin-bottom: 10px !important; /* Espacio entre tarjetas */
+}
+
+.recharts-wrapper {
+  height: 200px !important;
 }
