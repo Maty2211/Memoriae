@@ -4,7 +4,7 @@ from .models import GrupoFlashcard , Flashcard
 class FlashcardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flashcard
-        fields = ['id', 'pregunta', 'respuesta']
+        fields = ['id', 'pregunta', 'respuesta', 'grupo']
 
 class GrupoFlashcardsSerializer(serializers.ModelSerializer):
     flashcards = FlashcardSerializer(many=True, read_only=True)

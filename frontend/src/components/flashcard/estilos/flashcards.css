@@ -1,0 +1,166 @@
+.botonContainer{
+  display: flex;
+  justify-content:flex-end;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.nuevoGrupoBoton{
+  background-color: white;
+  border: white;
+  float: right; 
+  border-radius: 4px;
+  color: black;
+  display:flex;
+
+}
+
+h1{
+  color: white;
+  text-align: left;
+}
+
+.listaGrupos {
+  display: grid;
+  grid-template-columns: repeat(5, 210px);
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.card{
+  justify-content: center;
+  align-items:center;
+  background-color: transparent;
+  border-color: transparent;
+  padding: 0% !important;
+  text-decoration: none;
+}
+
+.principal-fc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  background: rgba(217, 35, 35, 0);
+  backdrop-filter: blur(6px);
+  padding: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.065);
+  border-radius: 20px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.334), inset 0 0 0 1px rgba(248, 245, 245, 0);
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  overflow-x: hidden; 
+  margin-bottom:0px;
+}
+
+.titulo{             
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  text-align: left;
+  color:black;
+  font-weight: 520;
+  font-size:18px !important;
+}
+
+.tema{
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  text-align: left;
+  color:gray;
+  font-weight: 600;
+  font-size:12px !important;
+}
+
+.grupoFlashcard {
+  position: relative;      
+  background-color: white;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+  font-family: sans-serif;
+  font-size: 14px;
+  width: 210px;
+  height: 96px;
+  padding: 10px;
+  box-sizing: border-box;
+  padding: 15px;
+}
+
+.texto{
+  height: 80%;                  
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  text-align: left;
+  color:black;
+  text-decoration: none;
+  font-weight: 520;
+}
+
+.icono {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  display: flex;
+  font-size: 16px;
+  color: #555;
+  cursor: pointer;
+}
+
+.icono i:hover button:hover{
+  border-color: 4px solid black;
+}
+
+.icono i:hover {
+  color: black;  
+}
+
+.botones-fc{
+  background-color: white;
+  border: solid white;
+  border-radius: 50%;
+  color: black;
+  margin-top:10px;
+
+}
+
+.principal-fc::-webkit-scrollbar {
+  width: 8px;
+}
+
+.principal-fc::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.principal-fc::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+@media (max-width: 1200px) {
+  .listaGrupos {
+    grid-template-columns: repeat(4, 210px); 
+  }
+}
+
+@media (max-width: 960px) {
+  .listaGrupos {
+    grid-template-columns: repeat(3, 210px); 
+  }
+}
+
+@media (max-width: 720px) {
+  .listaGrupos {
+    grid-template-columns: repeat(2, 210px);
+  }
+}
+
+@media (max-width: 580px) {
+  .listaGrupos {
+    grid-template-columns: repeat(1, 210px); 
+    justify-content: center;
+  }
+}

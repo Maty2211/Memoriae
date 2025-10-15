@@ -32,7 +32,12 @@ export const getFlashcards = async (grupoId) => {
   return res.data;
 };
 
-export const createFlashcards = async (flashcard) => {
-  const res = await API.post("/flashcard/", flashcard);
+export const createFlashcards = async (flashcard, grupoId) => {
+  const res = await API.post("/flashcard/", flashcard, grupoId);
+  return res.data;
+};
+
+export const updateFlashcard = async (id, flashcard, grupoId) => {
+  const res = await API.put(`/flashcard/${id}/`, flashcard, grupoId);
   return res.data;
 };

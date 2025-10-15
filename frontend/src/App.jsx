@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import { MostrarHome } from './pages/home'
-import { ListarGrupoFlashcards } from './pages/flashcards'
-import { UsarFlashcard } from './pages/flashcardEspecifica'
+import { MostrarHome } from './components/home'
+import { ListarGrupoFlashcards } from './components/flashcard/flashcards'
+import { UsarFlashcard } from './components/flashcard/flashcardEspecifica'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import './App.css'
 
