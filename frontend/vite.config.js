@@ -11,6 +11,8 @@ export default defineConfig({
       "/calendario": { target: "http://localhost:8000", changeOrigin: true },
       "/to_do_list": { target: "http://localhost:8000", changeOrigin: true },
       "/flashcard": { target: "http://localhost:8000", changeOrigin: true },
+      "/pomodoro": {target: 'http://localhost:8000', changeOrigin: true,
+      },
       // agrega otras rutas (evento, to do, etc.)
     },
   },
