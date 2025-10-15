@@ -3,8 +3,6 @@ import { useAuth } from "./AuthContex";
 import { useState } from "react";
 import './login-register.css';
 import mascota from "../assets/mascota.gif"
-import './login-register.css';
-import mascota from "../assets/mascota.gif"
 
 export default function RegistroForm() {
   const { register } = useAuth();
