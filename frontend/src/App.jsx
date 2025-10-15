@@ -9,6 +9,8 @@ import RegistroPage from "./auth/RegistroPage";
 import ToDoList from "./components/toDoList/TaskPage";
 import PrivateRoute from "./auth/PrivateRoute";
 import TaskFormPage from "./components/toDoList/TaskFormPage";
+import ListarGrupoFlashcards from "./flashcard/flashcards";
+import UsarFlashcard from "./flashcard/flashcardEspecifica";
 
 import "./App.css";
 
@@ -37,6 +39,8 @@ function App() {
           <Route path="/toDoList" element={<ToDoList />} caseSensitive />
           <Route path="/task-create" element={<TaskFormPage />} caseSensitive />
           <Route path="/task/:id" element={<TaskFormPage />} caseSensitive />
+          <Route path="/flashcards" element={<ListarGrupoFlashcards/>} caseSensitive />
+          <Route path="/flashcards/:idGrupoFlashcards/:nombreGrupoFlashcards" element={<UsarFlashcard />} caseSensitive />
         </Route>
       </Route>
 

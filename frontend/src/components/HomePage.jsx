@@ -7,6 +7,7 @@ import PomodoroWidget from "./pomodoro/PomodoroWidget";
 import { useNavigate } from "react-router-dom"; 
 import BackgroundCarousel from "./background/BackgroundCarousel";
 import { Button } from 'react-bootstrap'; 
+import FlashcardWidget from "./flashcard/flashcardWidget"
 
 import bg1 from './background/img/background1.jpeg';
 import bg2 from './background/img/background2.jpg';
@@ -97,6 +98,11 @@ const HomePage = () => {
       root.render(<Calendar1 mini2 onNavigate={() => navigate("/calendar1")} />);
 
     }
+    else if (type === "flashcard") {
+
+      root.render(<FlashcardWidget onNavigate={() => navigate("/FlashcardWidget")} />);
+
+    }
 
     setVisibleWidgets((prev) => ({ ...prev, [type]: item }));
 
@@ -141,7 +147,7 @@ const HomePage = () => {
         style={{
           cursor: "pointer"
         }}
-        onClick={() => addWidget("pomodoro")}>
+        onClick={() => addWidget("flashcard")}>
           <i className="bi bi-wallet2"></i> <br />
           Flashcards
         </div>
