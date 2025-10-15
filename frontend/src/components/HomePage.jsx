@@ -26,7 +26,7 @@ const HomePage = () => {
 
   const widgetConfig = {
     calendar: { w: 3.2, h: 32.7, x: 12, y: 15 },
-    pomodoro: { w: 1, h: 1, x: 12, y: 0 },
+    pomodoro: { w: 30, h: 40, x: 12, y: 0 },
     evento: { w: 2.6, h: 20.1, x: 1, y: 28 },
     todolist: { w: 2.6, h: 1.1, x: 0, y: 0 },
     flashcard: { w: 2.6, h: 1.1, x: 5, y: 0 },
@@ -71,7 +71,7 @@ const HomePage = () => {
 
     } else if (type === "pomodoro") {
 
-      root.render(<ComodoroWidget onNavigate={() => navigate("/pomodoro")} />);
+      root.render(<PomodoroWidget onNavigate={() => navigate("/pomodoro")} />);
 
     }else if (type === "evento") {
 
