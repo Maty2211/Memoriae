@@ -18,9 +18,7 @@ const HomePage = () => {
       disableResize: true,
       cellHeight: 10, // pasos pequeños → movimiento más suave
       margin: 0, 
-      margin: 0,
       maxRow: 60,
-    
     });
   }, []);
 
