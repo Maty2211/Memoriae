@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { GridStack } from "gridstack";
 import "gridstack/dist/gridstack.min.css";
 import Calendar1 from "./calendar/Calendar1";
+import PomodoroWidget from "./pomodoro/PomodoroWidget";
 import { useNavigate } from "react-router-dom"; 
 
 const HomePage = () => {
@@ -70,7 +71,7 @@ const HomePage = () => {
 
     } else if (type === "pomodoro") {
 
-      root.render(<div>Widget genérico</div>);
+      root.render(<ComodoroWidget onNavigate={() => navigate("/pomodoro")} />);
 
     }else if (type === "evento") {
 
