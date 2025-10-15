@@ -9,8 +9,7 @@ export default function RegisterPage() {
   if (user) return <Navigate to="/" replace />; // si ya está logueado, no mostrar registro
 
   return (
-    <div style={{ maxWidth: 480, margin: "40px auto", padding: 24, border: "1px solid #eee", borderRadius: 8 }}>
-      <h2 style={{ marginBottom: 16 }}>Crear cuenta</h2>
+    <div>
       <RegistroForm />
     </div>
   );

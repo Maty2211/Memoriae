@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContex";
 import { useState } from "react";
+import './login-register.css';
+import mascota from "../assets/mascota.gif"
 
 export default function RegistroForm() {
   const { register } = useAuth();
@@ -35,42 +37,43 @@ export default function RegistroForm() {
   };
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
+    <div className="login-all">
+      <h2 className="saludo">¡Bienvenido!</h2>
+      <div className="login-before-form">
+        <img className="img-masc" src={mascota} alt="Mascota virtual"/>
+      <div className="login-container">
         <h2>Crear una cuenta</h2>
+      <form className="login-form" onSubmit={onSubmit}>
         
         <label htmlFor="id_user">Nombre de usuario</label>
         <input type="text" name="username" id="id_user" required />
-
         <label htmlFor="id_nombre">Nombre</label>
         <input type="text" name="nombre" id="id_nombre" />
-
         <label htmlFor="id_apellido">Apellido</label>
         <input type="text" name="apellido" id="id_apellido" />
-
         <label htmlFor="id_email">Email</label>
         <input type="email" name="email" id="id_email" required autoComplete="email" />
-
         <label htmlFor="id_password1">Contraseña</label>
         <input type="password" name="password1" id="id_password1" required autoComplete="new-password" />
-
         <label htmlFor="id_password2">Repetir contraseña</label>
         <input type="password" name="password2" id="id_password2" required autoComplete="new-password" />
 
-        <button type="submit">Siguiente</button>
+        <button className="btn-todoOk" type="submit">Siguiente</button>
 
         {error && <p style={{ color: "crimson" }}>{error}</p>}
-
-        <p>¿Ya tenés cuenta? <Link to="/login">Iniciá sesión</Link></p>
-        <div style={{ marginTop: 12 }}>
+        <div className="S-Link">
+          <p >¿Ya tenés cuenta? <Link to="/login">Iniciá sesión</Link></p>
+        </div>
+        <div className="btn-oauth">
           <a
             href="http://localhost:8000/accounts/google/login/"
-            style={{ display: "inline-block", padding: "8px 12px", border: "1px solid #ccc", borderRadius: 6 }}
           >
             Continuar con Google
           </a>
         </div>
       </form>
+    </div>
+    </div>
     </div>
   );
 }

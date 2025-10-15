@@ -32,9 +32,8 @@ const HomePage = () => {
       float: true,
       disableResize: true,
       cellHeight: 10, // pasos pequeños → movimiento más suave
-      margin: 0,
+      margin: 0, 
       maxRow: 60,
-    
     });
   }, []);
 
@@ -155,7 +154,7 @@ const HomePage = () => {
         style={{
           cursor: "pointer"
         }}
-        onClick={() => addWidget("pomodoro")}>
+        onClick={() => addWidget("todolist")}>
           <i className="bi bi-check2-all"></i> <br />
           To do list
         </div>
