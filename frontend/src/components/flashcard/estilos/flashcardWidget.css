@@ -1,0 +1,102 @@
+.widget-fc-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+  background: rgba(217, 35, 35, 0);
+  backdrop-filter: blur(6px);
+  padding-top: 3px;
+  padding-bottom: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.065);
+  border-radius: 20px;
+  box-shadow: 
+    0 6px 24px rgba(0, 0, 0, 0.334),
+    inset 0 0 0 1px rgba(248, 245, 245, 0); 
+}
+
+.widget-fc-cuadro {
+  width: 200px;
+  height: 96px;
+  background-color: #f8f9fa;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  padding: 15px;
+  box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+}
+
+.titulo{             
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  text-align: left;
+  color:black;
+  text-decoration: none;
+  font-weight: 520;
+  font-size:18px !important;
+}
+
+.tema{
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  text-align: left;
+  color:gray;
+  text-decoration: none;
+  font-weight: 600;
+  font-size:12px !important;
+}
+.widget-fc-icono {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #007bff;
+  color: white;
+  width: 35px;
+  height: 35px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size:14px;
+}
+
+.widget-fc-icono:hover {
+  background-color: #0056b3;
+}
+
+.flecha {
+  font-size: 1rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.grid-stack-item-content {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.irLista {
+  position: absolute;
+  bottom: 1px;
+  right: 8px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  padding: 0%;
+}
+
+.irLista:hover {
+  transform: scale(1.2);
+}

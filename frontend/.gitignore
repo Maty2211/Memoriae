@@ -22,3 +22,20 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Ignorar archivos compilados de Python
+*.pyd
+
+node_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Django
+*.sqlite3
+*.log
+*.pot
+*.pyc
+*.mo
