@@ -3,6 +3,8 @@ import { useAuth } from "./AuthContex";
 import { useState } from "react";
 import './login-register.css';
 import mascota from "../assets/mascota.gif"
+import './login-register.css';
+import mascota from "../assets/mascota.gif"
 
 export default function RegistroForm() {
   const { register } = useAuth();
@@ -42,7 +44,13 @@ export default function RegistroForm() {
       <div className="login-before-form">
         <img className="img-masc" src={mascota} alt="Mascota virtual"/>
       <div className="login-container">
+    <div className="login-all">
+      <h2 className="saludo">¡Bienvenido!</h2>
+      <div className="login-before-form">
+        <img className="img-masc" src={mascota} alt="Mascota virtual"/>
+      <div className="login-container">
         <h2>Crear una cuenta</h2>
+      <form className="login-form" onSubmit={onSubmit}>
       <form className="login-form" onSubmit={onSubmit}>
         
         <label htmlFor="id_user">Nombre de usuario</label>
@@ -59,6 +67,7 @@ export default function RegistroForm() {
         <input type="password" name="password2" id="id_password2" required autoComplete="new-password" />
 
         <button className="btn-todoOk" type="submit">Siguiente</button>
+        <button className="btn-todoOk" type="submit">Siguiente</button>
 
         {error && <p style={{ color: "crimson" }}>{error}</p>}
         <div className="S-Links">
@@ -72,6 +81,8 @@ export default function RegistroForm() {
           </a>
         </div>
       </form>
+    </div>
+    </div>
     </div>
     </div>
     </div>
