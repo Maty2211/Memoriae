@@ -65,3 +65,17 @@ class PomodoroSessionAPIView(APIView):
             settings.save()
 
         return Response(PomodoroHistorySerializer(session).data, status=status.HTTP_201_CREATED)
+        
+
+class PomodoroHistoryListView(generics.ListAPIView):
+    """
+    Devuelve una lista (GET) de todas las sesiones de Pomodoro
+    del usuario autenticado, ordenadas de la más reciente a la más antigua.
+    """
+    serializer_class = PomodoroHistorySerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # Filtramos el historial para devolver solo las sesiones del usuario actual
+        # y las ordenamos por fecha de inicio descendente.
+        return PomodoroHistory.objects.filter(user=self.request.user).order_by('-start_time')
