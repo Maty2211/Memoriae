@@ -42,10 +42,9 @@
 
 .session-title {
   /* Título más pequeño */
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 300;
   margin-bottom: 1rem;
-
   text-transform: uppercase;
   text-align: center;
   letter-spacing: 1px;

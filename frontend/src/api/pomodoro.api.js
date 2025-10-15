@@ -1,21 +1,23 @@
-import axios from 'axios';
+import axios from "axios";
 
 const pomodoroApi = axios.create({
-    baseURL: 'http://localhost:8000/pomodoro/'  
+  baseURL: "http://localhost:8000",
+  withCredentials: true,
 });
 
-// Interceptor para añadir el token de autenticación a cada petición
 pomodoroApi.interceptors.request.use(config => {
-    const token = localStorage.getItem('auth_token');
-    if (token) {
-        // Django REST Framework espera este formato
-        config.headers.Authorization = `Token ${token}`;
-    }
-    return config;
-}, error => {
-    return Promise.reject(error);
+  const csrfToken = document.cookie
+    .split('; ')
+    .find(row => row.startsWith('csrftoken='))
+    ?.split('=')[1];
+
+  if (csrfToken) {
+    config.headers['X-CSRFToken'] = csrfToken;
+  }
+  return config;
 });
 
-export const getPomodoroSettings = () => pomodoroApi.get('settings/');
-export const updatePomodoroSettings = (settings) => pomodoroApi.put('settings/', settings);
-export const logPomodoroSession = (sessionData) => pomodoroApi.post('sessions/complete/', sessionData);
+export const getCsrfToken = () => pomodoroApi.get("/api/csrf/");
+export const getPomodoroSettings = () => pomodoroApi.get("/pomodoro/api/v1/settings/");
+export const updatePomodoroSettings = (settings) => pomodoroApi.put("/pomodoro/api/v1/settings/", settings);
+export const logPomodoroSession = (sessionData) => pomodoroApi.post("/pomodoro/api/v1/sessions/complete/", sessionData);

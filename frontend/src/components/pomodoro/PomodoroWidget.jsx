@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PomodoroUI from './PomodoroUI.jsx';
-import { getPomodoroSettings, updatePomodoroSettings, logPomodoroSession } from '../../api/pomodoro.api.js';
+import { getPomodoroSettings, updatePomodoroSettings, logPomodoroSession, getCsrfToken } from '../../api/pomodoro.api.js';
 
 const alertSound = new Audio('/alerta.mp3'); 
 
@@ -20,6 +20,7 @@ const PomodoroWidget = () => {
 
   const loadSettings = useCallback(async () => {
     try {
+      await getCsrfToken(); 
       const response = await getPomodoroSettings();
       setSettings(response.data);
       if (!isActive) {
@@ -31,13 +32,14 @@ const PomodoroWidget = () => {
     }
   }, [isActive]);
 
+
   useEffect(() => {
     loadSettings();
   }, [loadSettings]);
 
 
   const handleSessionEnd = useCallback(async () => {
-    setIsActive(false);
+    setIsActive(true);
 
     //Loguea la sesión que acaba de terminar
     await logPomodoroSession({
@@ -47,8 +49,8 @@ const PomodoroWidget = () => {
       was_successful: true
     });
 
-    alertSound.play(); //Suena para alertar del cambio de tipo de sesión
-
+    alertSound.play();
+    
     const updatedSettings = await getPomodoroSettings().then(res => res.data);
     
     if (sessionType === 'work') {
