@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContex";
 import { useState } from "react";
+import './login-register.css';
+import mascota from "../assets/mascota.gif"
 
 export default function LoginForm() {
   const { login } = useAuth();
@@ -22,40 +24,39 @@ export default function LoginForm() {
   };
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
-        <h2>Iniciar sesión</h2>
-
-        <div className="mb-3">
+    <div className="login-all">
+      <h2 className="saludo">¡Bienvenido!</h2>
+      <div className="login-before-form">
+        <img className="img-masc" src={mascota} alt="Mascota virtual"/>
+      <div className="login-container">
+        <h2>Iniciar sesion</h2>
+      <form className="login-form" onSubmit={onSubmit}>
+          <hr className="my-3" />
           <label htmlFor="id_email">Email</label>
-        </div>
-        <div className="mb-3">
           <input type="email" name="email" required id="id_email" autoComplete="email" />
-        </div>
-        <hr className="my-3" />
-        <div className="mb-3">
+          <hr className="my-3" />
           <label htmlFor="id_password">Contraseña</label>
-        </div>
-        <div className="mb-3"> 
           <input type="password" name="password" required id="id_password" autoComplete="current-password" />
-        </div>
-        <hr className="my-3" />
-        <button type="submit">Siguiente</button>
+          <hr className="my-3" />
+        <button className="btn-todoOk"type="submit">Siguiente</button>
 
         {error && <p style={{ color: "crimson" }}>{error}</p>}
-        <Link to="/forgot-password">¿Olvidaste tu contraseña?</Link>
+        <div className="S-Links">
+          <Link to="/forgot-password">¿Olvidaste tu contraseña?</Link>
         <p>
           ¿No tenés una cuenta? <Link to="/register">Registrarme</Link>
         </p>
-        <div style={{ marginTop: 12 }}>
+        </div>
+        <div className="btn-oauth">
           <a
             href="http://localhost:8000/accounts/google/login/"
-            style={{ display: "inline-block", padding: "8px 12px", border: "1px solid #ccc", borderRadius: 6 }}
           >
             Continuar con Google
           </a>
         </div>
       </form>
+      </div>
+      </div>
     </div>
   );
 }

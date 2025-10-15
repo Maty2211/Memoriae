@@ -8,7 +8,7 @@ export default function LoginPage() {
   if (user) return <Navigate to="/" replace />; // si ya está logueado, no muestres el login
 
   return (
-    <div style={{ maxWidth: 420, margin: "40px auto", padding: 24, border: "1px solid #eee", borderRadius: 8 }}>
+    <div>
       <LoginForm />
     </div>
   );

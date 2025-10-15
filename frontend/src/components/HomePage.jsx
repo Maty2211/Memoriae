@@ -7,7 +7,7 @@ import PomodoroWidget from "./pomodoro/PomodoroWidget";
 import { useNavigate } from "react-router-dom"; 
 import BackgroundCarousel from "./background/BackgroundCarousel";
 import { Button } from 'react-bootstrap'; 
-
+import ToDoList from "./toDoList/TaskPage";
 import bg1 from './background/img/background1.jpeg';
 import bg2 from './background/img/background2.jpg';
 import bg3 from './background/img/background3.jpg';
@@ -46,7 +46,7 @@ const HomePage = () => {
     calendar: { w: 3.2, h: 32.7, x: 12, y: 15 },
     pomodoro: { w: 2.5, h: 20, x: 12, y: 0 },
     evento: { w: 2.6, h: 20.1, x: 1, y: 28 },
-    todolist: { w: 2.6, h: 1.1, x: 0, y: 0 },
+    todolist: { w: 30, h: 30, x: 0, y: 0 },
     flashcard: { w: 2.6, h: 1.1, x: 5, y: 0 },
   };
 
@@ -94,6 +94,10 @@ const HomePage = () => {
     }else if (type === "evento") {
 
       root.render(<Calendar1 mini2 onNavigate={() => navigate("/calendar1")} />);
+    
+    }else if (type === "todolist") {
+
+      root.render(<ToDoList onNavigate={() => navigate("/pomodoro")} />);
 
     }
 
@@ -149,7 +153,7 @@ const HomePage = () => {
         style={{
           cursor: "pointer"
         }}
-        onClick={() => addWidget("pomodoro")}>
+        onClick={() => addWidget("todolist")}>
           <i className="bi bi-check2-all"></i> <br />
           To do list
         </div>
