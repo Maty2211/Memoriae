@@ -35,8 +35,12 @@
     "react-hook-form": "^7.65.0",
     "react-hot-toast": "^2.6.0",
     "react-icons": "^5.5.0",
+<<<<<<< HEAD
     "react-router-dom": "^7.9.4",
     "tailwindcss": "^4.1.14"
+=======
+    "react-router-dom": "^7.9.4"
+>>>>>>> ced6ad22f433737b51e230be0c4620677affb1c7
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
@@ -48,5 +52,6 @@
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
     "vite": "^7.1.2"
-  }
+  },
+  "proxy": "http://127.0.0.1:8000"
 }

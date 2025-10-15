@@ -5,12 +5,26 @@ import "gridstack/dist/gridstack.min.css";
 import Calendar1 from "./calendar/Calendar1";
 import PomodoroWidget from "./pomodoro/PomodoroWidget";
 import { useNavigate } from "react-router-dom"; 
+import BackgroundCarousel from "./background/BackgroundCarousel";
+import { Button } from 'react-bootstrap'; 
+
+import bg1 from './background/img/background1.jpeg';
+import bg2 from './background/img/background2.jpg';
+import bg3 from './background/img/background3.jpg';
+import bg4 from './background/img/background4.jpg';
+import bg5 from './background/img/background5.jpg';
+
+const images = [bg1, bg2, bg3, bg4, bg5];
 
 const HomePage = () => {
 
   const gridRef = useRef(null);
   const navigate = useNavigate();
   const [visibleWidgets, setVisibleWidgets] = useState({});
+
+  const [currentImage, setCurrentImage] = useState(
+    images[Math.floor(Math.random() * images.length)]
+  );
 
   useEffect(() => {
     gridRef.current = GridStack.init({
@@ -22,9 +36,15 @@ const HomePage = () => {
     });
   }, []);
 
+  const changeBackground = () => {
+    const currentIndex = images.indexOf(currentImage);
+    const nextIndex = (currentIndex + 1) % images.length;
+    setCurrentImage(images[nextIndex]);
+  };
+
   const widgetConfig = {
     calendar: { w: 3.2, h: 32.7, x: 12, y: 15 },
-    pomodoro: { w: 1, h: 1, x: 12, y: 0 },
+    pomodoro: { w: 2.5, h: 20, x: 12, y: 0 },
     evento: { w: 2.6, h: 20.1, x: 1, y: 28 },
     todolist: { w: 2.6, h: 1.1, x: 0, y: 0 },
     flashcard: { w: 2.6, h: 1.1, x: 5, y: 0 },
@@ -69,7 +89,7 @@ const HomePage = () => {
 
     } else if (type === "pomodoro") {
 
-      root.render(<ComodoroWidget onNavigate={() => navigate("/pomodoro")} />);
+      root.render(<PomodoroWidget onNavigate={() => navigate("/pomodoro")} />);
 
     }else if (type === "evento") {
 
@@ -82,9 +102,10 @@ const HomePage = () => {
   };
 
   return (
-    
+    <>
+      <BackgroundCarousel imageUrl={currentImage} />
 
-    <div >
+      <div >
       {/* Sidebar fijo */}
       <div
         style={{
@@ -111,7 +132,7 @@ const HomePage = () => {
           cursor: "pointer"
         }}
         onClick={() => addWidget("pomodoro")}>
-          <i class="bi bi-clock"></i> <br />
+          <i className="bi bi-clock"></i> <br />
           Pomodoro
         </div>
 
@@ -120,7 +141,7 @@ const HomePage = () => {
           cursor: "pointer"
         }}
         onClick={() => addWidget("pomodoro")}>
-          <i class="bi bi-wallet2"></i> <br />
+          <i className="bi bi-wallet2"></i> <br />
           Flashcards
         </div>
 
@@ -129,7 +150,7 @@ const HomePage = () => {
           cursor: "pointer"
         }}
         onClick={() => addWidget("pomodoro")}>
-          <i class="bi bi-check2-all"></i> <br />
+          <i className="bi bi-check2-all"></i> <br />
           To do list
         </div>
 
@@ -147,8 +168,18 @@ const HomePage = () => {
           cursor: "pointer"
         }}
         onClick={() => addWidget("evento")}>
-          <i class="bi bi-bell"></i> <br />
+          <i className="bi bi-bell"></i> <br />
           Eventos
+        </div>
+
+        <div style={{ marginTop: 'auto', padding: '10px' }}>
+          <Button 
+            variant="outline-light" 
+            onClick={changeBackground}
+            className="w-100"
+          >
+            <i className="bi bi-collection-fill"></i>
+          </Button>
         </div>
 
       </div>
@@ -163,6 +194,9 @@ const HomePage = () => {
         ></div>
       </div>
     </div>
+    </>
+
+    
   );
 };
 

@@ -1,7 +1,13 @@
 from rest_framework import serializers
-from .models import GrupoFlashcard
+from .models import GrupoFlashcard , Flashcard
 
-class GrupoFlashcardSerializer(serializers.ModelSerializer):
+class FlashcardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Flashcard
+        fields = ['id', 'pregunta', 'respuesta', 'grupo']
+
+class GrupoFlashcardsSerializer(serializers.ModelSerializer):
+    flashcards = FlashcardSerializer(many=True, read_only=True)
     class Meta:
         model = GrupoFlashcard
-        fields = '__all__'
+        fields = ['id', 'nombre', 'tema', 'flashcards']

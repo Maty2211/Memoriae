@@ -11,6 +11,7 @@ const PomodoroUI = ({
     onReset,
     workDuration,
     breakDuration,
+    longBreakDuration,
     onSave
 }) => {
   
@@ -21,8 +22,8 @@ const PomodoroUI = ({
 
   //Sincroniza si las props cambian
   useEffect(() => {
-    setSettings({ work: workDuration, break: breakDuration });
-  }, [workDuration, breakDuration]);
+    setSettings({ work: workDuration, break: breakDuration, longBreak: longBreakDuration });
+  }, [workDuration, breakDuration, longBreakDuration]);
 
 
   const handleInputChange = (e) => {
@@ -38,7 +39,7 @@ const PomodoroUI = ({
     const payload = {
       focus_time: settings.work,
       break_time: settings.break,
-      // Si necesitaras enviar el long_break_time, lo añadirías aquí
+      long_break_time: settings.longBreak,
     };
     onSave(payload); 
   };
@@ -51,65 +52,62 @@ const PomodoroUI = ({
   };
 
   return (
-    <Card className="text-center shadow-lg pomodoro-container" style={{ maxWidth: '500px', margin: 'auto' }}>
-      <Card.Body>
-        <Form>
-          <Row className="align-items-center mb-4">
-            <Col>
-              <InputGroup>
-                <InputGroup.Text>Focus</InputGroup.Text>
-                <Form.Control 
-                  type="number"
-                  name="work"
-                  value={settings.work === 0 ? '' : settings.work}
-                  onChange={handleInputChange}
-                  disabled={isActive}
-                  aria-label="Tiempo de trabajo en minutos"
-                />
-              </InputGroup>
-            </Col>
-            <Col>
-              <InputGroup>
-                <InputGroup.Text>Descanso</InputGroup.Text>
-                <Form.Control 
-                  type="number"
-                  name="break"
-                  value={settings.break === 0 ? '' : settings.break}
-                  onChange={handleInputChange}
-                  disabled={isActive}
-                  aria-label="Tiempo de descanso en minutos"
-                />
-              </InputGroup>
-            </Col>
-            <Col xs="auto">
-                <Button variant="outline-light" onClick={handleSave} disabled={isActive}>
-                  Guardar
-                </Button>
-            </Col>
-          </Row>
-        </Form>
-        
-        <Card.Title as="h2" className="mb-3">
-          {sessionType === 'work' ? 'Focus' : 'Descanso'}
-        </Card.Title>
-        
-        {/* Usamos una clase para el display del timer */}
-        <Card.Text className="display-timer">
-          {formatTime(timeLeft)}
-        </Card.Text>
-        
-        <div className="d-grid gap-2 d-sm-flex justify-content-sm-center mt-3">
-          <Button variant="outline-success" size="lg" onClick={onStartPause} className="px-4 gap-3">
-            {isActive ? <FaPause /> : <FaPlay />}
-          </Button>
-          <Button variant="outline-secondary" size="lg" onClick={onReset} className="px-4">
-            <FaSyncAlt />
-          </Button>
-        </div>
+    <div className="pomodoro-container">
+      <Row className="align-items-center h-100">
 
-      </Card.Body>
-    </Card>
+        <Col md={6} className="settings-column">
+          <Form>
+            <InputGroup className="mb-2">
+              <InputGroup.Text>Focus</InputGroup.Text>
+              <Form.Control 
+                type="number" name="work"
+                value={settings.work === 0 ? '' : settings.work}
+                onChange={handleInputChange} disabled={isActive}
+              />
+            </InputGroup>
+            <InputGroup className="mb-2">
+              <InputGroup.Text>Descanso</InputGroup.Text>
+              <Form.Control 
+                type="number" name="break"
+                value={settings.break === 0 ? '' : settings.break}
+                onChange={handleInputChange} disabled={isActive}
+              />
+            </InputGroup>
+            <InputGroup className="mb-3">
+              <InputGroup.Text>D. Largo</InputGroup.Text>
+              <Form.Control 
+                type="number" name="longBreak"
+                value={settings.longBreak === 0 ? '' : settings.longBreak}
+                onChange={handleInputChange} disabled={isActive}
+              />
+            </InputGroup>
+            <Button variant="secondary" onClick={handleSave} disabled={isActive} className="w-100">
+              Guardar
+            </Button>
+          </Form>
+        </Col>
+
+        <Col md={4} className="timer-column">
+          <h2 className="session-title">
+            {sessionType === 'work' ? 'Focus' : 'Descanso'}
+          </h2>
+          <div className="display-timer">
+            {formatTime(timeLeft)}
+          </div>
+          <div className="d-flex justify-content-center gap-2 mt-2">
+            <Button variant="success" size="lg" onClick={onStartPause}>
+              {isActive ? <FaPause /> : <FaPlay />}
+            </Button>
+            <Button variant="secondary" size="lg" onClick={onReset}>
+              <FaSyncAlt />
+            </Button>
+          </div>
+        </Col>
+
+      </Row>
+    </div>
   );
 };  
+
 
 export default PomodoroUI;
