@@ -41,9 +41,10 @@ export default function RegistroForm() {
       <h2 className="saludo">¡Bienvenido!</h2>
       <div className="login-before-form">
         <img className="img-masc" src={mascota} alt="Mascota virtual"/>
-      <div/>
+      <div className="login-container">
         <h2>Crear una cuenta</h2>
       <form className="login-form" onSubmit={onSubmit}>
+        
         <label htmlFor="id_user">Nombre de usuario</label>
         <input type="text" name="username" id="id_user" required />
         <label htmlFor="id_nombre">Nombre</label>
@@ -58,7 +59,6 @@ export default function RegistroForm() {
         <input type="password" name="password2" id="id_password2" required autoComplete="new-password" />
 
         <button className="btn-todoOk" type="submit">Siguiente</button>
-        <button className="btn-todoOk" type="submit">Siguiente</button>
 
         {error && <p style={{ color: "crimson" }}>{error}</p>}
         <div className="S-Links">
@@ -72,6 +72,7 @@ export default function RegistroForm() {
           </a>
         </div>
       </form>
+    </div>
     </div>
     </div>
   );
