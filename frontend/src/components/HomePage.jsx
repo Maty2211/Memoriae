@@ -49,7 +49,7 @@ const HomePage = () => {
     pomodoro: { w: 2.5, h: 20, x: 12, y: 0 },
     evento: { w: 2.6, h: 20.1, x: 1, y: 28 },
     todolist: { w: 2.6, h: 1.1, x: 0, y: 0 },
-    flashcard: { w: 2.6, h: 1.1, x: 5, y: 0 },
+    flashcard: { w: 2.6, h: 14, x: 5, y: 0 },
   };
 
   const addWidget = (type) => {
@@ -97,10 +97,9 @@ const HomePage = () => {
 
       root.render(<Calendar1 mini2 onNavigate={() => navigate("/calendar1")} />);
 
-    }
-    else if (type === "flashcard") {
+    }else if (type === "flashcard") {
 
-      root.render(<FlashcardWidget onNavigate={() => navigate("/FlashcardWidget")} />);
+      root.render(<FlashcardWidget navigate={navigate} />);
 
     }
 

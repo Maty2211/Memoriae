@@ -2,7 +2,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 40px;
   background: rgba(217, 35, 35, 0);
   backdrop-filter: blur(6px);
   padding-top: 3px;

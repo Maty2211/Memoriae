@@ -3,10 +3,9 @@ import { getGrupoFlashcards } from '../../api/flashcard.api';
 import { useNavigate } from 'react-router-dom';
 import './estilos/flashcardWidget.css';
 
-export function FlashcardWidget() {
+export function FlashcardWidget({navigate}) {
   const [grupos, setGrupos] = useState([]);
   const [indice, setIndice] = useState(0);
-  const navigate = useNavigate();
 
   useEffect(() => {
     cargarGrupos();
