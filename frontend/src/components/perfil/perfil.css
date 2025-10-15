@@ -1,0 +1,38 @@
+.perfil-container {
+  background: transparent;
+  min-height: 100vh;
+  padding-bottom: 40px;
+}
+
+.perfil-card {
+  border-radius: 20px;
+  box-shadow:
+    0 6px 24px rgba(0, 0, 0, 0.199),
+    inset 0 0 0 1px rgba(248, 245, 245, 0);
+  padding: 30px;
+  background: rgba(217, 35, 35, 0); /* fondo semitransparente */
+  backdrop-filter: blur(6px); /* desenfoque */
+  -webkit-backdrop-filter: blur(6px); /* compatibilidad Safari */
+  border: 1px solid rgba(255, 255, 255, 0.065); /* borde sutil */ 
+  border-radius: 20px; /* bordes redondeados */
+}
+
+.perfil-header h4 {
+  color: #333;
+  font-weight: 600;
+}
+
+.perfil-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Esto centrará horizontalmente la imagen y el texto */
+}
+
+.perfil-card .card {
+  background: rgba(255, 255, 255, 0.564) !important; /* Mismo fondo semitransparente */
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: none !important; /* Quitamos el borde por defecto de las tarjetas */
+  box-shadow: none !important; /* Quitamos la sombra por defecto para un look más limpio */
+  border-radius: 15px !important; /* Bordes redondeados consistentes */
+}
