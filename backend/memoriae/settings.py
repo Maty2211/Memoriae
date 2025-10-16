@@ -170,10 +170,10 @@ DJ_REST_AUTH = {
 }
 
 #Front en vite con cors/csrf para spa
-CORS_ALLOWED_ORIGINS_STR = config('CORS_ALLOWED_ORIGINS_STR', default="http://localhost:5173")
+CORS_ALLOWED_ORIGINS_STR = config('CORS_ALLOWED_ORIGINS_STR', default="https://memoriae-web-production.up.railway.app,http://localhost:5173")
 CORS_ALLOWED_ORIGINS = [origin.strip() for origin in CORS_ALLOWED_ORIGINS_STR.split(',')]
 
-CSRF_TRUSTED_ORIGINS_STR = config('CSRF_TRUSTED_ORIGINS_STR', default="http://localhost:5173")
+CSRF_TRUSTED_ORIGINS_STR = config('CSRF_TRUSTED_ORIGINS_STR', default="https://memoriae-web-production.up.railway.app,http://localhost:5173")
 CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in CSRF_TRUSTED_ORIGINS_STR.split(',')]
 CSRF_COOKIE_SAMESITE = "Lax"   
 SESSION_COOKIE_SAMESITE = "Lax"
