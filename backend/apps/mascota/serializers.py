@@ -11,17 +11,6 @@ class MascotaSerializer(serializers.ModelSerializer):
         model = Mascota
         fields = ['id', 'nombre', 'estado', 'estado_categorico', 'foto', 'monedas', 'mensajes', 'accesorios_comprados']
 
-    def get_estado_categorico(self, obj):
-        if obj.estado < 25:
-            return "Muy Bajo"
-        elif obj.estado < 50:
-            return "Bajo"
-        elif obj.estado < 70:
-            return "Medio"
-        elif obj.estado < 90:
-            return "Alto"
-        else:
-            return "Muy Alto"
 
 class AccesorioSerializer(serializers.ModelSerializer):
     class Meta:

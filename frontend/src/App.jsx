@@ -1,24 +1,4 @@
-import React from 'react';
-import MascotaPerfil from './components/mascota/mascota.jsx';
-import "./App.css";
-
-function App() {
-  return (
-    <div className="App">
-      <MascotaPerfil />
-    </div>
-  );
-}
-
-export default App;
-
-
-
-
-
-
-// App.jsx original:
-/*import { Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import ForgotPasswordPage from "./auth/ForgotPasswordPage";
 import ResetPassword from "./auth/ResetPassword";
 import Navbar from "./components/Navbar";
@@ -72,4 +52,4 @@ function App() {
   );
 }
 
-export default App;*/
+export default App;

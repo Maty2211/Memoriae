@@ -1,50 +1,50 @@
-import { React, useState } from "react";
+'use client';
 import './mascota.css';
-import '../../api/mascota.api';
-
-
+import { useEffect, useState } from 'react';
+import { getMascota } from '../../api/mascota.api';
+import camara from './imgMascota/camara.png'
+import tablero from './imgMascota/tablero.png'
+import mascota from '../../assets/mascota.gif'
 
 function Componente({ valor }) {
   let msj;
-
-  if (valor <=20) {
-    msj = "Tu falta de compromiso me deprime";
-  } else if(valor <=40) {
-    msj = "Hora de estudiar";
-  } else if(valor <=60) {
-    msj = "¡Sigue asi!";
-  } else if(valor <=80) {
-    msj = "¡Te estas superando a ti mismo!";
-  } else if(valor > 80) {
-    msj = "¡Eres sorprendente!";
-  }
+  if (valor <= 20) msj = "Tu falta de compromiso me deprime";
+  else if (valor <= 40) msj = "Hora de estudiar";
+  else if (valor <= 60) msj = "¡Sigue asi!";
+  else if (valor <= 80) msj = "¡Te estas superando a ti mismo!";
+  else msj = "¡Eres sorprendente!";
 
   return <p>{msj}</p>;
 }
 
+export default function MascotaPerfil() {
+  const [mascotaData, setMascotaData] = useState(null);
 
-const MascotaPerfil = async () => {
+  useEffect(() => {
+    const fetchMascota = async () => {
+      const mascotaO = await getMascota();
+      setMascotaData({
+        nombre: mascotaO.nombre,
+        monedas: mascotaO.monedas,
+        estado: mascotaO.estado,
+        mascota: mascota,
+        camara: camara,
+        inventario: [
+          { id: 1, nombre: 'Tablero', img: tablero },
+          ...Array(14).fill(null),
+        ],
+      });
+    };
+    fetchMascota();
+  }, []);
+
+  if (!mascotaData) return <p>Cargando...</p>;
+
   const slotsDelInventario = Array.from({ length: 15 });
-  const mascota = await getMascota();
-  const mascotaData = {
-  nombre: mascota.nombre,
-  monedas: mascota.monedas,
-  estado: estadoMascota.estado,
-  mensaje: Componente(estado),
-  spriteUrl: 'https://i.imgur.com/JzaL4d1.png', // URL de un sprite de perrito pixel art
-  decorUrl: 'https://i.imgur.com/SyJ2P33.png', // URL de la estantería y planta
-  inventario: [
-    { id: 1, nombre: 'Monitor', imgUrl: 'https://i.imgur.com/c5b2S4N.png' },
-    null, null, null, null,
-    null, null, null, null, null,
-    null, null, null, null, null,
-  ],
-};
 
   return (
     <div className="container-general">
       <div className="mascota-container">
-        {/* Barra de Título */}
         <div className="mascota-title-bar">
           <span className="pet-name">{mascotaData.nombre}</span>
           <div className="coin-display">
@@ -54,33 +54,29 @@ const MascotaPerfil = async () => {
           <button className="close-button">X</button>
         </div>
 
-        {/* Contenido Principal */}
         <div className="mascota-main-content">
-          {/* Área de la Mascota (Izquierda) */}
           <div className="pet-area">
-            <img src={mascotaData.decorUrl} alt="Decoración" className="pet-background-decor" />
-            <img src={mascotaData.spriteUrl} alt="Mascota" className="pet-sprite" />
-            <div className="speech-bubble">{mascotaData.mensaje}</div>
-            
+            <img className="camara" src={mascotaData.camara} alt="Cámara" />
+            <img className="mascota-fisica" src={mascotaData.mascota} alt="Perrito animado" />
+            <div className="speech-bubble">
+              <Componente valor={mascotaData.estado} />
+            </div>
+
             <div className="status-bar-container">
               <div className="heart-icon"></div>
               <div className="status-bar">
-                <div 
-                  className="status-bar-fill" 
-                  style={{ width: `${mascotaData.estado}%` }}
-                ></div>
+                <div className="status-bar-fill" style={{ width: `${mascotaData.estado}%` }}></div>
               </div>
             </div>
           </div>
 
-          {/* Inventario (Derecha) */}
           <div className="inventory-grid">
             {slotsDelInventario.map((_, index) => {
               const item = mascotaData.inventario[index];
               return (
                 <div key={index} className="inventory-slot">
                   {item ? (
-                    <img src={item.imgUrl} alt={item.nombre} className="inventory-item-img" />
+                    <img className="tablero" src={item.img} alt="Tablero" />
                   ) : (
                     <span className="slot-empty"></span>
                   )}
@@ -92,6 +88,4 @@ const MascotaPerfil = async () => {
       </div>
     </div>
   );
-};
-
-export default MascotaPerfil;
+}
