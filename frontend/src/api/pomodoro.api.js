@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const pomodoroApi = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: "https://memoriae-api-production.up.railway.app/",
   withCredentials: true,
 });
 
