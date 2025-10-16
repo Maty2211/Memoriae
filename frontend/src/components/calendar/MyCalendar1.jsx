@@ -36,7 +36,7 @@ const MyCalendar1 = ({myEvents, dayClick, eventClick, mini = false, mini2 = fals
         mini
           ? { left: "title", center: "", right: "prev next dayGridMonth" } // mini
           : mini2
-            ? { left: "title", center: "", right: "prev next listMonth" } // mini2
+            ? { left: "title", center: "", right: "prev next " } // mini2
             : { right: "prev next listMonth dayGridMonth multiMonthYear", left: "title", center: "" } // normal
       }
       locale={esLocale}
