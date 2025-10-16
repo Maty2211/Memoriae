@@ -32,8 +32,8 @@ class CustomRegisterSerializer(RegisterSerializer):
                     "apellido": cleaned.get("apellido", ""),
                 },
         )
-            Cuenta.objects.get_or_create(user=user, defaults={"monedas": 0}
-            )
+            #Cuenta.objects.get_or_create(user=user, defaults={"monedas": 0}
+            #)
         return user 
 
 class UserMeSerializer(serializers.ModelSerializer):
@@ -41,12 +41,12 @@ class UserMeSerializer(serializers.ModelSerializer):
     nombre = serializers.CharField(source="perfil.nombre", required=False, allow_blank=True)
     apellido = serializers.CharField(source="perfil.apellido", required=False, allow_blank=True)
     # solo lectura desde Cuenta
-    monedas = serializers.IntegerField(source="cuenta.monedas", read_only=True)
+    #monedas = serializers.IntegerField(source="cuenta.monedas", read_only=True)
 
     class Meta:
         model = get_user_model()
-        fields = ("id","username", "email", "nombre", "apellido", "monedas")
-        read_only_fields = ("id", "email", "monedas", "username",)
+        fields = ("id","username", "email", "nombre", "apellido")
+        read_only_fields = ("id", "email", "username",)
     def get_nombre(self, obj):
         perfil = getattr(obj, "perfil", None)
         return getattr(perfil, "nombre", "") if perfil else ""
@@ -55,8 +55,8 @@ class UserMeSerializer(serializers.ModelSerializer):
         perfil = getattr(obj, "perfil", None)
         return getattr(perfil, "apellido", "") if perfil else ""
 
-    def get_monedas(self, obj):
-        cuenta = getattr(obj, "cuenta", None)
-        return getattr(cuenta, "monedas", 0) if cuenta else 0
+    #def get_monedas(self, obj):
+    #    cuenta = getattr(obj, "cuenta", None)
+    #   return getattr(cuenta, "monedas", 0) if cuenta else 0
     
      
