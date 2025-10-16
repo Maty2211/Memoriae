@@ -16,7 +16,7 @@ export default defineConfig({
       host: '0.0.0.0',
       port: 8080,
       strictPort: true,
-      allowedHosts: ['memoriae-web-production.up.railway.app']
+      allowedHosts: true,
     }
   },
 });
