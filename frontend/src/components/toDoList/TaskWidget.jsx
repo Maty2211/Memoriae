@@ -24,7 +24,7 @@ export default function MiniTaskWidget({ navigate }) {
         overflow: "hidden",
         backgroundColor: "rgba(255, 255, 255, 0)",
         backdropFilter: "blur(6px)",
-        boxShadow: "0 6px 24px rgba(0, 0, 0, 0.23),inset 0 0 0 1px rgba(248, 245, 245, 0)",
+        boxShadow: "0 6px 24px rgba(0, 0, 0, 0.334),inset 0 0 0 1px rgba(248, 245, 245, 0)",
         padding: "10px",
         borderRadius: "20px"
       }}
@@ -70,7 +70,13 @@ export default function MiniTaskWidget({ navigate }) {
                   }}
                   
                 >
-                  <strong>{t.title}</strong>
+                <span style={{
+                    textDecoration: t.done ? "line-through" : "none",
+                    color: t.done ? "gray" : "black"
+                  }}
+                  >
+                  {t.title}
+                </span>
                   <br />
                   <span
                     style={{
@@ -108,6 +114,6 @@ export default function MiniTaskWidget({ navigate }) {
           <i className="bi bi-textarea-resize"></i>
         </div>
       </div>
-    </div>
-  );
+    </div>
+  );
 }

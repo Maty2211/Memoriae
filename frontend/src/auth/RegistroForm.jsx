@@ -61,7 +61,7 @@ export default function RegistroForm() {
         <button className="btn-todoOk" type="submit">Siguiente</button>
 
         {error && <p style={{ color: "crimson" }}>{error}</p>}
-        <div className="S-Link">
+        <div className="S-Links">
           <p >¿Ya tenés cuenta? <Link to="/login">Iniciá sesión</Link></p>
         </div>
         <div className="btn-oauth">

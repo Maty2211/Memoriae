@@ -9,4 +9,4 @@ User = get_user_model()
 def create_related_on_user_create(sender, instance, created, **kwargs):
     if created:
         Perfil.objects.get_or_create(user=instance, defaults={"nombre": "", "apellido": ""})
-        Cuenta.objects.get_or_create(user=instance, defaults={"monedas": 0})
+        Cuenta.objects.get_or_create(user=instance)

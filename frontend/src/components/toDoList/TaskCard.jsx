@@ -1,25 +1,33 @@
 import { useNavigate } from "react-router-dom";
 import { updateTask } from "../../api/task.api";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function TaskCard({ task }) {
   const navigate = useNavigate();
-  const [done, setDone] = useState(task.done || false);
-
+  if (!task) return null; // o un skeleton
+  const [done, setDone] = useState(!!task.done);
+  const [saving, setSaving] = useState(false);
+  const mounted = useRef(true);
+  
   useEffect(() => {
-    setDone(task.done || false);
-  }, [task.done]);
+    setDone(!!task.done);
+  }, [task.id]);
 
   const handleCheckbox = async (e) => {
-    e.stopPropagation(); // evita que se dispare el click del card
-    const newDone = !done;
-    setDone(newDone);
-
+    if (saving) return;            // evita carreras
+    e.stopPropagation();
+    const checked = e.target.checked;
+    setDone(checked);
+    setSaving(true);
     try {
-      await updateTask(task.id, { done: newDone });
-    } catch (error) {
-      console.error("Error al actualizar la tarea:", error);
-      setDone(!newDone); // revertir si falla
+         // PATCH parcial: solo el campo cambiado
+      const { data } = await updateTask(task.id, { done: checked });
+      setDone(!!data.done); 
+    } catch (err) {
+      setDone(!checked);                   // revierte
+      console.error("Update failed:", err);
+    }finally {
+      setSaving(false);
     }
   };
 
@@ -43,6 +51,7 @@ export function TaskCard({ task }) {
           type="checkbox"
           checked={done}
           onChange={handleCheckbox}
+          disabled={saving}   
         />
 
         <div>
@@ -85,6 +94,6 @@ export function TaskCard({ task }) {
       >
         +
       </button>
-    </div>
-  );
+    </div>
+  );
 }
