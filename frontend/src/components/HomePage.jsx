@@ -7,7 +7,7 @@ import PomodoroWidget from "./pomodoro/PomodoroWidget";
 import { useNavigate } from "react-router-dom"; 
 import BackgroundCarousel from "./background/BackgroundCarousel";
 import { Button } from 'react-bootstrap'; 
-import FlashcardWidget from "./flashcard/flashcardWidget"
+//import FlashcardWidget from "./flashcard/flashcardWidget"
 import MiniTaskWidget from "./toDoList/TaskWidget";
 
 
