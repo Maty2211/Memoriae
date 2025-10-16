@@ -14,9 +14,8 @@ export default defineConfig({
       "/pomodoro": {target: 'http://localhost:8000', changeOrigin: true,
       },
       "/flashcard": { target: "http://localhost:8000", changeOrigin: true },
-      "/pomodoro": {target: 'http://localhost:8000', changeOrigin: true,
       },
       // agrega otras rutas (evento, to do, etc.)
     },
   },
-});
+);
