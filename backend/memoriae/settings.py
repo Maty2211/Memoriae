@@ -108,7 +108,8 @@ DATABASES = {
         "HOST": config("DB_HOST"),
         "PORT": config("DB_PORT"),
     }
-}''' #BD LOCAL
+}
+"""#BD LOCAL
 
 # DATABASE_URL = config('DATABASE_URL')        //BD DEPLOYADA, FRONT BACK LOCAL
 
@@ -236,4 +237,4 @@ PASSWORD_HASHERS = [
     "apps.login.hashers.PepperedArgon2PasswordHasher",     # primero = se re-hasheará al iniciar sesión
     "django.contrib.auth.hashers.Argon2PasswordHasher",
     "django.contrib.auth.hashers.PBKDF2PasswordHasher",
-]
+]"""
