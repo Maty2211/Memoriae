@@ -11,18 +11,20 @@ import PrivateRoute from "./auth/PrivateRoute";
 import TaskFormPage from "./components/toDoList/TaskFormPage";
 import ListarGrupoFlashcards from "./components/flashcard/flashcards";
 import UsarFlashcard from "./components/flashcard/flashcardEspecifica";
+import Perfil from "./components/perfil/Perfil";
+import MascotaPerfil from './components/mascota/mascota.jsx';
 
 import "./App.css";
 
 function App() {
   return (
     <Routes>
-      {/* Rutas públicas */}
+       Rutas públicas 
       <Route path="/login" element={<LoginPage />} caseSensitive />
       <Route path="/register" element={<RegistroPage />} caseSensitive />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} caseSensitive />
       <Route path="/reset-password/confirm/:uid/:token/" element={<ResetPassword />} caseSensitive />
-      {/* Rutas protegidas (el narvar incluido!!) */}
+       Rutas protegidas (el narvar incluido!!)
       <Route element={<PrivateRoute />}>
         <Route
           element={
@@ -40,11 +42,13 @@ function App() {
           <Route path="/task-create" element={<TaskFormPage />} caseSensitive />
           <Route path="/task/:id" element={<TaskFormPage />} caseSensitive />
           <Route path="/flashcards" element={<ListarGrupoFlashcards/>} caseSensitive />
+          <Route path="/mascota" element={<MascotaPerfil />} caseSensitive />
           <Route path="/flashcards/:idGrupoFlashcards/:nombreGrupoFlashcards" element={<UsarFlashcard />} caseSensitive />
+          <Route path="/perfil" element={<Perfil />} caseSensitive />
         </Route>
       </Route>
 
-      {/* Cualquier otra ruta: a /login */}
+       Cualquier otra ruta: a /login
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );

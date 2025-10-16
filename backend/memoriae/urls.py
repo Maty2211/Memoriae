@@ -22,7 +22,7 @@ urlpatterns = [
     path('evento/', include('apps.evento.urls')),
     path('flashcard/', include('apps.flashcard.urls')),
     path('mascota/', include('apps.mascota.urls')),
-    path('perfil/', include('apps.perfil.urls')),
+    path('api/perfil/', include('apps.perfil.urls')),
     path('pomodoro/', include('apps.pomodoro.urls')),
     path('to_do_list/', include('apps.to_do_list.urls')),
     path("dj-rest-auth/", include("dj_rest_auth.urls")),
@@ -33,6 +33,11 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("password-reset-confirm/<uidb64>/<token>/", spa_reset_redirect, name="password_reset_confirm"),
     ##NO CREAR EL DE LOGIN PORQUE Login no tiene URLS!! Usamos los endpoints de dj-rest-auth
+    
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+    
+    
+    
