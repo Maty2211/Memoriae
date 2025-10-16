@@ -12,7 +12,9 @@ const PomodoroUI = ({
     workDuration,
     breakDuration,
     longBreakDuration,
-    onSave
+    onSave,
+    sessionsCompleted,
+    sessionsUntilLongBreak
 }) => {
   
   const [settings, setSettings] = useState({
@@ -23,7 +25,10 @@ const PomodoroUI = ({
 
   //Sincroniza si las props cambian
   useEffect(() => {
-    setSettings({ work: workDuration, break: breakDuration, longBreak: longBreakDuration });
+    setSettings({ 
+      work: workDuration,
+      break: breakDuration,
+      longBreak: longBreakDuration });
   }, [workDuration, breakDuration, longBreakDuration]);
 
 
@@ -38,7 +43,7 @@ const PomodoroUI = ({
 
   const handleSave = () => {
     const payload = {
-      focus_time: settings.work,
+      work_time: settings.work,
       break_time: settings.break,
       long_break_time: settings.longBreak,
     };
@@ -56,10 +61,33 @@ const PomodoroUI = ({
     <div className="pomodoro-container">
       <Row className="align-items-center h-100">
 
+        <Col md={3} className="timer-column">
+          <h2 className="session-title">
+            {sessionType === 'work' ? 'Trabajo' : 
+              sessionType === 'break' ? 'Descanso' :
+                'Descanso Largo'
+            }             
+          </h2>
+          <div className="display-timer">
+            {formatTime(timeLeft)}
+          </div>
+          <p className="session-counter">
+            {sessionsCompleted} / {sessionsUntilLongBreak}
+          </p>
+          <div className="d-flex justify-content-center gap-2 mt-2">
+            <Button variant="success" size="lg" onClick={onStartPause}>
+              {isActive ? <FaPause /> : <FaPlay />}
+            </Button>
+            <Button variant="secondary" size="lg" onClick={onReset}>
+              <FaSyncAlt />
+            </Button>
+          </div>
+        </Col>
+
         <Col md={6} className="settings-column">
           <Form>
             <InputGroup className="mb-2">
-              <InputGroup.Text>Focus</InputGroup.Text>
+              <InputGroup.Text>Trabajo</InputGroup.Text>
               <Form.Control 
                 type="number" name="work"
                 value={settings.work === 0 ? '' : settings.work}
@@ -86,23 +114,6 @@ const PomodoroUI = ({
               Guardar
             </Button>
           </Form>
-        </Col>
-
-        <Col md={4} className="timer-column">
-          <h2 className="session-title">
-            {sessionType === 'work' ? 'Focus' : 'Descanso'}
-          </h2>
-          <div className="display-timer">
-            {formatTime(timeLeft)}
-          </div>
-          <div className="d-flex justify-content-center gap-2 mt-2">
-            <Button variant="success" size="lg" onClick={onStartPause}>
-              {isActive ? <FaPause /> : <FaPlay />}
-            </Button>
-            <Button variant="secondary" size="lg" onClick={onReset}>
-              <FaSyncAlt />
-            </Button>
-          </div>
         </Col>
 
       </Row>

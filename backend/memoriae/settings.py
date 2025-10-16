@@ -52,7 +52,6 @@ INSTALLED_APPS = [
 
     "corsheaders",
     #nuestras apps
-    'apps.home.apps.HomeConfig',
     'apps.calendario.apps.CalendarioConfig',
     'apps.evento.apps.EventosConfig',
     'apps.flashcard.apps.FlashcardConfig',

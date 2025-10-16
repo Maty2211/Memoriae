@@ -2,18 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class PomodoroSettings(models.Model):
-    # Relación con el usuario: cada usuario tiene su propia configuración.
-    # Usamos OneToOneField para que un usuario solo pueda tener una configuración.
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='pomodoro_settings')
-    
-    # Atributos de configuración solicitados
     title = models.CharField(max_length=50, default='Mi Temporizador Pomodoro')
-    focus_time = models.IntegerField(default=25)      # Tiempo de trabajo (minutos)
-    break_time = models.IntegerField(default=5)         # Tiempo de descanso corto (minutos)
-    long_break_time = models.IntegerField(default=15)   # Tiempo de descanso largo (minutos)
-    
-    # Campo para llevar la cuenta de las sesiones completadas hasta el descanso largo.
-    # Esto es crucial para la lógica de tu temporizador.
+    work_time = models.IntegerField(default=25)
+    break_time = models.IntegerField(default=5)
+    long_break_time = models.IntegerField(default=15)
     sessions_completed = models.IntegerField(default=0) 
     sessions_until_long_break = models.IntegerField(default=4) # Frecuencia del descanso largo
 
@@ -31,7 +24,7 @@ class PomodoroHistory(models.Model):
     
     # Tipo de sesión
     SESSION_CHOICES = [
-        ('focus', 'Focus'),
+        ('work', 'Work'),
         ('short_break', 'Short Break'),
         ('long_break', 'Long Break'),
     ]
