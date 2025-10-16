@@ -63,4 +63,4 @@ Cada vez que realicen cambios en la estructura de datos, hay que ejecutar:
 - npm install react-hot-toast
 - npm install axios
 - npm install react-hook-form 
-
+-pip install argon2-cffi
