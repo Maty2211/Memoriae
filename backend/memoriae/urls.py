@@ -13,7 +13,7 @@ def csrf(request):  # setea la cookie 'csrftoken'
     return JsonResponse({"detail": "CSRF cookie set"})
 
 def spa_reset_redirect(request, uidb64, token):
-    return HttpResponseRedirect(f"https://memoriae-web-production.up.railway.app/reset-password/confirm/{uidb64}/{token}/")
+    return HttpResponseRedirect(f"http://localhost:5173/reset-password/confirm/{uidb64}/{token}/")
 
 urlpatterns = [ 
     path('admin/', admin.site.urls),
