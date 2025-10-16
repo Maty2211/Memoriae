@@ -14,6 +14,7 @@ from decouple import config, RepositoryEnv
 from pathlib import Path
 from datetime import timedelta
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -109,6 +110,13 @@ WSGI_APPLICATION = 'memoriae.wsgi.application'
         "PORT": config("DB_PORT"),
     }
 }'''
+
+DATABASES = {
+    'default': dj_database_url.config(
+        # Usa la variable de Railway. Si no la encuentra, se queda vacío.
+        default=config('DATABASE_URL')
+    )
+}
 
 #Auth/ Allauth
 AUTHENTICATION_BACKENDS = (
