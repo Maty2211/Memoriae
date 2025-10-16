@@ -98,11 +98,11 @@ const HomePage = () => {
 
       root.render(<Calendar1 mini2 onNavigate={() => navigate("/calendar1")} />);
 
-    }else if (type === "flashcard") {
+    }/*else if (type === "flashcard") {
 
       root.render(<FlashcardWidget navigate={navigate} />);
 
-    }else if (type === "todolist") {
+    }*/else if (type === "todolist") {
 
       root.render(<MiniTaskWidget navigate={navigate} />);
 
@@ -151,7 +151,7 @@ const HomePage = () => {
         style={{
           cursor: "pointer"
         }}
-        onClick={() => addWidget("flashcard")}>
+        onClick={() => addWidget("pomodoro")}>
           <i className="bi bi-wallet2"></i> <br />
           Flashcards
         </div>
