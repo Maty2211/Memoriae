@@ -11,6 +11,7 @@ import PrivateRoute from "./auth/PrivateRoute";
 import TaskFormPage from "./components/toDoList/TaskFormPage";
 import ListarGrupoFlashcards from "./components/flashcard/flashcards";
 import UsarFlashcard from "./components/flashcard/flashcardEspecifica";
+import Perfil from "./components/perfil/Perfil";
 
 import "./App.css";
 
@@ -41,6 +42,7 @@ function App() {
           <Route path="/task/:id" element={<TaskFormPage />} caseSensitive />
           <Route path="/flashcards" element={<ListarGrupoFlashcards/>} caseSensitive />
           <Route path="/flashcards/:idGrupoFlashcards/:nombreGrupoFlashcards" element={<UsarFlashcard />} caseSensitive />
+          <Route path="/perfil" element={<Perfil />} caseSensitive />
         </Route>
       </Route>
 

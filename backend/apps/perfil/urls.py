@@ -1,7 +1,6 @@
-from django.contrib import admin
 from django.urls import path
-from . import views
+from .views import VistaEstadisticasPerfil
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('stats/', VistaEstadisticasPerfil.as_view(), name='estadisticas-perfil'),
 ]
