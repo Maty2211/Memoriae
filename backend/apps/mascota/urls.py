@@ -1,7 +1,7 @@
-from django.contrib import admin
 from django.urls import path
-from . import views
+from .views import ActualizarMascotaAPIView, ComprarAccesorioAPIView
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('actualizar/', ActualizarMascotaAPIView.as_view(), name='actualizar-mascota'),
+    path('comprar/<int:accesorio_id>/', ComprarAccesorioAPIView.as_view(), name='comprar-accesorio'),
 ]
