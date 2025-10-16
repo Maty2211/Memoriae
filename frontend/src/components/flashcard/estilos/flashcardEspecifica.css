@@ -116,3 +116,10 @@ button{
   margin-right: 15px;
   margin-top: 8px;
 }
+
+@media (max-width: 960px) {
+  .flashcard-container {
+    max-width: 400px;
+
+  }
+}

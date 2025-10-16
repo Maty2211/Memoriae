@@ -1,53 +1,62 @@
 import { useState , useEffect } from "react";
 import { createGrupoFlashcards , createFlashcards , updateGrupoFlashcards, updateFlashcard } from "../../api/flashcard.api";
 
+
 export function NuevoGrupoFlashcardModal({ onSave }) {
-    const [nombre, setNombre] = useState("");
-    const [tema, setTema] = useState("");
-    const [flashcards, setFlashcards] = useState([{ pregunta: "", respuesta: "" }]);
+  const [nombre, setNombre] = useState("");
+  const [tema, setTema] = useState("");
+  const [flashcards, setFlashcards] = useState([{ pregunta: "", respuesta: "" }]);
 
-
-    const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        const grupoRes = await createGrupoFlashcards({ nombre, tema });
-        const grupoId = grupoRes.id;
+      // 1️⃣ Crear primero el grupo
+      const grupoRes = await createGrupoFlashcards({ nombre, tema });
+      const grupoId = grupoRes.id;
 
-        const tasks = flashcards.map((fc) =>
-        createFlashcards({
+      // 2️⃣ Filtrar flashcards válidas (no vacías)
+      const flashcardsValidas = flashcards.filter(
+        (fc) =>
+          fc.pregunta.trim() !== "" || fc.respuesta.trim() !== ""
+      );
+
+      // 3️⃣ Crear las flashcards solo si hay válidas
+      let createdFlashcards = [];
+      if (flashcardsValidas.length > 0) {
+        const tasks = flashcardsValidas.map((fc) =>
+          createFlashcards({
             pregunta: fc.pregunta,
             respuesta: fc.respuesta,
             grupo: grupoId,
-        })
+          })
         );
+        createdFlashcards = await Promise.all(tasks);
+      }
 
-        const createdFlashcards = await Promise.all(tasks);
+      // 4️⃣ Notificar al componente padre
+      if (onSave) onSave({ grupo: grupoRes, flashcards: createdFlashcards });
 
-        if (onSave) onSave({ grupo: grupoRes, flashcards: createdFlashcards });
-
+      // 5️⃣ Resetear formulario
+      setNombre("");
+      setTema("");
+      setFlashcards([{ pregunta: "", respuesta: "" }]);
     } catch (err) {
-        console.error("Error al guardar:", err);
-        const message = err.response?.data ?? err.message;
-        alert("Error guardando: " + JSON.stringify(message));
+      console.error("Error al guardar:", err);
+      const message = err.response?.data ?? err.message;
+      alert("Error guardando: " + JSON.stringify(message));
     }
+  };
 
-    setNombre("");
-    setTema("");
-    setFlashcards([{ pregunta: "", respuesta: "" }]);
-    };
+  const addFlashcardField = () => {
+    setFlashcards([...flashcards, { pregunta: "", respuesta: "" }]);
+  };
 
-
-    const addFlashcardField = () => {
-        setFlashcards([...flashcards, { pregunta: "", respuesta: "" }]);
-    };
-
-    const handleFlashcardChange = (index, field, value) => {
-        const updatedFlashcards = [...flashcards];
-        updatedFlashcards[index][field] = value;
-        setFlashcards(updatedFlashcards);
-    };
-
+  const handleFlashcardChange = (index, field, value) => {
+    const updatedFlashcards = [...flashcards];
+    updatedFlashcards[index][field] = value;
+    setFlashcards(updatedFlashcards);
+  };
 
   return (
     <div
@@ -60,7 +69,7 @@ export function NuevoGrupoFlashcardModal({ onSave }) {
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title" id="flashcardModalLabel">
+            <h5 className="modal-title" id="flashcardModalLabel" style={{fontFamily: "Pixelify Sans, sans-serif"}}>
               Crear Grupo de Flashcards
             </h5>
             <button
@@ -78,7 +87,7 @@ export function NuevoGrupoFlashcardModal({ onSave }) {
                 <input
                   type="text"
                   className="form-control"
-                  value={nombre || ""}
+                  value={nombre}
                   onChange={(e) => setNombre(e.target.value)}
                   required
                 />
@@ -89,40 +98,64 @@ export function NuevoGrupoFlashcardModal({ onSave }) {
                 <input
                   type="text"
                   className="form-control"
-                  value={tema || ""}
+                  value={tema}
                   onChange={(e) => setTema(e.target.value)}
                   required
                 />
               </div>
 
-            {flashcards.map((fc, index) => (
+              {flashcards.map((fc, index) => (
                 <div key={index} className="mb-3">
-                    <label className="form-label">Pregunta</label>
-                    <input
+                  <label className="form-label">Pregunta</label>
+                  <input
                     type="text"
                     className="form-control"
-                    value={fc.pregunta || ""}
-                    onChange={(e) => handleFlashcardChange(index, "pregunta", e.target.value)}
-                    />
+                    value={fc.pregunta}
+                    onChange={(e) =>
+                      handleFlashcardChange(index, "pregunta", e.target.value)
+                    }
+                  />
 
-                    <label className="form-label">Respuesta</label>
-                    <input
+                  <label className="form-label">Respuesta</label>
+                  <input
                     type="text"
                     className="form-control"
-                    value={fc.respuesta || ""}
-                    onChange={(e) => handleFlashcardChange(index, "respuesta", e.target.value)}
-                    />
+                    value={fc.respuesta}
+                    onChange={(e) =>
+                      handleFlashcardChange(index, "respuesta", e.target.value)
+                    }
+                  />
                 </div>
-                ))}
+              ))}
 
-                <button type="button" className="btn btn-secondary" onClick={addFlashcardField}>
+              <button
+                type="button"
+                className="btn boton-modal btn-secondary"
+                onClick={addFlashcardField}
+                style={{
+                  margin: "4px",
+                  fontFamily: "Pixelify Sans, sans-serif",
+                  backgroundColor: "#D7DBF9",
+                  border: "1px solid #D7DBF9",
+                  color: "#3B3D53",
+                  borderRadius: "60px",
+                }}
+              >
                 + Agregar otra pregunta
-                </button>
+              </button>
 
               <button
                 type="submit"
                 className="btn btn-primary"
                 data-bs-dismiss="modal"
+                style={{
+                  margin: "4px",
+                  fontFamily: "Pixelify Sans, sans-serif",
+                  backgroundColor: "#D7DBF9",
+                  border: "1px solid #D7DBF9",
+                  color: "#3B3D53",
+                  borderRadius: "60px",
+                }}
               >
                 Guardar
               </button>
@@ -133,6 +166,7 @@ export function NuevoGrupoFlashcardModal({ onSave }) {
     </div>
   );
 }
+
 
 export function EditarGrupoFlashcardModal({ grupo, onUpdate }) {
   const [nombre, setNombre] = useState("");
@@ -196,7 +230,7 @@ const handleSubmit = async (e) => {
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title" id="editarGrupoModalLabel">
+            <h5 className="modal-title" id="editarGrupoModalLabel" style={{fontFamily: "Pixelify Sans, sans-serif"}}>
               Editar Grupo de Flashcards
             </h5>
             <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
@@ -245,11 +279,19 @@ const handleSubmit = async (e) => {
               ))}
 
               
-              <button type="button" className="btn btn-secondary" onClick={addFlashcardField}>
+              <button type="button" 
+                      className="btn btn-secondary" 
+                      onClick={addFlashcardField}
+                      style={{ margin: "4px", fontFamily: "Pixelify Sans, sans-serif", backgroundColor: "#D7DBF9", border: "1px solid #D7DBF9", color: "#3B3D53", borderRadius:"60px" }}
+                      >
                 + Agregar otra pregunta
               </button>
 
-              <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">
+              <button type="submit" 
+                      className="btn btn-primary" 
+                      data-bs-dismiss="modal"
+                      style={{ margin: "4px", fontFamily: "Pixelify Sans, sans-serif", backgroundColor: "#D7DBF9", border: "1px solid #D7DBF9", color: "#3B3D53", borderRadius:"60px" }}
+                      >
                 Guardar Cambios
               </button>
             </form>
