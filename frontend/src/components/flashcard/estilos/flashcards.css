@@ -31,8 +31,8 @@ h1{
 .card{
   justify-content: center;
   align-items:center;
-  background-color: transparent;
-  border-color: transparent;
+  background-color: transparent !important;
+  border-color: transparent !important;
   padding: 0% !important;
   text-decoration: none;
 }

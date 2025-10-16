@@ -29,13 +29,20 @@ export function FlashcardWidget({navigate}) {
   };
 
   if (grupos.length === 0) {
-    return <div className="widget-fc-container">Cargando grupos...</div>;
+    return <div>
+              <div className="widget-fc-container">No se han creado flashcards.</div>
+              <button className="irLista"
+                      onClick={() => navigate('/flashcards')}
+              >
+                <i className="bi bi-textarea-resize"></i>
+              </button>
+          </div>
   }
 
   const grupoActual = grupos[indice];
 
   return (
-    <div className="widget-fc-container">
+    <div className="widget-fc-container" style={{overflowY: "hidden"}}>
       <button className="flecha" onClick={anterior}>
         <i className="bi bi-chevron-left"></i>
       </button>
