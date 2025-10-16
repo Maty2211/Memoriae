@@ -151,7 +151,7 @@ const HomePage = () => {
         style={{
           cursor: "pointer"
         }}
-        onClick={() => addWidget("pomodoro")}>
+        onClick={() => addWidget("flashcard")}>
           <i className="bi bi-wallet2"></i> <br />
           Flashcards
         </div>

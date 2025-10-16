@@ -1,22 +1,39 @@
+// flashcard.api.jsx
 import axios from "axios";
+import { ensureCsrf, getCSRFCookie } from "./csrf"; // usa el mismo helper
 
 const API = axios.create({
-  baseURL: "/flashcard", 
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: "/flashcard",       // ← rutas relativas (usa proxy)
+  withCredentials: true,       // ← MUY IMPORTANTE: envía cookies
+  headers: { "X-Requested-With": "XMLHttpRequest" },
 });
 
-API.interceptors.request.use((config) => {
+// Interceptor para JWT + CSRF (si ambos se usan)
+API.interceptors.request.use(async (config) => {
+  const method = (config.method || "get").toLowerCase();
+  const unsafe = ["post", "put", "patch", "delete"].includes(method);
+
+  // Si usas JWT
   const token = localStorage.getItem("access_token");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
+  // Si tu backend también requiere CSRF (cuando usa SessionAuth o dj-rest-auth)
+  if (unsafe) {
+    if (!getCSRFCookie()) await ensureCsrf(); // obtiene CSRF si falta
+    config.headers["X-CSRFToken"] = getCSRFCookie();
+    if (!config.headers["Content-Type"]) {
+      config.headers["Content-Type"] = "application/json";
+    }
+  }
+
   return config;
 });
 
 export default API;
 
+// ----------- ENDPOINTS -------------
 export const getGrupoFlashcards = async () => {
   const res = await API.get("/grupoFlashcards/");
   return res.data;
@@ -42,12 +59,17 @@ export const getFlashcards = async (grupoId) => {
   return res.data;
 };
 
-export const createFlashcards = async (flashcard, grupoId) => {
-  const res = await API.post("/flashcard/", flashcard, grupoId);
+export const createFlashcards = async (flashcard) => {
+  const res = await API.post("/flashcard/", flashcard);
   return res.data;
 };
 
-export const updateFlashcard = async (id, flashcard, grupoId) => {
-  const res = await API.put(`/flashcard/${id}/`, flashcard, grupoId);
+export const updateFlashcard = async (id, flashcard) => {
+  const res = await API.put(`/flashcard/${id}/`, flashcard);
+  return res.data;
+};
+
+export const deleteFlashcard = async (id) => {
+  const res = await API.delete(`/flashcard/${id}/`);
   return res.data;
 };
