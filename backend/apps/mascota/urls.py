@@ -1,7 +1,6 @@
-from django.contrib import admin
 from django.urls import path
-from . import views
+from .views import ActualizarMascotaAPIView
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('mascota/', ActualizarMascotaAPIView.as_view(), name='actualizar-mascota'),
 ]
