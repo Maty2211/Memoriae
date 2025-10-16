@@ -5,36 +5,38 @@ from django.db.models import Sum
 from django.db.models.functions import TruncDay
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 from .serializers import EstadisticasPerfilSerializer
 from apps.pomodoro.models import PomodoroHistory
 
 
 class VistaEstadisticasPerfil(APIView):
-    permission_classes = []  # Sin autenticación por ahora
+    permission_classes = [IsAuthenticated]  # Ahora protegemos la ruta
 
     def get(self, request, *args, **kwargs):
         hoy = timezone.now().date()
 
-        # Obtenemos todas las sesiones exitosas
-        sesiones_enfoque = PomodoroHistory.objects.filter(
-            session_type='focus',
+        # Filtramos solo las sesiones de trabajo exitosas (work)
+        sesiones_trabajo = PomodoroHistory.objects.filter(
+            cuenta=request.user.cuenta,
+            session_type='work',
             was_successful=True
         )
 
-        # 1. Heatmap (último año)
+        # 1️⃣ Heatmap (último año)
         hace_un_ano = hoy - timedelta(days=365)
         datos_heatmap = (
-            sesiones_enfoque.filter(end_time__date__gte=hace_un_ano)
+            sesiones_trabajo.filter(end_time__date__gte=hace_un_ano)
             .annotate(fecha=TruncDay('end_time'))
             .values('fecha')
             .annotate(minutos_totales=Sum('duration_minutes'))
             .order_by('fecha')
         )
 
-        # 2. Racha diaria
+        # 2️⃣ Racha diaria
         fechas_de_estudio = set(
-            sesiones_enfoque.values_list('end_time__date', flat=True).distinct()
+            sesiones_trabajo.values_list('end_time__date', flat=True).distinct()
         )
         racha_de_dias = 0
         if fechas_de_estudio:
@@ -45,12 +47,12 @@ class VistaEstadisticasPerfil(APIView):
                 racha_de_dias += 1
                 dia_actual -= timedelta(days=1)
 
-        # 3. Meta diaria
+        # 3️⃣ Meta diaria (2 horas de enfoque)
         meta_diaria_minutos = 120
         inicio_de_semana = hoy - timedelta(days=hoy.weekday())
         fin_de_semana = inicio_de_semana + timedelta(days=6)
 
-        sesiones_esta_semana = sesiones_enfoque.filter(
+        sesiones_esta_semana = sesiones_trabajo.filter(
             end_time__date__range=[inicio_de_semana, fin_de_semana]
         )
 
@@ -67,7 +69,7 @@ class VistaEstadisticasPerfil(APIView):
             if datos_dia['minutos_totales'] >= meta_diaria_minutos:
                 estado_meta_diaria[dia_de_semana] = True
 
-        # 4. Estadísticas semanales
+        # 4️⃣ Estadísticas semanales
         inicio_semana_pasada = inicio_de_semana - timedelta(days=7)
         fin_semana_pasada = inicio_de_semana - timedelta(days=1)
 
@@ -75,29 +77,28 @@ class VistaEstadisticasPerfil(APIView):
             sesiones_esta_semana.aggregate(total=Sum('duration_minutes'))['total'] or 0
         )
         total_semana_anterior = (
-            sesiones_enfoque.filter(
+            sesiones_trabajo.filter(
                 end_time__date__range=[inicio_semana_pasada, fin_semana_pasada]
             ).aggregate(total=Sum('duration_minutes'))['total'] or 0
         )
 
         if total_semana_anterior > 0:
             cambio_porcentual = round(
-                ((total_semana_actual - total_semana_anterior) / total_semana_anterior)
-                * 100,
-                1,
+                ((total_semana_actual - total_semana_anterior) / total_semana_anterior) * 100,
+                1
             )
         elif total_semana_actual > 0:
             cambio_porcentual = 100.0
         else:
             cambio_porcentual = 0.0
 
-        # 5. Resumen mensual
+        # 5️⃣ Resumen mensual (últimos 12 meses)
         resumen_mensual = []
         for i in range(12):
             fecha_mes = hoy - relativedelta(months=i)
             nombre_mes = fecha_mes.strftime("%b")
             minutos_totales_en_mes = (
-                sesiones_enfoque.filter(
+                sesiones_trabajo.filter(
                     end_time__month=fecha_mes.month,
                     end_time__year=fecha_mes.year,
                 ).aggregate(total=Sum('duration_minutes'))['total'] or 0
