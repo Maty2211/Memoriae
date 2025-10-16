@@ -172,13 +172,14 @@ DJ_REST_AUTH = {
 #Front en vite con cors/csrf para spa
 CORS_ALLOWED_ORIGINS_STR = config('CORS_ALLOWED_ORIGINS_STR', default="http://localhost:5173")
 CORS_ALLOWED_ORIGINS = [origin.strip() for origin in CORS_ALLOWED_ORIGINS_STR.split(',')]
+
 CSRF_TRUSTED_ORIGINS_STR = config('CSRF_TRUSTED_ORIGINS_STR', default="http://localhost:5173")
 CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in CSRF_TRUSTED_ORIGINS_STR.split(',')]
 CSRF_COOKIE_SAMESITE = "Lax"   
 SESSION_COOKIE_SAMESITE = "Lax"
 CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_HTTPONLY = False  # para leerla y mandarla como X-CSRFToken
+CSRF_COOKIE_HTTPONLY = False
 
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
