@@ -18,72 +18,96 @@ export default function MiniTaskWidget({ navigate }) {
   }, []);
 
   return (
-    <Card
+    <div
       style={{
-        maxHeight: "100%",
-        backgroundColor: "rgba(255,255,255,0.9)",
-        borderRadius: "10px",
+        borderRadius: "12px",
         overflow: "hidden",
+        backgroundColor: "rgba(255, 255, 255, 0)",
+        backdropFilter: "blur(6px)",
+        boxShadow: "0 6px 24px rgba(0, 0, 0, 0.23),inset 0 0 0 1px rgba(248, 245, 245, 0)",
+        padding: "10px",
+        borderRadius: "20px"
       }}
     >
-      <Card.Header
+      {/* Contenedor borroso con título y botón */}
+      <div
         style={{
-          backgroundColor: "#161b33",
+          display: "flex",
+          justifyContent: "space-between",
+          padding: "5px 5px",
+          backgroundColor: "rgba(22, 27, 51, 0)",
           color: "white",
-          textAlign: "center",
-          borderRadius: "10px",
+          borderRadius: "8px",
         }}
       >
-      To do list
-      </Card.Header>
-
-      <Card.Body style={{ padding: "10px" }}>
-        {tasks.length === 0 ? (
-          <p style={{ textAlign: "center", color: "gray" }}>
-            No hay tareas pendientes!
-          </p>
-        ) : (
-          <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-            {tasks.map((t) => (
-              <li
-                key={t.id}
-                style={{
-                  borderBottom: "1px solid #ccc",
-                  paddingBottom: "4px",
-                  marginBottom: "6px",
-                  cursor: "pointer",
-                }}
-                onClick={() => navigate("/task/" + t.id)} // 👈 aquí usamos "t"
-              >
-                <strong>{t.title}</strong>
-                <br />
-                <span
-                  style={{
-                    fontSize: "13px",
-                    color: "#555",
-                    display: "block",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {t.description || "Sin descripción"}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        <div style={{ textAlign: "center", marginTop: "10px" }}>
-          <Button
-            style={{ backgroundColor: "#161b33", color: "white" }}
-            size="sm"
-            onClick={() => navigate("/toDoList")}
-          >
-            Ver todas
-          </Button>
+        <h5 style={{ margin: 0 , fontSize: "18px"}}>To do list</h5>
         </div>
-      </Card.Body>
-    </Card>
+        
+
+      {/* Card con lista de tareas */}
+      <Card
+        style={{
+          backgroundColor: "rgba(255,255,255,0.9)",
+          borderRadius: "10px",
+          overflow: "hidden",
+        }}
+      >
+        <Card.Body style={{ padding: "10px" }}>
+          {tasks.length === 0 ? (
+            <p style={{ textAlign: "center", color: "gray" }}>
+              No hay tareas pendientes!
+            </p>
+          ) : (
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+              {tasks.map((t) => (
+                <li
+                  key={t.id}
+                  style={{
+                    borderBottom: "1px solid #ccc",
+                    paddingBottom: "4px",
+                    marginBottom: "6px",
+                    textAlign: "left",
+                  }}
+                  
+                >
+                  <strong>{t.title}</strong>
+                  <br />
+                  <span
+                    style={{
+                      fontSize: "13px",
+                      color: "#555",
+                      display: "block",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {t.description || "Sin descripción"}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Card.Body>
+      </Card>
+
+      <div
+          style={{
+          display: "flex",          // importante para que funcione justifyContent
+           justifyContent: "flex-end", // lo alinea a la derecha
+            marginTop: "2px",
+            padding: "5px 10px",
+            marginBottom: "0px",
+            cursor: "pointer",
+          }}>
+        <div
+          style={{ backgroundColor: "transparent", color: "white" }}
+          size="sm"
+          onClick={() => navigate("/toDoList")}
+        >
+          <i className="bi bi-textarea-resize"></i>
+        </div>
+      </div>
+    </div>
   );
 }
