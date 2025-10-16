@@ -1,5 +1,5 @@
 import React from 'react';
-import MascotaPerfil from './components/mascota/MascotaPerfil.jsx';
+import MascotaPerfil from './components/mascota/mascota.jsx';
 import "./App.css";
 
 function App() {
