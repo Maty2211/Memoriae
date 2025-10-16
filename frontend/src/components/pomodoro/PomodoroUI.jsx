@@ -34,7 +34,7 @@ const PomodoroUI = ({
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    const numValue = value === '' ? '' : Math.max(0, parseInt(value, 10)); //Guarda en base 10
+    const numValue = value === '' ? '' : Math.max(0, parseInt(value, 10)); //Guarda en base 10 (0 a 9)
     setSettings(prevSettings => ({
       ...prevSettings,
       [name]: numValue
