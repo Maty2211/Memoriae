@@ -1,15 +1,9 @@
-import axios from 'axios'
+import api from "./axios";
 
-const api = axios.create({
-    baseURL: 'http://localhost:8000/calendario/api/v1/calendario/'
-});
+const BASE = "/calendario/api/v1/calendario/";
 
-export const getAllEvents = () => api.get('/');
-
-export const createEvent = (event) => api.post('/', event);
-
-export const deleteEvent = (id) => api.delete(`/${id}/`);
-
-export const updateEvent = (id, event) => api.put(`/${id}/`, event);
-
-export const getEvent = (id) => api.get(`/${id}/`);
+export const getAllEvents = () => api.get(BASE);
+export const createEvent = (event) => api.post(BASE, event);
+export const deleteEvent = (id) => api.delete(`${BASE}${id}/`);
+export const updateEvent = (id, event) => api.put(`${BASE}${id}/`, event);
+export const getEvent = (id) => api.get(`${BASE}${id}/`);
