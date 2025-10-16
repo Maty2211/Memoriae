@@ -99,7 +99,7 @@ WSGI_APPLICATION = 'memoriae.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-"""DATABASES = {
+DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": config("DB_NAME"),
@@ -109,15 +109,15 @@ WSGI_APPLICATION = 'memoriae.wsgi.application'
         "PORT": config("DB_PORT"),
     }
 }
-"""#BD LOCAL
+#BD LOCAL
 
 # DATABASE_URL = config('DATABASE_URL')        //BD DEPLOYADA, FRONT BACK LOCAL
 
-DATABASES = {
+"""DATABASES = {
     'default': dj_database_url.config(
         default=config('DATABASE_URL')
     )
-} #BACK Y BD DEPLOYADAS
+}"""#BACK Y BD DEPLOYADAS
 
 #Auth/ Allauth
 AUTHENTICATION_BACKENDS = (
