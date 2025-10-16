@@ -38,8 +38,8 @@ const PomodoroWidget = () => {
 
 
   const handleSessionEnd = useCallback(async () => {
+    if (!sessionStartTime) return;
 
-    setIsActive(false);
     //Loguea la sesión que acaba de terminar
     await logPomodoroSession({
       session_type: sessionType === 'work' ? 'work' : 
@@ -49,25 +49,29 @@ const PomodoroWidget = () => {
       was_successful: true
     });
 
-
-    alertSound.play();
+    try {
+      await alertSound.play();
+    } catch (e) {
+      console.error("No se pudo reproducir el sonido.", e);
+    }
     
-    const updatedSettings = await getPomodoroSettings().then(res => res.data);
-    
+    const updatedSettings = await getPomodoroSettings();    
     //Si el back reseteó sessions_completed, toca long break
     if (sessionType === 'work') {
       if (updatedSettings.sessions_completed === 0 && settings.sessions_completed > 0) {
-        setSessionType('long_break');
-        setTimeLeft(updatedSettings.long_break_time * 60);
+        nextSessionType = 'long_break';
+        nextTimeLeft = updatedSettings.long_break_time * 60;
       } else {
-        setSessionType('break');
-        setTimeLeft(updatedSettings.break_time * 60);
+        nextSessionType = 'break';
+        nextTimeLeft = updatedSettings.break_time * 60;
       }
-    } else {
-      setSessionType('work');
-      setTimeLeft(updatedSettings.work_time * 60);
     }
+    
     setSettings(updatedSettings);
+    setSessionType(nextSessionType);
+    setTimeLeft(nextTimeLeft);
+    setSessionStartTime(new Date().toISOString());
+    setIsActive(true);
 
   }, [sessionType, sessionStartTime, settings]);
 
