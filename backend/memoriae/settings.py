@@ -170,18 +170,10 @@ DJ_REST_AUTH = {
 }
 
 #Front en vite con cors/csrf para spa
-CORS_ALLOW_ALL_ORIGINS = False
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-]
-CORS_ALLOW_CREDENTIALS = True #Para las cookies
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173",
-]
-CORS_ALLOW_ALL_ORIGINS = False
-CORS_ALLOWED_ORIGINS = ["http://localhost:5173",]
-CORS_ALLOW_CREDENTIALS = True
-CSRF_TRUSTED_ORIGINS = ["http://localhost:5173",]
+CORS_ALLOWED_ORIGINS_STR = config('CORS_ALLOWED_ORIGINS_STR', default="http://localhost:5173")
+CORS_ALLOWED_ORIGINS = [origin.strip() for origin in CORS_ALLOWED_ORIGINS_STR.split(',')]
+CSRF_TRUSTED_ORIGINS_STR = config('CSRF_TRUSTED_ORIGINS_STR', default="http://localhost:5173")
+CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in CSRF_TRUSTED_ORIGINS_STR.split(',')]
 CSRF_COOKIE_SAMESITE = "Lax"   
 SESSION_COOKIE_SAMESITE = "Lax"
 CSRF_COOKIE_SECURE = False
@@ -240,3 +232,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+PASSWORD_HASHERS = [
+    "apps.login.hashers.PepperedArgon2PasswordHasher",     # primero = se re-hasheará al iniciar sesión
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+]
