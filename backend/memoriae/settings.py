@@ -10,25 +10,26 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 #Importaciones
-from decouple import Config, RepositoryEnv
+from decouple import config, RepositoryEnv
 from pathlib import Path
 from datetime import timedelta
-from decouple import config
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(file)))
 ENV_FILE = BASE_DIR.parent / '.env'     # <-- Memoriae/.env
-config = Config(RepositoryEnv(ENV_FILE))
+config = config(RepositoryEnv(ENV_FILE))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1@2dyv@tvj0@qmjx_n(bgg(+=ycq(3ev92rlzkivj(95%2&t$m'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = [
-    "localhost", "127.0.0.1"
-]
+DATABASE_URL = config('DATABASE_URL') 
+ALLOWED_HOSTS_STR = config('ALLOWED_HOSTS', default='127.0.0.1,localhost')
+ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STR.split(',')] 
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -99,7 +100,7 @@ WSGI_APPLICATION = 'memoriae.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-DATABASES = {
+'''DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": config("DB_NAME", default="memoriae"),
@@ -108,7 +109,7 @@ DATABASES = {
         "HOST": config("DB_HOST", default="127.0.0.1"),
         "PORT": config("DB_PORT", default="5432"),
     }
-}
+}'''
 
 #Auth/ Allauth
 AUTHENTICATION_BACKENDS = (
@@ -182,13 +183,12 @@ CSRF_COOKIE_HTTPONLY = False  # para leerla y mandarla como X-CSRFToken
 
 #ESTO ES PARA QUE MANDE CORREO DE RECUPERACION 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-#MIS DATOS
-EMAIL_HOST_USER = "memoriae6@gmail.com"       
-EMAIL_HOST_PASSWORD = "zsmk fggo rhkt zydp"      
-DEFAULT_FROM_EMAIL = "memoriae6@gmail.com" 
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = config("EMAIL_PORT", cast=int)
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 
 
 # Internationalization
