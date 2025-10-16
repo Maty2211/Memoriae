@@ -101,7 +101,7 @@ export default function DateModal({open, handleClose, myDate, formData, handleCh
        />
       </Box>
 
-      <Box display="flex"gap={0.5} marginBottom={1} marginTop={2}>
+      <Box display="flex"gap={0.5} marginBottom={2} marginTop={2}>
        <MyDatePickerForm
         name={'start'}
         value={formData.start}
@@ -109,14 +109,14 @@ export default function DateModal({open, handleClose, myDate, formData, handleCh
        />
 
       {!formData.allDay && (
-        <Typography marginTop={9} gap={2} color='black' fontSize={20} textAlign={'center'}>
+        <Typography marginTop={9} gap={2} color='white' fontSize={20} textAlign={'center'}>
         →
         </Typography>
       )}
 
       {formData.allDay && (
         <Typography  p={1} marginBottom={5} display="flex" color='white' fontSize={20} textAlign={'center'}>
-        →
+        
         </Typography>
       )}
 

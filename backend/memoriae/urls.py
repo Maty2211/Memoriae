@@ -1,22 +1,19 @@
-"""
-URL configuration for memoriae project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
-from . import views
+from django.http import JsonResponse
+from .views import GoogleLogin
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import path, include
+from django.views.decorators.csrf import ensure_csrf_cookie
+from dj_rest_auth.jwt_auth import get_refresh_view
+from django.http import HttpResponseRedirect
+@ensure_csrf_cookie
+def csrf(request):  # setea la cookie 'csrftoken'
+    return JsonResponse({"detail": "CSRF cookie set"})
+
+def spa_reset_redirect(request, uidb64, token):
+    return HttpResponseRedirect(f"http://localhost:5173/reset-password/confirm/{uidb64}/{token}/")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,9 +21,18 @@ urlpatterns = [
     path('calendario/', include('apps.calendario.urls')),
     path('evento/', include('apps.evento.urls')),
     path('flashcard/', include('apps.flashcard.urls')),
-    path('login/', include('apps.login.urls')),
     path('mascota/', include('apps.mascota.urls')),
     path('perfil/', include('apps.perfil.urls')),
     path('pomodoro/', include('apps.pomodoro.urls')),
     path('to_do_list/', include('apps.to_do_list.urls')),
+    path("dj-rest-auth/", include("dj_rest_auth.urls")),
+    path("dj-rest-auth/registration/", include("dj_rest_auth.registration.urls")),
+    path("dj-rest-auth/token/refresh/", get_refresh_view().as_view(), name="token_refresh"),
+    path("api/csrf/", csrf),
+    path("dj-rest-auth/google/", GoogleLogin.as_view(), name="google_login"),
+    path("accounts/", include("allauth.urls")),
+    path("password-reset-confirm/<uidb64>/<token>/", spa_reset_redirect, name="password_reset_confirm"),
+    ##NO CREAR EL DE LOGIN PORQUE Login no tiene URLS!! Usamos los endpoints de dj-rest-auth
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

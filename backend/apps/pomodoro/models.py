@@ -1,37 +1,29 @@
 from django.db import models
-from django.contrib.auth.models import User
+from apps.login.models import Cuenta
 
 class PomodoroSettings(models.Model):
-    # Relación con el usuario: cada usuario tiene su propia configuración.
-    # Usamos OneToOneField para que un usuario solo pueda tener una configuración.
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='pomodoro_settings')
-    
-    # Atributos de configuración solicitados
+    cuenta = models.OneToOneField(Cuenta, on_delete=models.CASCADE, related_name='pomodoro_settings')
     title = models.CharField(max_length=50, default='Mi Temporizador Pomodoro')
-    focus_time = models.IntegerField(default=25)      # Tiempo de trabajo (minutos)
-    break_time = models.IntegerField(default=5)         # Tiempo de descanso corto (minutos)
-    long_break_time = models.IntegerField(default=15)   # Tiempo de descanso largo (minutos)
-    
-    # Campo para llevar la cuenta de las sesiones completadas hasta el descanso largo.
-    # Esto es crucial para la lógica de tu temporizador.
-    sessions_completed = models.IntegerField(default=0) 
-    sessions_until_long_break = models.IntegerField(default=4) # Frecuencia del descanso largo
-
+    work_time = models.IntegerField(default=25)
+    break_time = models.IntegerField(default=5)
+    long_break_time = models.IntegerField(default=15)
+    sessions_completed = models.IntegerField(default=0)
+    sessions_until_long_break = models.IntegerField(default=4)
     # Metadatos
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Configuración de {self.user.username}"
-
+        u = getattr(self.cuenta, "user", None)
+        return f"Configuración de {getattr(u, 'username', 'usuario')}"
 
 class PomodoroHistory(models.Model):
     # Relación con el usuario: un usuario puede tener muchas sesiones en su historial.
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pomodoro_history')
+    cuenta = models.ForeignKey(Cuenta, on_delete=models.CASCADE, related_name='pomodoro_history')
     
     # Tipo de sesión
     SESSION_CHOICES = [
-        ('focus', 'Focus'),
+        ('work', 'Work'),
         ('short_break', 'Short Break'),
         ('long_break', 'Long Break'),
     ]
@@ -46,4 +38,6 @@ class PomodoroHistory(models.Model):
     was_successful = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.get_session_type_display()} ({self.start_time.date()})"
+        u = getattr(self.cuenta, "user", None)
+        username = getattr(u, "username", "usuario")
+        return f"{username} - {self.get_session_type_display()} ({self.start_time.date()})"

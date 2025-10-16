@@ -7,7 +7,7 @@ class PomodoroSettingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = PomodoroSettings
         # Excluimos 'user' porque lo gestionaremos automáticamente en la vista.
-        fields = ['id', 'title', 'focus_time', 'break_time', 
+        fields = ['id', 'title', 'work_time', 'break_time', 
                   'long_break_time', 'sessions_completed', 
                   'sessions_until_long_break']
         read_only_fields = ['sessions_completed'] # El frontend no debe modificar el contador directamente.

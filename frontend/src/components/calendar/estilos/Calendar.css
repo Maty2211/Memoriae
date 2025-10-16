@@ -12,10 +12,6 @@
 }
 
 
-
-
-
-
 /* Contenedor del calendario con efecto glass */
 .my-calendar-container {
   background: rgba(217, 35, 35, 0);
@@ -58,6 +54,7 @@
     background: rgba(229, 12, 12, 0);
     margin: -10px -10px 10px -10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0);
+  
   }
 
 .my-calendar-container .fc-toolbar-title {
@@ -87,7 +84,7 @@
 .my-calendar-container .fc-daygrid-day-frame {
   display: flex;
   flex-direction: column;
-  height: 92px;
+  height: 97px;
 }
 
 .my-calendar-container .fc-daygrid-more-link {
@@ -190,7 +187,7 @@
 
 /* Modo mini: celdas y texto más chicos */
   .my-calendar-container.mini-mode {
-    width: 95%;       /* Ocupa casi todo el ancho de la pantalla */
+    width: 98%;       /* Ocupa casi todo el ancho de la pantalla */
     margin: 0 auto; 
     background: rgba(217, 35, 35, 0);
     backdrop-filter: blur(6px);

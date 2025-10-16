@@ -9,16 +9,16 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
-from decouple import config
+#Importaciones
+from decouple import Config, RepositoryEnv
 from pathlib import Path
+from datetime import timedelta
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
+ENV_FILE = BASE_DIR.parent / '.env'     # <-- Memoriae/.env
+config = Config(RepositoryEnv(ENV_FILE))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-1@2dyv@tvj0@qmjx_n(bgg(+=ycq(3ev92rlzkivj(95%2&t$m'
@@ -26,11 +26,10 @@ SECRET_KEY = 'django-insecure-1@2dyv@tvj0@qmjx_n(bgg(+=ycq(3ev92rlzkivj(95%2&t$m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
-
+ALLOWED_HOSTS = [
+    "localhost", "127.0.0.1"
+]
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,26 +37,46 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.home.apps.HomeConfig',
+    "django.contrib.sites", 
+    
+    "rest_framework",
+    "rest_framework.authtoken", #Genera un token unico cada vez que queramos iniciar sesion
+    'rest_framework_simplejwt',
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
+    
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
+
+    "corsheaders",
+    #nuestras apps
     'apps.calendario.apps.CalendarioConfig',
     'apps.evento.apps.EventosConfig',
     'apps.flashcard.apps.FlashcardConfig',
-    'apps.login.apps.AppConfig',
+    'apps.login.apps.LoginConfig',
     'apps.mascota.apps.MascotaConfig',
     'apps.perfil.apps.PerfilConfig',
     'apps.pomodoro.apps.PomodoroConfig',
     'apps.to_do_list.apps.ToDoListConfig',
 ]
+SITE_ID = 1
 
+#middleware
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    #Es importante que el Cors este antes del CommonMiddleware
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "allauth.account.middleware.AccountMiddleware",  
+
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",]
 
 ROOT_URLCONF = 'memoriae.urls'
 
@@ -78,21 +97,123 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'memoriae.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": config('DB_NAME'),
-        "USER": config('DB_USER'),
-        "PASSWORD": config('DB_PASSWORD'),
-        "HOST": config('DB_HOST', default='localhost'),
-        "PORT": config('DB_PORT', default='5432'),
+        "NAME": config("DB_NAME", default="memoriae"),
+        "USER": config("DB_USER", default="postgres"),
+        "PASSWORD": config("DB_PASSWORD", default=""),
+        "HOST": config("DB_HOST", default="127.0.0.1"),
+        "PORT": config("DB_PORT", default="5432"),
     }
 }
 
+#Auth/ Allauth
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = "optional"
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
+ACCOUNT_LOGIN_METHODS = {"email"}  
+ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*", "username*"]
+
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"
+LOGIN_REDIRECT_URL = "http://localhost:5173/"
+
+REST_AUTH_SERIALIZERS = {
+    "USER_DETAILS_SERIALIZER": "apps.login.serializers.UserMeSerializer",
+}
+REST_AUTH_REGISTER_SERIALIZERS = {
+    "REGISTER_SERIALIZER": "apps.login.serializers.CustomRegisterSerializer"
+}
+
+#DRF Y JWT en cookies
+REST_USE_JWT = True
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
+    ),
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "AUTH_HEADER_TYPES": ("Bearer",),
+}
+#Nombres de cookies que usa dj-rest-auth para Jwt
+JWT_AUTH_COOKIE = "access"
+JWT_AUTH_REFRESH_COOKIE = "refresh"
+JWT_AUTH_HTTPONLY = True
+JWT_AUTH_COOKIE_USE_CSRF = True
+
+#Reset de contraseña, genera el link hacia la spa, es un bridge
+DJ_REST_AUTH = {
+  "PASSWORD_RESET_CONFIRM_URL": "reset-password/{uid}/{token}/",
+  "PASSWORD_RESET_USE_SITES_DOMAIN": False, 
+}
+
+#Front en vite con cors/csrf para spa
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
+CORS_ALLOW_CREDENTIALS = True #Para las cookies
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+]
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = ["http://localhost:5173",]
+CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = ["http://localhost:5173",]
+CSRF_COOKIE_SAMESITE = "Lax"   
+SESSION_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_HTTPONLY = False  # para leerla y mandarla como X-CSRFToken
+
+#ESTO ES PARA QUE MANDE CORREO DE RECUPERACION 
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+#MIS DATOS
+EMAIL_HOST_USER = "memoriae6@gmail.com"       
+EMAIL_HOST_PASSWORD = "zsmk fggo rhkt zydp"      
+DEFAULT_FROM_EMAIL = "memoriae6@gmail.com" 
+
+
+# Internationalization
+    # https://docs.djangoproject.com/en/5.2/topics/i18n/
+LANGUAGE_CODE = 'en-us'
+TIME_ZONE = 'UTC'
+USE_I18N = True
+USE_TZ = True
+
+# Static files (CSS, JavaScript, Images)
+    # https://docs.djangoproject.com/en/5.2/howto/static-files/
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = []
+# Default primary key field type
+# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#Social
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE": ["openid","email", "profile"],
+        "AUTH_PARAMS": {"access_type": "online"},
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -112,30 +233,3 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
-STATIC_URL = 'static/'
-
-STATICFILES_DIRS = [
-    BASE_DIR / 'static/',
-    'var/www/static/',
-]
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

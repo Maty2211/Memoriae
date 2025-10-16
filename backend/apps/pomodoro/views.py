@@ -1,12 +1,16 @@
-from rest_framework import generics, permissions
-from .models import PomodoroSettings, PomodoroHistory
-from .serializers import PomodoroSettingsSerializer, PomodoroHistorySerializer
+from rest_framework import generics, permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
-from django.utils import timezone
 import datetime
+from .models import PomodoroSettings, PomodoroHistory
+from .serializers import PomodoroSettingsSerializer, PomodoroHistorySerializer
+from apps.login.models import Cuenta
 
+def _ensure_cuenta(user):
+    cuenta = getattr(user, "cuenta", None)
+    if cuenta is None:
+        cuenta, _ = Cuenta.objects.get_or_create(user=user)
+    return cuenta
 
 class PomodoroSettingsView(generics.RetrieveUpdateAPIView):
     """
@@ -19,9 +23,9 @@ class PomodoroSettingsView(generics.RetrieveUpdateAPIView):
     def get_object(self):
         # Sobrescribe get_object para obtener la configuración del usuario actual.
         # Si no existe, la crea con los valores por defecto.
-        settings, created = PomodoroSettings.objects.get_or_create(user=self.request.user)
+        cuenta = _ensure_cuenta(self.request.user)
+        settings, _ = PomodoroSettings.objects.get_or_create(cuenta=cuenta)
         return settings
-
 
 class PomodoroSessionAPIView(APIView):
     """
@@ -35,19 +39,18 @@ class PomodoroSessionAPIView(APIView):
         session_type = request.data.get('session_type')
         start_time_str = request.data.get('start_time')
         end_time_str = request.data.get('end_time')
-
         # Validación básica de datos
         if not all([session_type, start_time_str, end_time_str]):
-             return Response({"error": "Faltan datos de tiempo o tipo de sesión."}, 
-                             status=status.HTTP_400_BAD_REQUEST)
+             return Response({"error":"Faltan datos de tiempo o tipo de sesión."}, status=status.HTTP_400_BAD_REQUEST)
 
         # Convertir strings a objetos datetime
         start_time = datetime.datetime.fromisoformat(start_time_str.replace('Z', '+00:00'))
         end_time = datetime.datetime.fromisoformat(end_time_str.replace('Z', '+00:00'))
         
+        cuenta = _ensure_cuenta(request.user)
         # 1. Crear el registro de historial
         session = PomodoroHistory.objects.create(
-            user=request.user,
+            cuenta=cuenta,
             session_type=session_type,
             start_time=start_time,
             end_time=end_time,
@@ -56,8 +59,8 @@ class PomodoroSessionAPIView(APIView):
         )
 
         # 2. Actualizar el contador de sesiones completadas (solo si es una sesión de 'focus')
-        if session_type == 'focus':
-            settings = PomodoroSettings.objects.get(user=request.user)
+        if session_type == 'work':
+            settings = PomodoroSettings.objects.get(cuenta=cuenta)
             settings.sessions_completed += 1
             # Lógica para reiniciar el contador si se alcanza el descanso largo:
             if settings.sessions_completed >= settings.sessions_until_long_break:
@@ -65,3 +68,19 @@ class PomodoroSessionAPIView(APIView):
             settings.save()
 
         return Response(PomodoroHistorySerializer(session).data, status=status.HTTP_201_CREATED)
+        
+
+class PomodoroHistoryListView(generics.ListAPIView):
+    """
+    Devuelve una lista (GET) de todas las sesiones de Pomodoro
+    del usuario autenticado, ordenadas de la más reciente a la más antigua.
+    """
+    serializer_class = PomodoroHistorySerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # Filtramos el historial para devolver solo las sesiones del usuario actual
+        # y las ordenamos por fecha de inicio descendente.
+        return PomodoroHistory.objects.filter(
+            cuenta=_ensure_cuenta(self.request.user)
+        ).order_by('-start_time')
