@@ -26,7 +26,6 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-DATABASE_URL = config('DATABASE_URL') 
 ALLOWED_HOSTS_STR = config('ALLOWED_HOSTS', default='127.0.0.1,localhost')
 ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STR.split(',')] 
 
@@ -109,14 +108,15 @@ WSGI_APPLICATION = 'memoriae.wsgi.application'
         "HOST": config("DB_HOST"),
         "PORT": config("DB_PORT"),
     }
-}'''
+}''' #BD LOCAL
+
+# DATABASE_URL = config('DATABASE_URL')        //BD DEPLOYADA, FRONT BACK LOCAL
 
 DATABASES = {
     'default': dj_database_url.config(
-        # Usa la variable de Railway. Si no la encuentra, se queda vacío.
         default=config('DATABASE_URL')
     )
-}
+} #BACK Y BD DEPLOYADAS
 
 #Auth/ Allauth
 AUTHENTICATION_BACKENDS = (
