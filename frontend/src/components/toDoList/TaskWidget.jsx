@@ -20,7 +20,6 @@ export default function MiniTaskWidget({ navigate }) {
   return (
     <div
       style={{
-        borderRadius: "12px",
         overflow: "hidden",
         backgroundColor: "rgba(255, 255, 255, 0)",
         backdropFilter: "blur(6px)",
