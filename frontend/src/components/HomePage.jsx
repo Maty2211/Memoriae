@@ -48,7 +48,7 @@ const HomePage = () => {
   const widgetConfig = {
     calendar: { w: 3.2, h: 32.7, x: 12, y: 25 },
     pomodoro: { w: 2.5, h: 20, x: 12, y: 0 },
-    evento: { w: 2, h: 20, x: 1, y: 35 },
+    evento: { w: 2, h: 21, x: 1, y: 35 },
     todolist: { w: 2, h: 28, x: 1, y: 0 },
     flashcard: { w: 2.6, h: 14, x: 5, y: 14 },
   };

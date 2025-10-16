@@ -32,8 +32,7 @@ urlpatterns = [
     path("dj-rest-auth/google/", GoogleLogin.as_view(), name="google_login"),
     path("accounts/", include("allauth.urls")),
     path("password-reset-confirm/<uidb64>/<token>/", spa_reset_redirect, name="password_reset_confirm"),
-    ##NO CREAR EL DE LOGIN PORQUE Login no tiene URLS!! Usamos los endpoints de dj-rest-auth
-    
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -10,7 +10,7 @@ import "./perfil.css";
 const Perfil = () => {
   const [usuario, setUsuario] = useState({
     username: "@usuario01",
-    nombre: "Nombre Apellido",
+    
     streak: 0,
   });
 

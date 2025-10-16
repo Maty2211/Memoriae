@@ -9,7 +9,10 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-#Importaciones
+from django.contrib import admin
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from decouple import config, RepositoryEnv
 from pathlib import Path
 from datetime import timedelta
@@ -230,4 +233,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+PASSWORD_HASHERS = [
+    "apps.login.hashers.PepperedArgon2PasswordHasher",     # primero = se re-hasheará al iniciar sesión
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+]   

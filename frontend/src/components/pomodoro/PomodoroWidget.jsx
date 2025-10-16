@@ -1,6 +1,6 @@
+import { getPomodoroSettings, updatePomodoroSettings, logPomodoroSession, getCsrfToken } from '../../api/pomodoro.api.js';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import PomodoroUI from './PomodoroUI.jsx';
-import { getPomodoroSettings, updatePomodoroSettings, logPomodoroSession, getCsrfToken } from '../../api/pomodoro.api.js';
 
 const alertSound = new Audio('/alerta.mp3'); 
 
@@ -24,7 +24,7 @@ const PomodoroWidget = () => {
       await getCsrfToken(); 
       const response = await getPomodoroSettings();
       setSettings(response.data);
-      setTimeLeft(response.data.work_time * 60); // Inicia con el tiempo de Focus.
+      setTimeLeft(response.data.work_time * 60);
       setSessionType('work');
     } catch (error) {
       console.error("No se pudieron cargar las configuraciones.", error);
@@ -45,16 +45,16 @@ const PomodoroWidget = () => {
       session_type: sessionType === 'work' ? 'work' : 
                     sessionType === 'break' ? 'short_break' : 'long_break',
       start_time: sessionStartTime,
-      end_time: new Date().toISOString(), //Reinicia el tiempo de inicio para la nueva sesión
+      end_time: new Date().toISOString(),
       was_successful: true
     });
-
 
     alertSound.play();
     
     const updatedSettings = await getPomodoroSettings().then(res => res.data);
     
     if (sessionType === 'work') {
+      
        //Si el back reseteó sessions_completed, toca long break
       if (updatedSettings.sessions_completed === 0 && settings.sessions_completed > 0) {
         setSessionType('long_break');
