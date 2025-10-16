@@ -32,11 +32,7 @@ class Mascota(models.Model):
     foto = models.ImageField(upload_to='fotos_mascotas/')
     monedas = models.IntegerField(default=10)
 
-    mensajes = ArrayField(
-        models.CharField(max_length=100),
-        default=list,
-        blank=True 
-    )
+    mensajes = models.CharField(max_length=100)
 
     accesorios_comprados = models.ManyToManyField(
         Accesorio,
