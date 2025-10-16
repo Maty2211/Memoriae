@@ -1,23 +1,23 @@
-// en perfil.api.js
-
-const BASE_URL = "http://127.0.0.1:8000/api/perfil";
+const BASE_URL = "/api/perfil";
 
 export const obtenerEstadisticasPerfil = async () => {
   try {
-    // Ya no necesitas leer de localStorage
     const res = await fetch(`${BASE_URL}/stats/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      // --- ¡AÑADE ESTA LÍNEA! ---
-      credentials: 'include',
+      credentials: "include",
     });
-    
-    if (!res.ok) throw new Error("Error al obtener estadísticas del perfil");
+
+    if (!res.ok) {
+      throw new Error(`El servidor respondió con el estado: ${res.status}`);
+    }
+
     return await res.json();
+    
   } catch (err) {
-    console.error(err);
+    console.error("Error al obtener las estadísticas del perfil:", err);
     return null;
   }
 };
