@@ -15,7 +15,7 @@ const PomodoroWidget = () => {
   });
   const [timeLeft, setTimeLeft] = useState(settings.work_time * 60);
   const [isActive, setIsActive] = useState(false);
-  const [sessionType, setSessionType] = useState(null);
+  const [sessionType, setSessionType] = useState('work');
   const [sessionStartTime, setSessionStartTime] = useState(null);
   const intervalRef = useRef(null);
 
@@ -24,14 +24,12 @@ const PomodoroWidget = () => {
       await getCsrfToken(); 
       const response = await getPomodoroSettings();
       setSettings(response.data);
-      if (sessionType === null) {
-        setTimeLeft(response.data.work_time * 60); // Inicia con el tiempo de Focus.
-        setSessionType('work');
-      }
+      setTimeLeft(response.data.work_time * 60); // Inicia con el tiempo de Focus.
+      setSessionType('work');
     } catch (error) {
       console.error("No se pudieron cargar las configuraciones.", error);
     }
-  }, [isActive]);
+  }, []);
 
 
   useEffect(() => {
@@ -88,7 +86,7 @@ const PomodoroWidget = () => {
       }, 1000); //Actualiza el temporizador cada 1000 mseg, es decir, 1 seg.
     }
     return () => clearInterval(intervalRef.current);
-  }, [isActive, handleSessionEnd]);
+  }, [isActive, timeLeft, handleSessionEnd]);
 
   const handleSettingsSave = async (newSettings) => {
     if (isActive) return;
@@ -103,18 +101,17 @@ const PomodoroWidget = () => {
   };
 
   const handleStartPause = () => {
-    if (!isActive) {
-      if (!sessionStartTime) {
-        setSessionStartTime(new Date().toISOString());
-      }
+    if (!isActive && sessionStartTime === null) {
+      setSessionStartTime(new Date().toISOString());
     }
     setIsActive(prev => !prev);
   };
 
-  const handleReset = async () => {
+  const handleReset = () => {
     setIsActive(false);   
+    clearInterval(intervalRef.current);
+    loadSettings();
     setSessionStartTime(null);
-    await loadSettings();
   };
 
   return (
