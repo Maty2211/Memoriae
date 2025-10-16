@@ -92,11 +92,9 @@ const PomodoroWidget = () => {
     if (isActive) return;
     try {   
       await updatePomodoroSettings(newSettings);
-      alert("Configuración guardada");
       await loadSettings();
     } catch (error) {
       console.error("Error al guardar la configuración:", error);
-      alert("No se pudo guardar la configuración");
     }
   };
 

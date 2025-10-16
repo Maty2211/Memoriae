@@ -18,10 +18,8 @@ class PomodoroSettings(models.Model):
         return f"Configuración de {getattr(u, 'username', 'usuario')}"
 
 class PomodoroHistory(models.Model):
-    # Relación con el usuario: un usuario puede tener muchas sesiones en su historial.
     cuenta = models.ForeignKey(Cuenta, on_delete=models.CASCADE, related_name='pomodoro_history')
     
-    # Tipo de sesión
     SESSION_CHOICES = [
         ('work', 'Work'),
         ('short_break', 'Short Break'),
@@ -29,12 +27,11 @@ class PomodoroHistory(models.Model):
     ]
     session_type = models.CharField(max_length=15, choices=SESSION_CHOICES)
     
-    # Tiempos de la sesión
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    duration_minutes = models.IntegerField(default=0) # Duración real, calculada en la vista
+    duration_minutes = models.IntegerField(default=0)
     
-    # Estado de la sesión (ej. si se completó completamente o se interrumpió)
+    #Estado de la sesión (si se completó o se interrumpió).
     was_successful = models.BooleanField(default=True)
 
     def __str__(self):

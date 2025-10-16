@@ -136,7 +136,7 @@ const Calendar1 = ({ mini = false, mini2 = false, onNavigate }) => {
                         marginTop: "1px",
                     }}
                     >
-                   <i class="bi bi-textarea-resize"></i>
+                   <i className="bi bi-textarea-resize"></i>
                     </div>
                 </div>
                     )}
@@ -154,7 +154,7 @@ const Calendar1 = ({ mini = false, mini2 = false, onNavigate }) => {
                         marginTop: "1px",
                     }}
                     >
-                   <i class="bi bi-textarea-resize"></i>
+                   <i className="bi bi-textarea-resize"></i>
                     </div>
                 </div>
                     )}
