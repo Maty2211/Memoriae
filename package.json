@@ -4,5 +4,8 @@
     "bootstrap-icons": "^1.13.1",
     "react-bootstrap": "^2.10.10",
     "react-card-flip": "^1.2.3"
+  },
+    "engines": {
+    "node": ">=20.19.0"
   }
 }
