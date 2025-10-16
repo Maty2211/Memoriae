@@ -99,7 +99,7 @@ WSGI_APPLICATION = 'memoriae.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-'''DATABASES = {
+DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": config("DB_NAME", default="memoriae"),
@@ -108,7 +108,7 @@ WSGI_APPLICATION = 'memoriae.wsgi.application'
         "HOST": config("DB_HOST", default="127.0.0.1"),
         "PORT": config("DB_PORT", default="5432"),
     }
-}'''
+}
 
 #Auth/ Allauth
 AUTHENTICATION_BACKENDS = (
