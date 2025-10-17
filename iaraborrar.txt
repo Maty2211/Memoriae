@@ -4,4 +4,4 @@ User = get_user_model()
 u = User.objects.order_by('-id').first() /last()
 print("USER:", u.pk, u.username, u.email)
 print("PASSWORD FIELD:", u.password)
-u.check_password("la_contraseña_que_usaste")   # debe devolver True
+u.check_password("45MatiMati")   # debe devolver True

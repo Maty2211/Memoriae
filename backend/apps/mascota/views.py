@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from .models import Mascota, Accesorio
 from .serializers import MascotaSerializer
 from apps.login.models import Cuenta
+from apps.pomodoro.models import PomodoroHistory  # Para obtener sesiones work
+from datetime import datetime, timedelta
 
 def _ensure_cuenta(user):
     """
@@ -87,3 +89,47 @@ class ComprarAccesorioAPIView(APIView):
 
         serializer = MascotaSerializer(mascota)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class ActualizarMonedasDesdePomodoroAPIView(APIView):
+    """
+    Suma monedas a la mascota según el tiempo total de sesiones 'work' del día actual.
+    1 minuto de 'work' = 1 moneda.
+    """
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        cuenta = _ensure_cuenta(request.user)
+        mascota = getattr(cuenta, 'mascota', None)
+        if mascota is None:
+            return Response({"error": "Mascota no encontrada"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Obtener el rango del día actual (00:00 a 23:59)
+        hoy = datetime.now().date()
+        inicio_dia = datetime.combine(hoy, datetime.min.time())
+        fin_dia = datetime.combine(hoy, datetime.max.time())
+
+        # Buscar sesiones de tipo "work" del usuario durante el día actual
+        sesiones = PomodoroHistory.objects.filter(
+            cuenta=cuenta,
+            session_type="work",
+            start_time__gte=inicio_dia,
+            end_time__lte=fin_dia
+        )
+
+        # Calcular minutos totales de trabajo
+        total_minutos = sum(s.duration_minutes for s in sesiones)
+
+        if total_minutos == 0:
+            return Response({"mensaje": "No hay sesiones de trabajo registradas hoy."}, status=status.HTTP_200_OK)
+
+        # Asignar monedas (1 minuto = 1 moneda)
+        mascota.monedas += total_minutos
+        mascota.save()
+
+        serializer = MascotaSerializer(mascota)
+        return Response({
+            "mensaje": f"Se agregaron {total_minutos} monedas a la mascota.",
+            "monedas_actuales": mascota.monedas,
+            "mascota": serializer.data
+        }, status=status.HTTP_200_OK)

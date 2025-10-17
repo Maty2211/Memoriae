@@ -1,25 +1,17 @@
 import api from './axios'; // Usamos la instancia de Axios centralizada
 
-/**
- * --- FUNCIONES PARA INTERACTUAR CON EL MÓDULO DE MASCOTA ---
- */
+// Las rutas deben ser STRINGS (cadenas de texto), no literales de expresión regular
+export const getMascota = () => api.get('/mascota/actualizar/'); 
 
 /**
- * Obtiene los datos de la mascota del usuario logueado.
- * Corresponde a: GET /mascota/actualizar/
+ * @param {number} horas_estudio 
  */
-export const getMascota = () => api.get(`/mascota/actualizar/`);
+export const updateMascotaEstado = (horas_estudio) => api.post('/mascota/actualizar/', { horas_estudio });
 
 /**
- * Actualiza el estado de la mascota basado en las horas de estudio.
- * Corresponde a: POST /mascota/actualizar/
- * @param {number} horas_estudio - La cantidad de horas de estudio a registrar.
+ * @param {number} accesorioId 
  */
-export const updateMascotaEstado = (horas_estudio) => api.post(`/mascota/actualizar/`, { horas_estudio });
+// Usar comillas simples o backticks para el string de la URL
+export const comprarAccesorio = (accesorioId) => api.post(`/mascota/comprar/${accesorioId}/`); 
 
-/**
- * Permite al usuario comprar un accesorio para su mascota.
- * Corresponde a: POST /mascota/comprar/<int:accesorio_id>/
- * @param {number} accesorioId - El ID del accesorio que se quiere comprar.
- */
-export const comprarAccesorio = (accesorioId) => api.post(`/mascota/comprar/${accesorioId}/`);
+export const actualizarMonedas = () => api.post('/mascota/actualizar-monedas/');
